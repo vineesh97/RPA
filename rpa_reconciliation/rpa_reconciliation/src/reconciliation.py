@@ -1,6 +1,6 @@
 import pandas as pd
-from src.db_connector import get_db_connection
-from src.config import CONFIG
+from db_connector import get_db_connection
+from config import CONFIG
 
 def run_reconciliation(start_date, end_date):
     engine = get_db_connection()
@@ -29,3 +29,6 @@ def run_reconciliation(start_date, end_date):
     mismatched = matched[matched["status_name"].str.lower() != matched["STATUS"].str.lower()]
     
     return {"not_in_excel": not_in_excel, "not_in_server": not_in_server, "mismatched": mismatched}
+
+
+print(run_reconciliation('2025-01-01','2025-03-01'))

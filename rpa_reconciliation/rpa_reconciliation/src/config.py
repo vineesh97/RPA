@@ -6,6 +6,6 @@ CONFIG = {
         "database": "ihub_dev",
         "port": "3307"
     },
-    "excel_file": "data/input/Recharge-Statement.xlsx",
+    "excel_file":"D:\\GitHub\\RPA\\rpa_reconciliation\\rpa_reconciliation\\data\\Recharge-Statement.xlsx",
     "log_file": "logs/reconciliation.log"
 }
