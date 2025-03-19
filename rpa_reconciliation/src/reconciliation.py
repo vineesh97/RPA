@@ -40,6 +40,23 @@ def run_reconciliation(start_date, end_date):
     #Seperating data matching in both but having diff status value 
     mismatched = matched[matched["Recharge_status"].str.lower() != matched["STATUS"].str.lower()]
    # return 0
-    return {"not_in_excel": not_in_excel, "not_in_server": not_in_server.head(100), "mismatched": mismatched}
+   #VENDOR_SUCCESS_IHUB_INPROGRESS
+    VENDOR_SUCCESS_IHUB_INPROGRESSS = mismatched[
+            (mismatched['STATUS'] == 'Success') &  # STATUS in df_recharge_excel is Success
+            (mismatched['Recharge_status'] == "success") &  # Recharge_status in df1 is Success
+            (mismatched['HUB_Master_status'] == "In progress" )  # Mst_status in df1 is NOT Success
+    ]
+   #VENDOR_SUCCESS_IHUB_FAILED
+    VENDOR_SUCCESS_IHUB_FAILED = mismatched[
+            (mismatched['STATUS'] == 'Success') &  # STATUS in df_recharge_excel is Success
+            (mismatched['Recharge_status'] == "success") &  # Recharge_status in df1 is Success
+            (mismatched['HUB_Master_status'] == "failed" )  # Mst_status in df1 is NOT Success
+    ]
+
+
+   
+    return {"not_in_excel": not_in_excel, "not_in_server": not_in_server.head(100), "mismatched": mismatched,"VENDOR_SUCCESS_IHUB_INPROGRESS":VENDOR_SUCCESS_IHUB_INPROGRESS ,"VENDOR_SUCCESS_IHUB_FAILED":VENDOR_SUCCESS_IHUB_FAILED}  
+
+
 
 
