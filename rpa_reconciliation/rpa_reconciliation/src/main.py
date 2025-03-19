@@ -1,4 +1,4 @@
-from src.reconciliation import run_reconciliation
+from reconciliation import run_reconciliation
 
 if __name__ == "__main__":
     start_date = input("Enter start date (YYYY-MM-DD): ")
