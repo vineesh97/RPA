@@ -28,7 +28,6 @@ def run_reconciliation(start_date, end_date):
     matched = df_db.merge(df_excel, left_on="vendor_reference", right_on="REFID", how="inner")
     mismatched = matched[matched["status_name"].str.lower() != matched["STATUS"].str.lower()]
     
-    return {"not_in_excel": not_in_excel, "not_in_server": not_in_server, "mismatched": mismatched}
+    return {"not_in_excel": not_in_excel, "not_in_server": not_in_server.head(10), "mismatched": mismatched}
 
 
-print(run_reconciliation('2025-01-01','2025-03-01'))
