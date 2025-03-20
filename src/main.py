@@ -26,5 +26,6 @@ with pd.ExcelWriter(output_file, engine="xlsxwriter") as writer:
         result["not_in_server"].to_excel(writer, sheet_name="Not in Server", index=False)
         result["not_in_excel"].to_excel(writer, sheet_name="Not in Excel", index=False)
         result["VENDOR_SUCCESS_IHUB_INPROGRESS"].to_excel(writer, sheet_name="Vendor Success IHUB InProgress", index=False)
+        result["VENDOR_SUCCESS_IHUB_FAILED"].to_excel(writer, sheet_name="Vendor Success IHUB Failed", index=False)
 
 print(f"Report successfully saved to {output_file}")
