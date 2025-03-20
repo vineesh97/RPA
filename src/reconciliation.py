@@ -2,21 +2,21 @@ import pandas as pd
 from db_connector import get_db_connection
 from config import CONFIG
 
-def run_reconciliation(start_date, end_date):
+def run_reconciliation(start_date, end_date, service_name):
     engine = get_db_connection()
-
+#---------------------------------------------------------------------
     query = f'''
-        select mt2.TransactionRefNum ,prt.requestID as vendor_reference ,mt.TransactionStatus  as Tenant_Status,mt2.TransactionStatus  as HUB_Master_status, 
-        mst.TransactionStatus as MasterSubTrans_status,prt.rechargeStatus  as  Recharge_status
+        select mt2.TransactionRefNum ,sn.requestID as vendor_reference ,mt.TransactionStatus  as Tenant_Status,mt2.TransactionStatus  as HUB_Master_status, 
+        mst.TransactionStatus as MasterSubTrans_status,sn.rechargeStatus  as  Recharge_status
         from iHubTenantPortal_dev.MasterTransaction mt 
         left join ihub_dev.MasterTransaction mt2 
         on mt.Id =mt2.TenantMasterTransactionId 
         left join ihub_dev.MasterSubTransaction mst 
         on mst.MasterTransactionId  =mt2.Id
-        left join ihub_dev.PsRechargeTransaction prt 
-        on prt.MasterSubTransactionId =mst.Id 
+        left join ihub_dev.{service_name} sn 
+        on sn.MasterSubTransactionId =mst.Id 
         where mt2.TenantDetailId = 1 and
-        DATE(prt.CreationTs) BETWEEN '{start_date}' AND '{end_date}' '''
+        DATE(sn.CreationTs) BETWEEN '{start_date}' AND '{end_date}' '''
     
    #Reading data from both Server and Excel 
     df_db = pd.read_sql(query, con=engine)
@@ -24,6 +24,7 @@ def run_reconciliation(start_date, end_date):
 
     #replacing the enums to its corresponding status values
     df_db["Recharge_status"]=df_db["Recharge_status"].apply(lambda x: "success" if x == 1 else "pending" if x == 2 else "failed" if x == 3 else "instant failed" if x==4 else x )
+#------------------------------------------------------------
     columns_to_update = ["HUB_Master_status", "MasterSubTrans_status","Tenant_Status"]
     df_db[columns_to_update] = df_db[columns_to_update].apply(lambda x: x.map({0:"inititated",1: "success", 2: "failed", 3: "In progress",4:"Partial success"}).fillna(x))
 

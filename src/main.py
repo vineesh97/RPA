@@ -5,6 +5,7 @@ if __name__ == "__main__":
     #Initial execution Getting from and to date from user
     start_date = input("Enter start date (YYYY-MM-DD): ")
     end_date = input("Enter end date (YYYY-MM-DD): ")
+    service_name = input("enter service name: ")
    
     #calling the function module
     result = run_reconciliation(start_date, end_date)
@@ -15,10 +16,10 @@ if __name__ == "__main__":
     #print("Mismatched:", result["mismatched"])
 
     #Exporting Seperated data to excel
-   # result["mismatched"].to_excel("D:\\Github\\RPA\\data\\Mismatched_values.xlsx",index=False)
-  #  result["not_in_server"].to_excel("D:\\GitHub\\RPA\\rpa_reconciliation\\rpa_reconciliation\\data\\NotinHub_values.xlsx",index=False)
-   # result["not_in_excel"].to_excel("D:\\GitHub\\RPA\\rpa_reconciliation\\rpa_reconciliation\\data\\NotinVendor_values.xlsx",index=False)
-output_file = "D:\\Github\\RPA\\data\\Recharge_Reconciliation_Report.xlsx"
+    #result["mismatched"].to_excel("D:\\Github\\RPA\\data\\Mismatched_values.xlsx",index=False)
+    #result["not_in_server"].to_excel("D:\\GitHub\\RPA\\rpa_reconciliation\\rpa_reconciliation\\data\\NotinHub_values.xlsx",index=False)
+    #result["not_in_excel"].to_excel("D:\\GitHub\\RPA\\rpa_reconciliation\\rpa_reconciliation\\data\\NotinVendor_values.xlsx",index=False)
+output_file = f"D:\\Github\\RPA\\data\\{service_name}.xlsx"
 
 # Use ExcelWriter to write multiple sheets in the same Excel file
 with pd.ExcelWriter(output_file, engine="xlsxwriter") as writer:
