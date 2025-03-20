@@ -2,7 +2,7 @@ import pandas as pd
 from db_connector import get_db_connection
 from config import CONFIG
 
-def run_reconciliation(start_date, end_date):
+def run_reconciliation(start_date, end_date, service_name):
     engine = get_db_connection()
 
     query = f'''
@@ -13,12 +13,12 @@ def run_reconciliation(start_date, end_date):
         on mt.Id =mt2.TenantMasterTransactionId 
         left join ihub_dev.MasterSubTransaction mst 
         on mst.MasterTransactionId  =mt2.Id
-        left join ihub_dev.PsRechargeTransaction prt 
+        left join ihub_dev.{service_name} prt 
         on prt.MasterSubTransactionId =mst.Id 
         where mt2.TenantDetailId = 1 and
         DATE(prt.CreationTs) BETWEEN '{start_date}' AND '{end_date}' '''
     
-   #Reading data from both Server and Excel 
+   #Reading data from both Server and Excel mkm
     df_db = pd.read_sql(query, con=engine)
     df_excel = pd.read_excel(CONFIG["excel_file"], dtype=str)
 
