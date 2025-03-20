@@ -23,8 +23,9 @@ output_file = "D:\\Github\\RPA\\data\\Recharge_Reconciliation_Report.xlsx"
 # Use ExcelWriter to write multiple sheets in the same Excel file
 with pd.ExcelWriter(output_file, engine="xlsxwriter") as writer:
         result["mismatched"].to_excel(writer, sheet_name="Mismatched Data", index=False)
-        result["not_in_server"].to_excel(writer, sheet_name="Not in Server", index=False)
-        result["not_in_excel"].to_excel(writer, sheet_name="Not in Excel", index=False)
+        result["not_in_Portal"].to_excel(writer, sheet_name="not_in_Portal", index=False)
+        result["not_in_vendor"].to_excel(writer, sheet_name="ot_in_vendor", index=False)
         result["VENDOR_SUCCESS_IHUB_INPROGRESS"].to_excel(writer, sheet_name="Vendor Success IHUB InProgress", index=False)
+        result["VENDOR_SUCCESS_IHUB_FAILED"].to_excel(writer, sheet_name="Vendor Success IHUB Failed", index=False)
 
 print(f"Report successfully saved to {output_file}")

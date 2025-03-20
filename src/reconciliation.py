@@ -29,10 +29,10 @@ def run_reconciliation(start_date, end_date):
 
     #df_db.to_excel("D:\\GitHub\\RPA\\rpa_reconciliation\\rpa_reconciliation\\data\\Test.xlsx",index=False)
     #Seperating data not present in vendor_statement but present in I HUB Database 
-    not_in_excel = df_db[~df_db["vendor_reference"].isin(df_excel["REFID"])][["vendor_reference", "Recharge_status"]]
+    not_in_vendor= df_db[~df_db["vendor_reference"].isin(df_excel["REFID"])][["vendor_reference", "Recharge_status"]]
     
     #Seperating data present in vendor_statement but NOT present in I HUB Database 
-    not_in_server = df_excel[~df_excel["REFID"].isin(df_db["vendor_reference"])][["REFID", "USERNAME", "AMOUNT", "STATUS", "DATE"]]
+    not_in_Portal= df_excel[~df_excel["REFID"].isin(df_db["vendor_reference"])][["REFID", "USERNAME", "AMOUNT", "STATUS", "DATE"]]
     
     #Seperating data  matching in vendor_statement and  in I HUB Database 
     matched = df_db.merge(df_excel, left_on="vendor_reference", right_on="REFID", how="inner")
@@ -55,7 +55,7 @@ def run_reconciliation(start_date, end_date):
 
 
    
-    return {"not_in_excel": not_in_excel, "not_in_server": not_in_server.head(100), "mismatched": mismatched,"VENDOR_SUCCESS_IHUB_INPROGRESS":VENDOR_SUCCESS_IHUB_INPROGRESS ,"VENDOR_SUCCESS_IHUB_FAILED":VENDOR_SUCCESS_IHUB_FAILED}  
+    return {"not_in_vendor": not_in_vendor, "not_in_Portal": not_in_Portal.head(100), "mismatched": mismatched,"VENDOR_SUCCESS_IHUB_INPROGRESS":VENDOR_SUCCESS_IHUB_INPROGRESS ,"VENDOR_SUCCESS_IHUB_FAILED":VENDOR_SUCCESS_IHUB_FAILED}  
 
 
 
