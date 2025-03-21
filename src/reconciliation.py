@@ -47,7 +47,7 @@ def run_reconciliation(start_date, end_date, service_name):
             (mismatched['Recharge_status'] == "success") &  # Recharge_status in df1 is Success
             (mismatched['HUB_Master_status'] == "In progress" )  # Mst_status in df1 is NOT Success
     ]
-   #VENDOR_SUCCESS_IHUB_FAILED
+   #VENDOR_SUCCESS_IHUB_FAILED___
     VENDOR_SUCCESS_IHUB_FAILED = mismatched[
             (mismatched['STATUS'] == 'Success') &  # STATUS in df_recharge_excel is Success
             (mismatched['Recharge_status'] == "success") &  # Recharge_status in df1 is Success
