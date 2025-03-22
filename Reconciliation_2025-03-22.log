@@ -1,0 +1,10 @@
+2025-03-22 11:00:52,429 - WARNING - entering reconciliation function
+2025-03-22 11:00:52,429 - INFO - entering recharge function
+2025-03-22 11:00:53,735 - INFO - entering filter function
+2025-03-22 11:00:53,765 - WARNING - filter exit
+2025-03-22 11:00:53,766 - WARNING - recharge exit
+2025-03-22 11:01:53,316 - WARNING - entering reconciliation function
+2025-03-22 11:01:53,316 - INFO - entering recharge function
+2025-03-22 11:01:54,199 - INFO - entering filter function
+2025-03-22 11:01:54,209 - WARNING - filter exit
+2025-03-22 11:01:54,209 - WARNING - recharge exit

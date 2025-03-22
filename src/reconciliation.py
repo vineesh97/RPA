@@ -1,10 +1,20 @@
 import pandas as pd
 from db_connector import get_db_connection
 from config import CONFIG
+from logger_config import logger
+engine = get_db_connection()
 
-def run_reconciliation(start_date, end_date, service_name):
-    engine = get_db_connection()
-#---------------------------------------------------------------------
+def run_reconciliation(start_date,end_date,service_name):
+    logger.warning("entering reconciliation function")
+
+    start_date=start_date
+    end_date=end_date
+    if service_name=='recharge':
+        result = recharge(start_date,end_date)
+    return result
+
+def recharge(start_date, end_date):
+    logger.info("entering recharge function")
     query = f'''
         select mt2.TransactionRefNum ,sn.requestID as vendor_reference ,mt.TransactionStatus  as Tenant_Status,mt2.TransactionStatus  as HUB_Master_status, 
         mst.TransactionStatus as MasterSubTrans_status,sn.rechargeStatus  as  Recharge_status
@@ -13,7 +23,7 @@ def run_reconciliation(start_date, end_date, service_name):
         on mt.Id =mt2.TenantMasterTransactionId 
         left join ihub_dev.MasterSubTransaction mst 
         on mst.MasterTransactionId  =mt2.Id
-        left join ihub_dev.{service_name} sn 
+        left join ihub_dev.PsRechargeTransaction sn 
         on sn.MasterSubTransactionId =mst.Id 
         where mt2.TenantDetailId = 1 and
         DATE(sn.CreationTs) BETWEEN '{start_date}' AND '{end_date}' '''
@@ -24,7 +34,14 @@ def run_reconciliation(start_date, end_date, service_name):
 
     #replacing the enums to its corresponding status values
     df_db["Recharge_status"]=df_db["Recharge_status"].apply(lambda x: "success" if x == 1 else "pending" if x == 2 else "failed" if x == 3 else "instant failed" if x==4 else x )
-#------------------------------------------------------------
+    result=filtering_data(df_db,df_excel)
+    logger.warning("recharge exit")
+
+    return result
+
+def filtering_data (df_db,df_excel):
+    logger.info("entering filter function")
+
     columns_to_update = ["HUB_Master_status", "MasterSubTrans_status","Tenant_Status"]
     df_db[columns_to_update] = df_db[columns_to_update].apply(lambda x: x.map({0:"inititated",1: "success", 2: "failed", 3: "In progress",4:"Partial success"}).fillna(x))
 
@@ -53,11 +70,7 @@ def run_reconciliation(start_date, end_date, service_name):
             (mismatched['Recharge_status'] == "success") &  # Recharge_status in df1 is Success
             (mismatched['HUB_Master_status'] == "failed" )  # Mst_status in df1 is NOT Success
     ]
-
-
-   
+    logger.warning("filter exit")
     return {"not_in_vendor": not_in_vendor, "not_in_Portal": not_in_Portal.head(100), "mismatched": mismatched,"VENDOR_SUCCESS_IHUB_INPROGRESS":VENDOR_SUCCESS_IHUB_INPROGRESS ,"VENDOR_SUCCESS_IHUB_FAILED":VENDOR_SUCCESS_IHUB_FAILED}  
 
-
-
-
+    
