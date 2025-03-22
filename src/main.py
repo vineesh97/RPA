@@ -1,5 +1,6 @@
 from reconciliation import run_reconciliation
 import pandas as pd
+from logger_config import logger
 
 if __name__ == "__main__":
     #Initial execution Getting from and to date from user
@@ -8,6 +9,7 @@ if __name__ == "__main__":
     service_name = input("enter service name: ")
    
     #calling the function module
+    logger.info("-----------------------------------------------------------------------------------------------------")
     result = run_reconciliation(start_date, end_date,service_name)
 
     #Printing values for our reference
@@ -30,3 +32,6 @@ with pd.ExcelWriter(output_file, engine="xlsxwriter") as writer:
         result["VENDOR_SUCCESS_IHUB_FAILED"].to_excel(writer, sheet_name="Vendor Success IHUB Failed", index=False)
 
 print(f"Report successfully saved to {output_file}")
+logger.info("Report successfully Exported")
+logger.info("-----------------------------------------------------------------------------------------------------")
+
