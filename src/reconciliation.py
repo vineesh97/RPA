@@ -54,7 +54,7 @@ def filtering_Data (df_db,df_excel,service_name):
             (mismatched['HUB_Master_status'] == "failed" )  # Mst_status in df1 is NOT Success
         ]
     logger.info("---Filteration Ends---")
-    return {"not_in_vendor": not_in_vendor, "not_in_Portal": not_in_Portal.head(100), "mismatched": mismatched,"VENDOR_SUCCESS_IHUB_INPROGRESS":Vendor_Success_ihub_inprogess ,"VENDOR_SUCCESS_IHUB_FAILED":Vendor_Success_ihub_failed}  
+    return {"status":"200","not_in_vendor": not_in_vendor, "not_in_Portal": not_in_Portal.head(100), "mismatched": mismatched,"VENDOR_SUCCESS_IHUB_INPROGRESS":Vendor_Success_ihub_inprogess ,"VENDOR_SUCCESS_IHUB_FAILED":Vendor_Success_ihub_failed}  
 
 #Recharge service function
 def recharge_Service(start_date, end_date,df_excel,service_name):

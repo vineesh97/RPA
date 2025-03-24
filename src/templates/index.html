@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Filter Web App</title>
+    
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+   
+        <script>
+          function date_validation() {
+                let fromDate = document.getElementById("from_date").value;
+                let toDate = document.getElementById("to_date").value;
+                let errorSpan = document.getElementById("date_error");
+
+                if (fromDate && toDate) {
+                    let from = new Date(fromDate);
+                    let to = new Date(toDate);
+
+                    if (to < from) {
+                        errorSpan.innerText = "'To Date' cannot be earlier than 'From Date'!";
+                        document.getElementById("to_date").value = ""; // Reset the field
+                    } else {
+                        errorSpan.innerText = ""; // Clear the error message
+                    }
+                } else {
+                    errorSpan.innerText = ""; // Clear the error if one of the fields is empty
+                }
+            }
+        async function processData() {
+            // Get user inputs
+            let from_date = document.getElementById("from_date").value;
+            let to_date = document.getElementById("to_date").value;
+            let service_name = document.getElementById("service_name").value;
+            let file = document.getElementById("file_input").files[0];
+
+            if (!from_date || !to_date || !service_name || !file) {
+                alert("❌ Please fill in all fields and upload a file.");
+                return;
+            }
+
+            // Sanitize filename (remove spaces/special characters)
+            service_name = service_name.replace(/\s+/g, "_").replace(/[^\w.-]/g, "");
+
+            // Create FormData object
+            let formData = new FormData();
+            formData.append("from_date", from_date);
+            formData.append("to_date", to_date);
+            formData.append("service_name", service_name);
+            formData.append("file", file);
+
+            try {
+                // Send request to Flask backend
+                let response = await fetch("/filter", {
+                    method: "POST",
+                    body: formData
+                });
+
+                console.log("🔵 Response Status:", response.status);
+
+                if (response.status === 200) {
+                    let blob = await response.blob();
+                    let downloadLink = document.createElement("a");
+                    downloadLink.href = URL.createObjectURL(blob);
+                    downloadLink.download = `${service_name}.xlsx`;
+                    downloadLink.click();
+                    document.getElementById("status").innerText = "✅ File Ready! Downloading...";
+                }
+                else if(response.status===202){
+                    let json = await response.json();
+                    document.getElementById("status").innerText = json.message;  // Show message in red
+                }
+                else {
+                    document.getElementById("status").innerText = "---'Error Processing File!'---";
+                }
+            } catch (error) {
+                console.error("❌ Error:", error);
+                document.getElementById("status").innerText = "'Something went wrong!";
+            }
+        }
+
+        // Clear form inputs on page refresh
+        window.onload = function() {
+            document.getElementById("from_date").value = "";
+            document.getElementById("to_date").value = "";
+            document.getElementById("service_name").selectedIndex = 0;
+            document.getElementById("file_input").value = "";
+            document.getElementById("status").innerText = "";
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Filter Data & Download</h1>
+
+        <!-- Date Inputs -->
+        <label>From Date:</label>
+        <input id="from_date" type="date" onchange="date_validation()">
+
+        <label>To Date:</label>
+        <input id="to_date" type="date"  onchange="date_validation()"><br>
+        <span id="date_error" ></span> <!-- Error Message -->
+
+        <!-- Dropdown for Service Name -->
+        <label>Select Service:</label>
+        <select id="service_name">
+            <option value="default">--Select service--</option>
+            <option value="Recharge">Recharge</option>
+            <option value="Aeps">Aeps</option>
+        </select>
+
+        <!-- File Upload -->
+        <label>Upload Excel File:</label>
+        <input id="file_input" type="file" accept=".xlsx">
+
+        <!-- Button to Process Data -->
+        <button onclick="processData()">Process & Download</button>
+
+        <!-- Status Message -->
+        <p id="status"></p>
+    </div>
+</body>
+</html>
