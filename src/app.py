@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    app.logger.info("hi")
+    #app.logger.info("hi")
     return render_template("index.html")  # Serve the frontend UI
 
 @app.route("/filter", methods=["POST"])
@@ -20,7 +20,7 @@ def filter_data():
         to_date = request.form.get("to_date")
         service_name = request.form.get("service_name")
         file = request.files.get("file")
-        logger.info("-----------------------------------------------")
+        logger.info("------------------------------------------------------------------------------------")
         logger.info("Request received to filter data")
         print(f"Received: {from_date}, {to_date}, {service_name}, {file.filename if file else 'No file'}")
 
@@ -47,7 +47,7 @@ def filter_data():
 
             output_file.seek(0)
             logger.info(f"Report successfully exported for {service_name}")
-            logger.info("--------------------------------------------------")
+            logger.info("----------------------------------------------------------------------------------")
             return send_file(output_file, download_name=f"{service_name}.xlsx", as_attachment=True)
         #return "Function Called", 200
     except Exception as e:
