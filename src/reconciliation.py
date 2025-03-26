@@ -90,7 +90,7 @@ def recharge(start_date, end_date):
     
    #Reading data from both Server and Excel 
     df_db = pd.read_sql(query, con=engine)
-    df_excel = pd.read_excel(CONFIG["excel_file"], dtype=str)
+    print(df_db.columns)
 
     #replacing the enums to its corresponding status values
     df_db["Recharge_status"]=df_db["Recharge_status"].apply(lambda x: "success" if x == 1 else "pending" if x == 2 else "failed" if x == 3 else "instant failed" if x==4 else x )
