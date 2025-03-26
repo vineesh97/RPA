@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    #app.logger.info("hi")
+    #app.logger.info("hi")sathya branch
     return render_template("index.html")  # Serve the frontend UI
 
 @app.route("/filter", methods=["POST"])
