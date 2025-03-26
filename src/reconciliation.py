@@ -1,12 +1,10 @@
 import pandas as pd
 from db_connector import get_db_connection
-from config import CONFIG
 from logger_config import logger
 engine = get_db_connection()
 
 def run_Reconciliation(start_date,end_date,service_name,df_excel):
-    logger.info("-----------------------------------------------------------------------------------------------------")
-    logger.info(f"---------Entering Reconciliation for {service_name} Service---------")
+    logger.info(f"Entering Reconciliation for {service_name} Service")
     start_date=start_date
     end_date=end_date
 
@@ -18,7 +16,7 @@ def run_Reconciliation(start_date,end_date,service_name,df_excel):
 
 
 def filtering_Data (df_db,df_excel,service_name):
-    logger.info("---Filteration Starts---")
+    logger.info("Filteration Starts")
     status_mapping = {
     1: "success",
     2: "pending",
@@ -53,12 +51,12 @@ def filtering_Data (df_db,df_excel,service_name):
             (mismatched[f'{service_name}_status'] == "success") &  # Recharge_status in df1 is Success
             (mismatched['HUB_Master_status'] == "failed" )  # Mst_status in df1 is NOT Success
         ]
-    logger.info("---Filteration Ends---")
+    logger.info("Filteration Ends")
     return {"status":"200","not_in_vendor": not_in_vendor, "not_in_Portal": not_in_Portal.head(100), "mismatched": mismatched,"VENDOR_SUCCESS_IHUB_INPROGRESS":Vendor_Success_ihub_inprogess ,"VENDOR_SUCCESS_IHUB_FAILED":Vendor_Success_ihub_failed}  
 
 #Recharge service function
 def recharge_Service(start_date, end_date,df_excel,service_name):
-    logger.info("---Service mapping---")
+    logger.info(f"Fetching data from HUB for {service_name}")
     query = f'''
         select mt2.TransactionRefNum ,sn.requestID as vendor_reference ,mt.TransactionStatus  as Tenant_Status,u.UserName ,mt2.TransactionStatus  as HUB_Master_status,
         mst.TransactionStatus as MasterSubTrans_status,sn.rechargeStatus  as  {service_name}_status
@@ -92,7 +90,7 @@ def recharge_Service(start_date, end_date,df_excel,service_name):
     return result
 
 def aeps_Service(start_date, end_date,df_excel,service_name):
-    logger.info("---Service mapping---")
+    logger.info(f"Fetching data from HUB for {service_name}") 
     query = f'''
             select mt2.TransactionRefNum ,pat.requestID as vendor_reference ,mt.TransactionStatus as Tenant_Status,u.UserName ,mt2.TransactionStatus as HUB_Master_status,
             mst.TransactionStatus as MasterSubTrans_status,pat.TransStatus as {service_name}_status
