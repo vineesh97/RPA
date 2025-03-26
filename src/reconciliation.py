@@ -78,7 +78,7 @@ def recharge_Service(start_date, end_date,df_excel,service_name):
     
     #Reading data from Server
     df_db = pd.read_sql(query, con=engine)
-    print(df_db.columns)
+    #print(df_db.columns)
 
     #replacing the enums to its corresponding status values
     status_mapping = {

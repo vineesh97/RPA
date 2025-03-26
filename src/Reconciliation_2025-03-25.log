@@ -9,3 +9,31 @@
 2025-03-25 12:33:36,674 - INFO - Reconciliation Ends
 2025-03-25 12:33:36,932 - INFO - Report successfully exported for Recharge
 2025-03-25 12:33:36,932 - INFO - --------------------------------------------------
+2025-03-25 12:58:48,426 - INFO - -----------------------------------------------
+2025-03-25 12:58:48,426 - INFO - Request received to filter data
+2025-03-25 12:58:49,992 - INFO - Records found within the date range. Running reconciliation...
+2025-03-25 12:58:49,992 - INFO - -----------------------------------------------------------------------------------------------------
+2025-03-25 12:58:49,992 - INFO - ---------Entering Reconciliation for Recharge Service---------
+2025-03-25 12:58:49,992 - INFO - ---Service mapping---
+2025-03-25 12:59:00,801 - ERROR - Error in filter_data(): 'status'
+2025-03-25 12:59:00,997 - INFO - -----------------------------------------------
+2025-03-25 12:59:00,998 - INFO - Request received to filter data
+2025-03-25 12:59:02,470 - INFO - Records found within the date range. Running reconciliation...
+2025-03-25 12:59:02,470 - INFO - -----------------------------------------------------------------------------------------------------
+2025-03-25 12:59:02,470 - INFO - ---------Entering Reconciliation for Recharge Service---------
+2025-03-25 12:59:02,470 - INFO - ---Service mapping---
+2025-03-25 12:59:12,806 - ERROR - Error in filter_data(): 'status'
+2025-03-25 12:59:26,606 - INFO - -----------------------------------------------
+2025-03-25 12:59:26,606 - INFO - Request received to filter data
+2025-03-25 12:59:27,791 - INFO - Records found within the date range. Running reconciliation...
+2025-03-25 12:59:27,791 - INFO - -----------------------------------------------------------------------------------------------------
+2025-03-25 12:59:27,791 - INFO - ---------Entering Reconciliation for Recharge Service---------
+2025-03-25 12:59:27,791 - INFO - ---Service mapping---
+2025-03-25 12:59:28,524 - INFO - ---Filteration Starts---
+2025-03-25 12:59:28,570 - INFO - ---Filteration Ends---
+2025-03-25 12:59:28,570 - INFO - Reconciliation Ends
+2025-03-25 12:59:28,802 - INFO - Report successfully exported for Recharge
+2025-03-25 12:59:28,802 - INFO - --------------------------------------------------
+2025-03-25 13:03:46,151 - INFO - -----------------------------------------------
+2025-03-25 13:03:46,151 - INFO - Request received to filter data
+2025-03-25 13:03:46,645 - WARNING - No records found within the given date range!
