@@ -8,8 +8,22 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    #app.logger.info("hi")sathya-inet branch
-    return render_template("index.html")  # Serve the frontend UI
+    return render_template("login.html")
+
+@app.route("/filter_form",methods=["POST"])
+def form():
+     #app.logger.info("hi")sathya-inet branch
+    username = request.form.get("user_name")
+    password = request.form.get("password")
+    print(password)
+    if username == "admin" and password == "123" :
+        return jsonify({"message": "Login Successful", "redirect": "/index"}), 200  # Success case
+    else :
+        return jsonify({"message": "Username or password incorrect!"}), 202 
+
+@app.route("/index")
+def home():
+    return render_template("index.html")
 
 @app.route("/filter", methods=["POST"])
 def filter_data():
