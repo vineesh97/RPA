@@ -25,9 +25,9 @@ def filtering_Data (df_db,df_excel,service_name):
     }
     columns_to_update = ["HUB_Master_status", "MasterSubTrans_status","Tenant_Status"]
     df_db[columns_to_update] = df_db[columns_to_update].apply(lambda x:x.map(status_mapping).fillna(x))
- 
+
     #df_db.to_excel("D:\\GitHub\\RPA\\rpa_reconciliation\\rpa_reconciliation\\data\\Test.xlsx",index=False)
-    #Seperating data not present in vendor_statement but present in I HUB Database
+    #Seperating data not present in vendor_statement but present in I HUB Database 
     not_in_vendor= df_db[~df_db["vendor_reference"].isin(df_excel["REFID"])][["vendor_reference", f'{service_name}_status']]
    
     #Seperating data present in vendor_statement but NOT present in I HUB Database

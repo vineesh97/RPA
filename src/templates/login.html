@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Login</title>
+            <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+            <script>
+                async function validateUser() {
+                    // Get user inputs
+                    let Password = document.getElementById("password").value;
+                    let Username = document.getElementById("user_name").value;;
+
+                    if (!Password || !Username) {
+                        alert("Please enter Username and Password.");
+                        return;
+                    }
+
+                    // Create FormData object
+                    let formData = new FormData();
+                    formData.append("user_name", Username);
+                    formData.append("password", Password);
+                    
+                    try {
+                        // Send request to Flask backend
+                        let response = await fetch("/filter_form", {
+                            method: "POST",
+                            body: formData
+                        });
+                        let json = await response.json();
+            console.log("🔵 Response:", json);
+
+                        if (response.status === 200) {
+                            // Successful login
+                            document.getElementById("status").innerText = "✅ " + json.message;
+                            document.getElementById("status").style.color = "green";
+
+                            // Redirect after 1 second
+                            setTimeout(() => {
+                                window.location.href = json.redirect;
+                            }, 1000);}
+                        else if(response.status===202){
+                            let json = await response.json();
+                            document.getElementById("status").innerText = json.message;  // Show message in red
+                        }
+            
+                    } catch (error) {
+                        console.error("❌ Error:", error);
+                        document.getElementById("status").innerText = "'Something went wrong!";
+                    }
+                }
+            </script>
+
+    </head>
+    <body>
+        <div class="container-login">
+            <h1>Login</h1>
+    
+            <!-- Date Inputs -->
+            <input id="user_name" placeholder="Username" autofocus type="text" >
+    
+            <input id="password" type="password" placeholder="Password" ><br>
+    
+            <!-- Button to Process Data -->
+            <button id="login-btn" onclick="validateUser()">login</button>
+    
+            <!-- Status Message -->
+            <p id="status"></p>
+        </div>
+    </body>
+</html>

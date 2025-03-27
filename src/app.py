@@ -1,15 +1,35 @@
-from flask import Flask, render_template, request, send_file, jsonify
+from flask import Flask, render_template, request, send_file, jsonify,session,redirect,url_for
 import pandas as pd
 from io import BytesIO
 from main import main
 from logger_config import logger
+from datetime import timedelta
 
 app = Flask(__name__)
-
+app.secret_key = '4242'
+app.permanent_session_lifetime = timedelta(minutes=5)
 @app.route("/")
 def index():
-    #app.logger.info("hi")
-    return render_template("index.html")  # Serve the frontend UI
+    return render_template("login.html")
+
+@app.route("/filter_form",methods=["POST"])
+def form():
+     #app.logger.info("hi")sathya-inet branch
+    username = request.form.get("user_name")
+    password = request.form.get("password")
+    print(password)
+    if username == "admin" and password == "123" :
+        session.permanent = True
+        session["username"] = username   # store user info in session
+        return jsonify({"message": "Login Successful", "redirect": "/index"}), 200
+    else :
+        return jsonify({"message": "Username or password incorrect!"}), 202 
+
+@app.route("/index")
+def home():
+    if "username" not in session:
+        return redirect(url_for("index"))
+    return render_template("index.html")
 
 @app.route("/filter", methods=["POST"])
 def filter_data():
@@ -53,6 +73,9 @@ def filter_data():
     except Exception as e:
         logger.error(f"Error in filter_data(): {str(e)}")
         return f"Internal Server Error: {str(e)}", 500  # Return 500 with details
-
+@app.route("/logout")
+def logout():
+    session.pop("username", None)
+    return redirect(url_for("index"))
 if __name__ == "__main__":
     app.run(debug=True)
