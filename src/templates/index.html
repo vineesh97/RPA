@@ -88,9 +88,16 @@
             document.getElementById("status").innerText = "";
         };
     </script>
+
 </head>
 <body>
-    <div class="container">
+    <div class="container header">
+        {% if session.get('username') %}
+            <h1>Welcome, {{ session.get('username') }}</h1>
+            {% endif %}
+    </div>
+    <br>
+    <div class="container form">
         <h1>📊 Filter Data & Download</h1>
 
         <!-- Date Inputs -->
@@ -114,8 +121,8 @@
         <input id="file_input" type="file" accept=".xlsx">
 
         <!-- Button to Process Data -->
-        <button onclick="processData()">Process & Download</button>
-
+        <button id="button-download" onclick="processData()">Process & Download</button>
+        <a id="logout" href="/logout" class="logout-btn">Log out</a>
         <!-- Status Message -->
         <p id="status"></p>
     </div>
