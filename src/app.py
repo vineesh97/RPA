@@ -7,7 +7,7 @@ from datetime import timedelta
 
 app = Flask(__name__)
 app.secret_key = '4242'
-app.permanent_session_lifetime = timedelta(minutes=1)
+app.permanent_session_lifetime = timedelta(minutes=5)
 @app.route("/")
 def index():
     return render_template("login.html")
