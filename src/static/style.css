@@ -3,23 +3,68 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
-    padding: 0;
+    padding: 10px 0;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 100vh;
+    justify-content: center;  /* Add this */
+    height: 100vh;  
 }
 
-/* Container */
+/* Common Container */
 .container {
-    background: #fff;
-    padding: 20px;
+    width: 30%;
+    padding: 10px;
+    background-color: #fff;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 400px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    margin-bottom: 10px; /* <-- This will make space between both containers */
+}
+
+/* Logout container stays at top */
+.container.header {
+    text-align: center;
+}
+.container-login {
+    text-align: center;
+    width: 30%;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Form container */
+.container.form {
     text-align: center;
 }
 
+/* Logout Button */
+.logout-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #ff4d4d;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: #e60000;
+}
+#login-btn{
+    background-color: #007BFF;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 30%;
+    transition: background 0.3s;
+}
 /* Header */
 h1 {
     font-size: 22px;
@@ -51,7 +96,7 @@ input[type="file"] {
 }
 
 /* Button Styling */
-button {
+#button-download {
     background-color: #007BFF;
     color: white;
     padding: 10px;
@@ -59,15 +104,16 @@ button {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    width: 100%;
+    width: 50%;
     transition: background 0.3s;
 }
 
-button:hover {
+#button-download:hover {
     background-color: #0056b3;
 }
 
-#date_error{
+/* Error Message */
+#date_error {
     color: red;
     font-size: smaller; 
     display: block; 
@@ -75,6 +121,7 @@ button:hover {
     margin-top: 10px;
     font-style: italic;
 }
+
 /* Status Message */
 #status {
     font-style: italic;
@@ -82,10 +129,10 @@ button:hover {
     font-size: smaller; 
     display: block; 
     text-align: left; 
-    margin-top: 10px;/* Red for error messages */
+    margin-top: 10px;
 }
 
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 450px) {
     .container {
         width: 90%;
