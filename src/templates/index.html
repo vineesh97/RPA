@@ -16,7 +16,6 @@
                 if (fromDate && toDate) {
                     let from = new Date(fromDate);
                     let to = new Date(toDate);
-
                     if (to < from) {
                         errorSpan.innerText = "'To Date' cannot be earlier than 'From Date'!";
                         document.getElementById("to_date").value = ""; // Reset the field
