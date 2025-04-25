@@ -12,6 +12,8 @@ def run_Reconciliation(start_date,end_date,service_name,df_excel):
         result = recharge_Service(start_date,end_date,df_excel,service_name)
     if service_name=='Aeps':
         result = aeps_Service(start_date,end_date,df_excel,service_name)
+    if service_name=='PaySprint-IMT':
+        result= IMT_Service(start_date,end_date,df_excel,service_name)
     return result
  
  
@@ -26,7 +28,8 @@ def filtering_Data (df_db,df_excel,service_name):
     }
     columns_to_update = ["HUB_Master_status", "MasterSubTrans_status","Tenant_Status"]
     df_db[columns_to_update] = df_db[columns_to_update].apply(lambda x:x.map(status_mapping).fillna(x))
- 
+    df_db['vendor_reference'] = df_db['vendor_reference'].astype(str)
+    df_excel['REFID'] = df_excel['REFID'].astype(str)
     not_in_vendor = df_db[~df_db["vendor_reference"].isin(df_excel["REFID"])][["vendor_reference", "service_date", f'{service_name}_status']].copy()
     not_in_vendor["CATEGORY"] = "NOT_IN_VENDOR"
  
@@ -66,8 +69,8 @@ def filtering_Data (df_db,df_excel,service_name):
     # 8. VENDOR_FAILED_IHUB_INITIATED
     vendor_failed_ihub_initiated = mismatched[
         (mismatched['STATUS'].str.lower() == 'failed') &
-        (mismatched['HUB_Master_status'].str.lower() == "initiated")
-    ].copy()
+        ((mismatched['HUB_Master_status'].str.lower() == "initiated") | (mismatched['HUB_Master_status'].str.lower() == "inprogress"))
+    ][["REFID","TransactionRefNum", "USERNAME", "AMOUNT", "STATUS", "DATE","Tenant_Status","HUB_Master_status","STATUS"]].copy()
     vendor_failed_ihub_initiated["CATEGORY"] = "VENDOR_FAILED_IHUB_INITIATED"
  
     combined = pd.concat([
@@ -101,7 +104,7 @@ def recharge_Service(start_date, end_date,df_excel,service_name):
     logger.info(f"Fetching data from HUB for {service_name}")
     query = f'''
          select mt2.TransactionRefNum ,sn.requestID as vendor_reference ,mt.TransactionStatus  as Tenant_Status,u.UserName ,
- mt2.TransactionStatus  as HUB_Master_status, mst.TransactionStatus as MasterSubTrans_status, sn.CreationTs as service_date,sn.rechargeStatus  as  {service_name}_status
+        mt2.TransactionStatus  as HUB_Master_status, mst.TransactionStatus as MasterSubTrans_status, sn.CreationTs as service_date,sn.rechargeStatus  as  {service_name}_status
         from tenantinetcsc.MasterTransaction mt
         left join ihubcore.MasterTransaction mt2
         on mt.Id =mt2.TenantMasterTransactionId
@@ -131,7 +134,8 @@ def recharge_Service(start_date, end_date,df_excel,service_name):
     df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(lambda x: status_mapping.get(x, x))
     result=filtering_Data(df_db,df_excel,service_name)
     return result
- 
+ #--------------------------------------------------------------------
+ #AEPS SERVICE FUNCTION
 def aeps_Service(start_date, end_date,df_excel,service_name):
     logger.info(f"Fetching data from HUB for {service_name}")
     query = f'''
@@ -163,3 +167,41 @@ def aeps_Service(start_date, end_date,df_excel,service_name):
     #calling filtering function
     result=filtering_Data(df_db,df_excel,service_name)
     return result
+#----------------------------------------------------------------------
+#IMT SERVICE FUNCTION
+def IMT_Service(start_date,end_date,df_excel,service_name):
+     logger.info(f"Fetching data from HUB for {service_name}")
+     query = f'''
+            select mt2.TransactionRefNum ,pst.VendorReferenceId as vendor_reference,mt.TransactionStatus as Tenant_Status,u.UserName ,
+            mt2.TransactionStatus as HUB_Master_status,mst.TransactionStatus as MasterSubTrans_status,pst.Creationts as service_date,
+            pst.PaySprintTransStatus as '{service_name}_status'
+                from tenantinetcsc.MasterTransaction mt
+                left join ihubcore.MasterTransaction mt2
+                on mt.Id =mt2.TenantMasterTransactionId
+                left join ihubcore.MasterSubTransaction mst
+                on mst.MasterTransactionId=mt2.Id
+                left join ihubcore.PaySprint_Transaction pst
+                on pst.MasterSubTransactionId =mst.Id
+                left join tenantinetcsc.EboDetail ed
+                on mt.EboDetailId =ed.Id
+                left join tenantinetcsc.`User` u
+                on u.id=ed.UserId
+                where mt2.TenantDetailId = 1 and
+                DATE(pst.CreationTs) BETWEEN '{start_date}' AND '{end_date}' '''
+        #Reading data from Server
+     df_db = pd.read_sql(query, con=engine)
+     df_excel['STATUS'] = df_excel['STATUS'].replace('Refunded', 'failed')
+     #mapping status name with enum
+     status_mapping = {
+         0: "unknown",
+         1: "success",
+         2: "failed",
+         3: "inprogress",
+         4: "partialsuccuess"
+         }
+     df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(lambda x: status_mapping.get(x, x))
+    #calling filtering function
+     result=filtering_Data(df_db,df_excel,service_name)
+     return result
+
+#-------------------------------------------------------------------
