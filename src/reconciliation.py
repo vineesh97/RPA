@@ -2,7 +2,7 @@ import pandas as pd
 from db_connector import get_db_connection
 from logger_config import logger
 engine = get_db_connection()
-
+ 
 def run_Reconciliation(start_date,end_date,service_name,df_excel):
     logger.info(f"Entering Reconciliation for {service_name} Service")
     start_date=start_date
@@ -21,9 +21,11 @@ def run_Reconciliation(start_date,end_date,service_name,df_excel):
         result = recharge_Service(start_date,end_date,df_excel,service_name)
     if service_name=='Aeps':
         result = aeps_Service(start_date,end_date,df_excel,service_name)
+    if service_name=='PaySprint-IMT':
+        result= IMT_Service(start_date,end_date,df_excel,service_name)
     return result
-
-
+ 
+ 
 def filtering_Data (df_db,df_excel,service_name):
     logger.info("Filteration Starts")
     status_mapping = {
@@ -156,8 +158,9 @@ def recharge_Service(start_date, end_date,df_excel,service_name):
     
     #Reading data from Server
     df_db = pd.read_sql(query, con=engine)
+    
     #print(df_db.columns)
-
+ 
     #replacing the enums to its corresponding status values
     status_mapping = {
     0: "initiated",
@@ -169,9 +172,9 @@ def recharge_Service(start_date, end_date,df_excel,service_name):
     df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(lambda x: status_mapping.get(x, x))
     result=filtering_Data(df_db,df_excel,service_name)
     return result
-
+ 
 def aeps_Service(start_date, end_date,df_excel,service_name):
-    logger.info(f"Fetching data from HUB for {service_name}") 
+    logger.info(f"Fetching data from HUB for {service_name}")
     query = f'''
             select mt2.TransactionRefNum ,pat.requestID as vendor_reference ,mt.TransactionStatus as Tenant_Status,u.UserName ,mt2.TransactionStatus as IHUB_Master_status,
             mst.TransactionStatus as MasterSubTrans_status,pat.TransStatus as {service_name}_status
@@ -188,7 +191,7 @@ def aeps_Service(start_date, end_date,df_excel,service_name):
             on u.id=ed.UserId
             where mt2.TenantDetailId = 1 and
             DATE(pat.CreationTs) BETWEEN '{start_date}' AND '{end_date}' '''
-    #Reading data from Server 
+    #Reading data from Server
     df_db = pd.read_sql(query, con=engine)
     #mapping status name with enum
     status_mapping = {

@@ -16,7 +16,6 @@
                 if (fromDate && toDate) {
                     let from = new Date(fromDate);
                     let to = new Date(toDate);
-
                     if (to < from) {
                         errorSpan.innerText = "'To Date' cannot be earlier than 'From Date'!";
                         document.getElementById("to_date").value = ""; // Reset the field
@@ -114,6 +113,8 @@
             <option value="default">--Select service--</option>
             <option value="Recharge">Recharge</option>
             <option value="Aeps">Aeps</option>
+            <option value="PaySprint-IMT">PaySprint-IMT </option>
+            
         </select>
 
         <!-- File Upload -->
