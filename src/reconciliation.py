@@ -28,78 +28,6 @@ def filtering_Data (df_db,df_excel,service_name):
     }
     columns_to_update = ["HUB_Master_status", "MasterSubTrans_status","Tenant_Status"]
     df_db[columns_to_update] = df_db[columns_to_update].apply(lambda x:x.map(status_mapping).fillna(x))
-<<<<<<< HEAD
-    df_db['vendor_reference'] = df_db['vendor_reference'].astype(str)
-    df_excel['REFID'] = df_excel['REFID'].astype(str)
-    not_in_vendor = df_db[~df_db["vendor_reference"].isin(df_excel["REFID"])][["vendor_reference", "service_date", f'{service_name}_status']].copy()
-    not_in_vendor["CATEGORY"] = "NOT_IN_VENDOR"
- 
-    # 2. Not in Portal
-    not_in_portal = df_excel[~df_excel["REFID"].isin(df_db["vendor_reference"])][["REFID", "USERNAME", "AMOUNT", "STATUS", "DATE"]].copy()
-    not_in_portal["CATEGORY"] = "NOT_IN_PORTAL"
- 
-    # 3. Vendor success but not in Portal
-    not_in_portal_vendor_success = df_excel[
-        (~df_excel["REFID"].isin(df_db["vendor_reference"])) &
-        (df_excel["STATUS"].str.lower() == "success")
-    ][["REFID", "USERNAME", "AMOUNT", "STATUS", "DATE"]].copy()
-    not_in_portal_vendor_success["CATEGORY"] = "NOT_IN_PORTAL_VENDOR_SUCCESS"
- 
-    # 4. Matched
-    matched = df_db.merge(df_excel, left_on="vendor_reference", right_on="REFID", how="inner").copy()
-    matched["CATEGORY"] = "MATCHED"
- 
-    # 5. Mismatched
-    mismatched = matched[matched[f'{service_name}_status'].str.lower() != matched["STATUS"].str.lower()].copy()
-    mismatched["CATEGORY"] = "MISMATCHED"
- 
-    # 6. VENDOR_SUCCESS_IHUB_INITIATED
-    vendor_success_ihub_initiated = mismatched[
-        (mismatched['STATUS'].str.lower() == 'success') &
-        (mismatched['HUB_Master_status'].str.lower() == "initiated")
-    ].copy()
-    vendor_success_ihub_initiated["CATEGORY"] = "VENDOR_SUCCESS_IHUB_INITIATED"
- 
-    # 7. VENDOR_SUCCESS_IHUB_FAILED
-    vendor_success_ihub_failed = mismatched[
-        (mismatched['STATUS'].str.lower() == 'success') &
-        (mismatched['HUB_Master_status'].str.lower() == "failed")
-    ].copy()
-    vendor_success_ihub_failed["CATEGORY"] = "VENDOR_SUCCESS_IHUB_FAILED"
- 
-    # 8. VENDOR_FAILED_IHUB_INITIATED
-    vendor_failed_ihub_initiated = mismatched[
-        (mismatched['STATUS'].str.lower() == 'failed') &
-        ((mismatched['HUB_Master_status'].str.lower() == "initiated") | (mismatched['HUB_Master_status'].str.lower() == "inprogress"))
-    ][["REFID","TransactionRefNum", "USERNAME", "AMOUNT", "STATUS", "DATE","Tenant_Status","HUB_Master_status","STATUS"]].copy()
-    vendor_failed_ihub_initiated["CATEGORY"] = "VENDOR_FAILED_IHUB_INITIATED"
- 
-    combined = pd.concat([
-        not_in_vendor,
-        not_in_portal,
-        not_in_portal_vendor_success,
-        mismatched,
-        vendor_success_ihub_initiated,
-        vendor_success_ihub_failed,
-        vendor_failed_ihub_initiated,
-        matched
-    ], ignore_index=True)
- 
-    # Export to Excel
-    #combined.to_excel(output_file, index=False)
-    logger.info("Filteration Ends")
-    return {
-        "status":"200",
-        "not_in_vendor": not_in_vendor,
-        "combined":combined,
-        "not_in_Portal":not_in_portal.head(100),
-        "mismatched": mismatched,
-        "VENDOR_SUCCESS_IHUB_INPROGRESS":vendor_success_ihub_initiated,
-        "VENDOR_SUCCESS_IHUB_FAILED":vendor_success_ihub_failed,
-        "not_in_Portal_vendor_success": not_in_portal_vendor_success,
-        "Vendor_failed_ihub_initiated":vendor_failed_ihub_initiated,
-        "matched": matched.head(100)}
-=======
 
     #df_db.to_excel("D:\\GitHub\\RPA\\rpa_reconciliation\\rpa_reconciliation\\data\\Test.xlsx",index=False)
     #Seperating data not present in vendor_statement but present in I HUB Database 
@@ -128,7 +56,6 @@ def filtering_Data (df_db,df_excel,service_name):
         ]
     logger.info("Filteration Ends")
     return {"status":"200","not_in_vendor": not_in_vendor, "not_in_Portal": not_in_Portal.head(100), "mismatched": mismatched,"VENDOR_SUCCESS_IHUB_INPROGRESS":Vendor_Success_ihub_inprogess ,"VENDOR_SUCCESS_IHUB_FAILED":Vendor_Success_ihub_failed}  
->>>>>>> origin/main
  
 #Recharge service function
 def recharge_Service(start_date, end_date,df_excel,service_name):
@@ -166,12 +93,7 @@ def recharge_Service(start_date, end_date,df_excel,service_name):
     df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(lambda x: status_mapping.get(x, x))
     result=filtering_Data(df_db,df_excel,service_name)
     return result
-<<<<<<< HEAD
- #--------------------------------------------------------------------
- #AEPS SERVICE FUNCTION
-=======
  
->>>>>>> origin/main
 def aeps_Service(start_date, end_date,df_excel,service_name):
     logger.info(f"Fetching data from HUB for {service_name}")
     query = f'''
@@ -186,11 +108,7 @@ def aeps_Service(start_date, end_date,df_excel,service_name):
             on pat.MasterSubTransactionId =mst.Id
             left join tenantinetcsc.EboDetail ed
             on mt.EboDetailId =ed.Id
-<<<<<<< HEAD
-            left join tenantinetcsc.`User` u
-=======
             left join iHubTenantPortal_dev.`User` u
->>>>>>> origin/main
             on u.id=ed.UserId
             where mt2.TenantDetailId = 1 and
             DATE(pat.CreationTs) BETWEEN '{start_date}' AND '{end_date}' '''
@@ -206,7 +124,6 @@ def aeps_Service(start_date, end_date,df_excel,service_name):
     df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(lambda x: status_mapping.get(x, x))
     #calling filtering function
     result=filtering_Data(df_db,df_excel,service_name)
-<<<<<<< HEAD
     return result
 #----------------------------------------------------------------------
 #IMT SERVICE FUNCTION
@@ -246,6 +163,3 @@ def IMT_Service(start_date,end_date,df_excel,service_name):
      return result
 
 #-------------------------------------------------------------------
-=======
-    return result
->>>>>>> origin/main
