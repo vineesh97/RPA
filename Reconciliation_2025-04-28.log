@@ -1,0 +1,19 @@
+2025-04-28 18:28:11,208 - INFO - ------------------------------------------------------------------------------------
+2025-04-28 18:28:11,208 - INFO - Request received to filter data
+2025-04-28 18:28:11,989 - INFO - Records found within the date range. Running reconciliation...
+2025-04-28 18:28:11,989 - INFO - Entering Reconciliation for Aeps Service
+2025-04-28 18:28:11,991 - INFO - Aeps service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-04-28 18:28:11,992 - INFO - Fetching data from HUB for Aeps
+2025-04-28 18:28:12,243 - INFO - Filteration Starts
+2025-04-28 18:28:12,759 - ERROR - Error in filter_data(): 'status'
+2025-04-28 18:28:34,227 - INFO - ------------------------------------------------------------------------------------
+2025-04-28 18:28:34,228 - INFO - Request received to filter data
+2025-04-28 18:28:34,937 - INFO - Records found within the date range. Running reconciliation...
+2025-04-28 18:28:34,937 - INFO - Entering Reconciliation for Aeps Service
+2025-04-28 18:28:34,938 - INFO - Aeps service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-04-28 18:28:34,938 - INFO - Fetching data from HUB for Aeps
+2025-04-28 18:28:35,043 - INFO - Filteration Starts
+2025-04-28 18:28:35,137 - INFO - Filteration Ends
+2025-04-28 18:28:35,138 - INFO - Reconciliation Ends
+2025-04-28 18:28:35,510 - INFO - Report successfully exported for Aeps
+2025-04-28 18:28:35,510 - INFO - ----------------------------------------------------------------------------------
