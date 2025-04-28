@@ -60,7 +60,7 @@ def filter_data():
         # Convert result to an Excel file
             output_file = BytesIO()
             with pd.ExcelWriter(output_file, engine="xlsxwriter") as writer:
-                for sheet_name in ["mismatched", "not_in_Portal", "not_in_vendor", "VENDOR_SUCCESS_IHUB_INPROGRESS", "VENDOR_SUCCESS_IHUB_FAILED"]:
+                for sheet_name in ["combined","mismatched", "not_in_Portal", "not_in_vendor", "VENDOR_SUCCESS_IHUB_INPROGRESS", "VENDOR_SUCCESS_IHUB_FAILED","not_in_Portal_vendor_success", "Vendor_failed_ihub_initiated", "matched"]:
                     if sheet_name in result:
                         result[sheet_name].to_excel(writer, sheet_name=sheet_name, index=False)
 
