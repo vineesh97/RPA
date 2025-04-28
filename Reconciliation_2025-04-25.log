@@ -1,0 +1,21 @@
+2025-04-25 19:04:27,296 - INFO - ------------------------------------------------------------------------------------
+2025-04-25 19:04:27,296 - INFO - Request received to filter data
+2025-04-25 19:04:28,050 - INFO - Records found within the date range. Running reconciliation...
+2025-04-25 19:04:28,050 - INFO - Entering Reconciliation for Recharge Service
+2025-04-25 19:04:28,051 - INFO - Fetching data from HUB for Recharge
+2025-04-25 19:04:28,406 - INFO - Filteration Starts
+2025-04-25 19:04:28,823 - ERROR - Error in filter_data(): 'status'
+2025-04-25 19:06:08,782 - INFO - ------------------------------------------------------------------------------------
+2025-04-25 19:06:08,783 - INFO - Request received to filter data
+2025-04-25 19:06:09,510 - INFO - Records found within the date range. Running reconciliation...
+2025-04-25 19:06:09,510 - INFO - Entering Reconciliation for Recharge Service
+2025-04-25 19:06:09,510 - INFO - Fetching data from HUB for Recharge
+2025-04-25 19:06:09,680 - INFO - Filteration Starts
+2025-04-25 19:06:09,747 - ERROR - Error in filter_data(): 'status'
+2025-04-25 19:10:48,999 - INFO - ------------------------------------------------------------------------------------
+2025-04-25 19:10:49,000 - INFO - Request received to filter data
+2025-04-25 19:10:49,489 - INFO - Records found within the date range. Running reconciliation...
+2025-04-25 19:10:49,489 - INFO - Entering Reconciliation for Recharge Service
+2025-04-25 19:10:49,489 - INFO - Fetching data from HUB for Recharge
+2025-04-25 19:10:49,660 - INFO - Filteration Starts
+2025-04-25 19:10:49,737 - ERROR - Error in filter_data(): 'status'
