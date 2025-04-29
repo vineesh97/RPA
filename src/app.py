@@ -39,17 +39,18 @@ def filter_data():
         from_date = request.form.get("from_date")
         to_date = request.form.get("to_date")
         service_name = request.form.get("service_name")
+        transaction_type = request.form.get("transaction_type")
         file = request.files.get("file")
         logger.info("------------------------------------------------------------------------------------")
         logger.info("Request received to filter data")
-        print(f"Received: {from_date}, {to_date}, {service_name}, {file.filename if file else 'No file'}")
+        print(f"Received: {from_date}, {to_date}, {service_name},{transaction_type}, {file.filename if file else 'No file'}")
  
         # Validate inputs
-        if not from_date or not to_date or not service_name or not file or file.filename == "":
+        if not from_date or not to_date or not service_name or not transaction_type or not file or file.filename == "":
             return "Missing required inputs!", 400
  
         # Process data using main()
-        result = main(from_date, to_date, service_name, file)
+        result = main(from_date, to_date, service_name, file,transaction_type)
        
         if not isinstance(result, dict):
             return "Invalid result format from main()!", 500

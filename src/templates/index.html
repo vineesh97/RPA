@@ -31,6 +31,7 @@
             let from_date = document.getElementById("from_date").value;
             let to_date = document.getElementById("to_date").value;
             let service_name = document.getElementById("service_name").value;
+            let transaction_type = document.getElementById("transaction_type").value
             let file = document.getElementById("file_input").files[0];
 
             if (!from_date || !to_date || !service_name || !file) {
@@ -46,6 +47,7 @@
             formData.append("from_date", from_date);
             formData.append("to_date", to_date);
             formData.append("service_name", service_name);
+            formData.append("transaction_type",transaction_type);
             formData.append("file", file);
 
             try {
@@ -55,7 +57,7 @@
                     body: formData
                 });
 
-                console.log("🔵 Response Status:", response.status);
+                console.log("Response Status:", response.status);
 
                 if (response.status === 200) {
                     let blob = await response.blob();
@@ -107,15 +109,38 @@
         <input id="to_date" type="date"  onchange="date_validation()"><br>
         <span id="date_error" ></span> <!-- Error Message -->
 
-        <!-- Dropdown for Service Name -->
+       <!-- Dropdown for Service Name -->
         <label>Select Service:</label>
-        <select id="service_name">
+        <select id="service_name" onchange="toggleTransactionType()">
             <option value="default">--Select service--</option>
             <option value="Recharge">Recharge</option>
             <option value="Aeps">Aeps</option>
-            <option value="PaySprint-IMT">PaySprint-IMT </option>
-            
+            <option value="PaySprint-IMT">PaySprint-IMT</option>
         </select>
+        <div id="transaction_type_wrapper" style="display: none; margin-top: 10px;">
+        <label>Transaction Type:</label>
+        <select id="transaction_type">
+            <option value="default">--Select transaction--</option>
+            <option value="1">Enquiry</option>
+            <option value="2">Withdrawl</option>
+            <option value="3">MiniStatement</option>
+        </select>
+        </div>
+        <script>
+      function toggleTransactionType() {
+            const serviceSelect = document.getElementById('service_name');
+            const transactionWrapper = document.getElementById('transaction_type_wrapper');
+
+            if (serviceSelect.value === 'Aeps') {
+                transactionWrapper.style.display = 'block';
+            } else {
+                transactionWrapper.style.display = 'none';
+                document.getElementById('transaction_type').selectedIndex = 0; // reset to default
+            }
+        }
+        </script>
+
+
 
         <!-- File Upload -->
         <label>Upload Excel File:</label>
