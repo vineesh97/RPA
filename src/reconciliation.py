@@ -54,10 +54,12 @@ def filtering_Data (df_db,df_excel,service_name):
     not_in_portal["CATEGORY"] = "NOT_IN_PORTAL"
     not_in_portal=safe_column_select(not_in_portal, required_columns)
 
-    # 3. Vendor success but not in Portal
+    # 3. Vendor success but not in Portal not 
     not_in_portal_vendor_success = df_excel[
-        (~df_excel["REFID"].isin(df_db["vendor_reference"])) & 
-        (df_excel["STATUS"].str.lower() == "success")].copy()
+    (~df_excel["REFID"].isin(df_db["vendor_reference"])) & 
+    (df_excel["STATUS"].str.lower() == "success") & 
+    (df_excel["Ihub_ledger_status"].str.lower() == "no")
+        ].copy()    
     not_in_portal_vendor_success["CATEGORY"] = "NOT_IN_PORTAL_VENDOR_SUCCESS"
     not_in_portal_vendor_success = safe_column_select(not_in_portal_vendor_success, required_columns)
 
@@ -137,9 +139,8 @@ def recharge_Service(start_date, end_date,df_excel,service_name):
             WHEN iw.IHubReferenceId  IS NOT NULL THEN 'Yes'
             ELSE 'No'
             END AS Ihub_Ledger_status
-            FROM tenantinetcsc.MasterTransaction mt
-            LEFT JOIN ihubcore.MasterTransaction mt2
-            ON mt.Id = mt2.TenantMasterTransactionId
+            FROM 
+            ihubcore.MasterTransaction mt2
             LEFT JOIN ihubcore.MasterSubTransaction mst
             ON mst.MasterTransactionId = mt2.Id
             LEFT JOIN ihubcore.PsRechargeTransaction sn
@@ -149,7 +150,11 @@ def recharge_Service(start_date, end_date,df_excel,service_name):
             LEFT JOIN tenantinetcsc.`User` u
             ON u.id = ed.UserId
             LEFT JOIN
-            (SELECT DISTINCT iwt.IHubReferenceId FROM IHubWalletTransaction iwt ) iw ON iw.IHubReferenceId  = mt2.TransactionRefNum
+            SELECT DISTINCT iwt.IHubReferenceId AS IHubReferenceId
+            FROM ihubcore.IHubWalletTransaction iwt
+            WHERE DATE(iwt.CreationTs) BETWEEN '{start_date}' AND CURRENT_DATE()
+            ) a
+            ON a.IHubReferenceId = mt2.TransactionRefNum
             WHERE mt2.TenantDetailId = 1
             AND DATE(sn.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
         '''
@@ -200,8 +205,7 @@ LEFT JOIN (
     SELECT DISTINCT iwt.IHubReferenceId AS IHubReferenceId
     FROM ihubcore.IHubWalletTransaction iwt
     WHERE DATE(iwt.CreationTs) BETWEEN '{start_date}' AND CURRENT_DATE()
-) a
-    
+) a 
     ON a.IHubReferenceId = mt2.TransactionRefNum
 WHERE mt2.TenantDetailId = 1 and pat.TransMode=2
     AND DATE(pat.CreationTs) BETWEEN '{start_date}' AND '{end_date}';
@@ -248,9 +252,10 @@ def IMT_Service(start_date,end_date,df_excel,service_name):
             LEFT JOIN
                 tenantinetcsc.`User` u ON u.id = ed.UserId
             LEFT JOIN
-                (SELECT DISTINCT iwt.IHubReferenceId FROM IHubWalletTransaction iwt
-                 where date(iwt.creationTs) between '{start_date}' and '{end_date}' )
-                 iw ON iw.IHubReferenceId  = mt2.TransactionRefNum
+                 (SELECT DISTINCT iwt.IHubReferenceId AS IHubReferenceId
+            FROM ihubcore.IHubWalletTransaction iwt
+            WHERE DATE(iwt.CreationTs) BETWEEN '{start_date}' AND CURRENT_DATE()
+            ) a   ON a.IHubReferenceId = mt2.TransactionRefNum
             WHERE
             DATE(pst.CreationTs) BETWEEN '{start_date}' AND '{end_date}' 
         '''
