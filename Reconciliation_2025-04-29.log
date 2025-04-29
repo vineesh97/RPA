@@ -114,3 +114,25 @@
 2025-04-29 13:51:56,798 - INFO - Reconciliation Ends
 2025-04-29 13:51:56,997 - INFO - Report successfully exported for Aeps
 2025-04-29 13:51:56,997 - INFO - ----------------------------------------------------------------------------------
+2025-04-29 15:16:48,882 - INFO - ------------------------------------------------------------------------------------
+2025-04-29 15:16:48,882 - INFO - Request received to filter data
+2025-04-29 15:16:49,947 - INFO - ------------------------------------------------------------------------------------
+2025-04-29 15:16:49,952 - INFO - Request received to filter data
+2025-04-29 15:16:53,674 - INFO - Records found within the date range. Running reconciliation...
+2025-04-29 15:16:53,674 - INFO - Entering Reconciliation for Aeps Service
+2025-04-29 15:16:53,674 - INFO - Records found within the date range. Running reconciliation...
+2025-04-29 15:16:53,679 - INFO - Aeps service: Column 'UTR' renamed to 'REFID'
+2025-04-29 15:16:53,679 - INFO - Entering Reconciliation for Aeps Service
+2025-04-29 15:16:53,679 - INFO - Fetching data from HUB for Aeps
+2025-04-29 15:16:53,684 - INFO - Aeps service: Column 'UTR' renamed to 'REFID'
+2025-04-29 15:16:53,684 - INFO - Fetching data from HUB for Aeps
+2025-04-29 15:16:55,029 - INFO - Filteration Starts
+2025-04-29 15:16:55,139 - INFO - Filteration Starts
+2025-04-29 15:16:55,230 - INFO - Filteration Ends
+2025-04-29 15:16:55,231 - INFO - Reconciliation Ends
+2025-04-29 15:16:55,246 - INFO - Filteration Ends
+2025-04-29 15:16:55,247 - INFO - Reconciliation Ends
+2025-04-29 15:16:56,403 - INFO - Report successfully exported for Aeps
+2025-04-29 15:16:56,403 - INFO - ----------------------------------------------------------------------------------
+2025-04-29 15:16:56,423 - INFO - Report successfully exported for Aeps
+2025-04-29 15:16:56,423 - INFO - ----------------------------------------------------------------------------------

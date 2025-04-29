@@ -136,9 +136,8 @@ def recharge_Service(start_date, end_date,df_excel,service_name):
              WHEN iw.IHubReferenceId  IS NOT NULL THEN 'Yes'
                 ELSE 'No'
             END AS Ihub_Ledger_status
-        FROM tenantinetcsc.MasterTransaction mt
-        LEFT JOIN ihubcore.MasterTransaction mt2
-            ON mt.Id = mt2.TenantMasterTransactionId
+  
+        from  ihubcore.MasterTransaction mt2
         LEFT JOIN ihubcore.MasterSubTransaction mst
             ON mst.MasterTransactionId = mt2.Id
         LEFT JOIN ihubcore.PsRechargeTransaction sn
