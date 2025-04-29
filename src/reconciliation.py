@@ -128,32 +128,31 @@ def recharge_Service(start_date, end_date,df_excel,service_name):
         SELECT 
             mt2.TransactionRefNum AS IHUB_REFERENCE,
             sn.requestID AS vendor_reference,
-            mt.TransactionStatus AS Tenant_Status,
             u.UserName,
             mt2.TransactionStatus AS IHUB_Master_status,
             mst.TransactionStatus AS MasterSubTrans_status,
             sn.CreationTs AS service_date,
             sn.rechargeStatus AS {service_name}_status
             CASE
-             WHEN iw.IHubReferenceId  IS NOT NULL THEN 'Yes'
-                ELSE 'No'
+            WHEN iw.IHubReferenceId  IS NOT NULL THEN 'Yes'
+            ELSE 'No'
             END AS Ihub_Ledger_status
-        FROM tenantinetcsc.MasterTransaction mt
-        LEFT JOIN ihubcore.MasterTransaction mt2
+            FROM tenantinetcsc.MasterTransaction mt
+            LEFT JOIN ihubcore.MasterTransaction mt2
             ON mt.Id = mt2.TenantMasterTransactionId
-        LEFT JOIN ihubcore.MasterSubTransaction mst
+            LEFT JOIN ihubcore.MasterSubTransaction mst
             ON mst.MasterTransactionId = mt2.Id
-        LEFT JOIN ihubcore.PsRechargeTransaction sn
+            LEFT JOIN ihubcore.PsRechargeTransaction sn
             ON sn.MasterSubTransactionId = mst.Id
-        LEFT JOIN tenantinetcsc.EboDetail ed
+            LEFT JOIN tenantinetcsc.EboDetail ed
             ON mt.EboDetailId = ed.Id
-        LEFT JOIN tenantinetcsc.`User` u
+            LEFT JOIN tenantinetcsc.`User` u
             ON u.id = ed.UserId
-        LEFT JOIN
-        (SELECT DISTINCT iwt.IHubReferenceId FROM IHubWalletTransaction iwt ) iw ON iw.IHubReferenceId  = mt2.TransactionRefNum
-        WHERE mt2.TenantDetailId = 1
+            LEFT JOIN
+            (SELECT DISTINCT iwt.IHubReferenceId FROM IHubWalletTransaction iwt ) iw ON iw.IHubReferenceId  = mt2.TransactionRefNum
+            WHERE mt2.TenantDetailId = 1
             AND DATE(sn.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
-    '''
+        '''
 
     
     #Reading data from Server
@@ -214,53 +213,3 @@ def aeps_Service(start_date, end_date,df_excel,service_name):
     result=filtering_Data(df_db,df_excel,service_name)
     return result
 #---------------------------------------------------------------------------------------
-#IMT SERVICE FUNCTION
-def IMT_Service(start_date,end_date,df_excel,service_name):
-     logger.info(f"Fetching data from HUB for {service_name}")
-     query = f'''
-           SELECT
-            mt2.TransactionRefNum,
-            pst.VendorReferenceId,
-            mt.TransactionStatus AS Tenant_Status,
-            u.UserName,
-            mt2.TransactionStatus AS HUB_Master_status,
-            mst.TransactionStatus AS MasterSubTrans_status,
-            pst.PaySprintTransStatus as {service_name}_status,
-            CASE
-            WHEN iw.IHubReferenceId  IS NOT NULL THEN 'Yes'
-            ELSE 'No'
-                END AS Ihub_Ledger_status
-            FROM
-                tenantinetcsc.MasterTransaction mt
-            LEFT JOIN
-                ihubcore.MasterTransaction mt2 ON mt.Id = mt2.TenantMasterTransactionId
-            LEFT JOIN
-                ihubcore.MasterSubTransaction mst ON mst.MasterTransactionId = mt2.Id
-            LEFT JOIN
-                ihubcore.PaySprint_Transaction pst ON pst.MasterSubTransactionId = mst.Id
-            LEFT JOIN
-                tenantinetcsc.EboDetail ed ON mt.EboDetailId = ed.Id
-            LEFT JOIN
-                tenantinetcsc.`User` u ON u.id = ed.UserId
-            LEFT JOIN
-                (SELECT DISTINCT iwt.IHubReferenceId FROM IHubWalletTransaction iwt ) iw ON iw.IHubReferenceId  = mt2.TransactionRefNum
-            WHERE
-            DATE(pst.CreationTs) BETWEEN '{start_date}' AND '{end_date}' 
-        '''
-        #Reading data from Server
-     df_db = pd.read_sql(query, con=engine)
-     df_excel['STATUS'] = df_excel['STATUS'].replace('Refunded', 'failed')
-     #mapping status name with enum
-     status_mapping = {
-         0: "unknown",
-         1: "success",
-         2: "failed",
-         3: "inprogress",
-         4: "partialsuccuess"
-         }
-     df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(lambda x: status_mapping.get(x, x))
-    #calling filtering function
-     result=filtering_Data(df_db,df_excel,service_name)
-     return result
-
-#-------------------------------------------------------------------
