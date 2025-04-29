@@ -13,7 +13,7 @@ def run_Reconciliation(start_date,end_date,service_name,df_excel):
             logger.info("Recharge service: Column 'REFID' renamed to 'REFID'")
     
     if service_name == 'Aeps':
-            df_excel = df_excel.rename(columns={'SERIALNUMBER': 'REFID'})
+            df_excel = df_excel.rename(columns={'UTR': 'REFID'})
             logger.info("Aeps service: Column 'SERIALNUMBER' renamed to 'REFID'")
     
 
@@ -43,7 +43,7 @@ def filtering_Data (df_db,df_excel,service_name):
         return df[existing_cols].copy()
     
 
-    required_columns = ["CATEGORY", "REFID", "IHUB_REFERENCE", "UserName", "AMOUNT", "STATUS", "IHUB_Master_status", "service_date","Ihub_Ledger_status"]
+    required_columns = ["CATEGORY", "REFID", "IHUB_REFERENCE", "UserName", "AMOUNT", "STATUS", "IHUB_Master_status",f"{service_name}""_status","Ihub_Ledger_status"]
 
     not_in_vendor = df_db[~df_db["vendor_reference"].isin(df_excel["REFID"])].copy()
     not_in_vendor["CATEGORY"] = "NOT_IN_VENDOR"
@@ -176,29 +176,38 @@ def recharge_Service(start_date, end_date,df_excel,service_name):
 def aeps_Service(start_date, end_date,df_excel,service_name):
     logger.info(f"Fetching data from HUB for {service_name}")
     query = f'''
-            select mt2.TransactionRefNum ,pat.requestID as vendor_reference ,mt.TransactionStatus as Tenant_Status,u.UserName ,mt2.TransactionStatus as IHUB_Master_status,
-            mst.TransactionStatus as MasterSubTrans_status,pat.TransStatus as {service_name}_status
-            from tenantinetcsc.MasterTransaction mt
-            left join ihubcore.MasterTransaction mt2
-            on mt.Id =mt2.TenantMasterTransactionId
-            left join ihubcore.MasterSubTransaction mst
-            on mst.MasterTransactionId=mt2.Id
-            left join ihubcore.PsAepsTransaction pat
-            on pat.MasterSubTransactionId =mst.Id
-            left join tenantinetcsc.EboDetail ed
-            on mt.EboDetailId =ed.Id
-            left join tenantinetcsc.`User` u 
-            on u.id=ed.UserId
-            where mt2.TenantDetailId = 1 and
-            DATE(pat.CreationTs) BETWEEN '{start_date}' AND '{end_date}' '''
+           SELECT mt2.Id ,
+            mt2.TransactionRefNum AS IHUB_REFERENCE,
+            pst.BankRrn as vendor_reference ,
+            mt2.TransactionStatus AS IHUB_Master_status,
+            mst.TransactionStatus AS MasterSubTrans_status,
+            pst.TransStatus as {service_name}_status,u.UserName,
+            CASE when iw.IHubReferenceId IS NOT NULL THEN 'Yes'
+            ELSE 'NO'
+            END AS Ihub_Ledger_status
+            FROM  ihubcore.MasterTransaction mt2
+            LEFT JOIN 
+            ihubcore.MasterSubTransaction mst ON mst.MasterTransactionId = mt2.Id
+            LEFT JOIN 
+            ihubcore.PsAepsTransaction pst ON pst.MasterSubTransactionId = mst.Id 
+            left join tenantinetcsc.EboDetail ed on ed.Id = mt2.EboDetailId 
+            left join tenantinetcsc.`User` u  on u.id = ed.UserId 
+            left join (Select DISTINCT iwt.IHubReferenceId from ihubcore.IHubWalletTransaction iwt 
+            where date(iwt.creationTs) between '{start_date}' and '{end_date}' ) as iw 
+            on iw.IHubReferenceId =mt2.TransactionRefNum 
+            WHERE mt2.TenantDetailId = 1 and pst.TransMode =2 and
+            DATE(pst.CreationTs)Between '{start_date}' AND '{end_date}' 
+        '''
     #Reading data from Server
     df_db = pd.read_sql(query, con=engine)
     #mapping status name with enum
     status_mapping = {
+    255:"initiated",
+    254:"failedwithothercase",
     1: "success",
-    2: "pending",
-    3: "failed",
-    4: "instant failed"
+    2: "timeout",
+    0: "failed",
+    3: "inprocess"
     }
     df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(lambda x: status_mapping.get(x, x))
     #calling filtering function
@@ -216,7 +225,7 @@ def IMT_Service(start_date,end_date,df_excel,service_name):
             u.UserName,
             mt2.TransactionStatus AS HUB_Master_status,
             mst.TransactionStatus AS MasterSubTrans_status,
-            pst.PaySprintTransStatus,
+            pst.PaySprintTransStatus as {service_name}_status,
             CASE
             WHEN iw.IHubReferenceId  IS NOT NULL THEN 'Yes'
             ELSE 'No'
