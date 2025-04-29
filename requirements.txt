@@ -1,5 +1,0 @@
-pandas
-pymysql
-openpyxl
-sqlalchemy
-vineesh the mass
