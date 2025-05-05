@@ -21,7 +21,7 @@ def run_Reconciliation(start_date,end_date,service_name,transaction_type,df_exce
         result = recharge_Service(start_date,end_date,df_excel,service_name)
     if service_name=='Aeps':
         result = aeps_Service(start_date,end_date,service_name,transaction_type,df_excel)
-    if service_name=='PaySprint-IMT':
+    if service_name=='IMT':
         result= IMT_Service(start_date,end_date,df_excel,service_name)
     return result
  
@@ -55,11 +55,10 @@ def filtering_Data (df_db,df_excel,service_name):
     not_in_portal=safe_column_select(not_in_portal, required_columns)
 
     # 3. Vendor success but not in Portal
-    not_in_portal_vendor_success = df_excel[
-    (~df_excel["REFID"].isin(df_db["vendor_reference"])) & 
-    (df_excel["STATUS"].str.lower() == "success") & 
-    (df_db["Ihub_Ledger_status"].str.lower() == "no")
-        ].copy()    
+    not_in_portal_vendor_success = df_excel[(~df_excel["REFID"].isin(df_db["vendor_reference"])) & 
+        (df_excel["STATUS"].str.lower() == "success") & 
+        (df_db["Ihub_Ledger_status"].str.lower() == "no")].copy()
+        
     not_in_portal_vendor_success["CATEGORY"] = "NOT_IN_PORTAL_VENDOR_SUCCESS"
     not_in_portal_vendor_success = safe_column_select(not_in_portal_vendor_success, required_columns)
 
@@ -180,36 +179,35 @@ def recharge_Service(start_date, end_date,df_excel,service_name):
 def aeps_Service(start_date,end_date,service_name,transaction_type,df_excel):
     logger.info(f"Fetching data from HUB for {service_name}")
     query = f'''
-          SELECT 
-    mt2.TransactionRefNum AS IHUB_REFERENCE,
-    pat.BankRrn AS vendor_reference,
-    u.UserName,
-    mt2.TransactionStatus AS IHUB_Master_status,
-    mst.TransactionStatus AS MasterSubTrans_status,
-    pat.CreationTs AS service_date,
-    pat.TransStatus AS {service_name}_status,
-    CASE 
+        SELECT 
+        mt2.TransactionRefNum AS IHUB_REFERENCE,
+        pat.BankRrn AS vendor_reference,
+        u.UserName,
+        mt2.TransactionStatus AS IHUB_Master_status,
+        mst.TransactionStatus AS MasterSubTrans_status,
+        pat.CreationTs AS service_date,
+        pat.TransStatus AS {service_name}_status,
+        CASE 
         WHEN a.IHubReferenceId IS NOT NULL THEN 'Yes'
         ELSE 'No'
-    END AS Ihub_Ledger_status
-FROM ihubcore.MasterTransaction mt2 
-LEFT JOIN ihubcore.MasterSubTransaction mst
-    ON mst.MasterTransactionId = mt2.Id
-LEFT JOIN ihubcore.PsAepsTransaction pat 
-    ON pat.MasterSubTransactionId = mst.Id
-LEFT JOIN tenantinetcsc.EboDetail ed
-    ON mt2.EboDetailId = ed.Id
-LEFT JOIN tenantinetcsc.`User` u
-    ON u.id = ed.UserId
-LEFT JOIN (
-    SELECT DISTINCT iwt.IHubReferenceId AS IHubReferenceId
-    FROM ihubcore.IHubWalletTransaction iwt
-    WHERE DATE(iwt.CreationTs) BETWEEN '{start_date}' AND CURRENT_DATE()
-) a 
-    ON a.IHubReferenceId = mt2.TransactionRefNum
-WHERE mt2.TenantDetailId = 1 and pat.TransMode={transaction_type}
-    AND DATE(pat.CreationTs) BETWEEN '{start_date}' AND '{end_date}';
-;
+        END AS Ihub_Ledger_status
+        FROM ihubcore.MasterTransaction mt2 
+        LEFT JOIN ihubcore.MasterSubTransaction mst
+        ON mst.MasterTransactionId = mt2.Id
+        LEFT JOIN ihubcore.PsAepsTransaction pat 
+        ON pat.MasterSubTransactionId = mst.Id
+        LEFT JOIN tenantinetcsc.EboDetail ed
+        ON mt2.EboDetailId = ed.Id
+        LEFT JOIN tenantinetcsc.`User` u
+        ON u.id = ed.UserId
+        LEFT JOIN (
+        SELECT DISTINCT iwt.IHubReferenceId AS IHubReferenceId
+        FROM ihubcore.IHubWalletTransaction iwt
+        WHERE DATE(iwt.CreationTs) BETWEEN '{start_date}' AND CURRENT_DATE()
+        ) a 
+        ON a.IHubReferenceId = mt2.TransactionRefNum
+        WHERE mt2.TenantDetailId = 1 and pat.TransMode={transaction_type}
+        AND DATE(pat.CreationTs) BETWEEN '{start_date}' AND '{end_date}';
     '''
     df_db = pd.read_sql(query, con=engine)
     #mapping status name with enum
@@ -230,39 +228,72 @@ WHERE mt2.TenantDetailId = 1 and pat.TransMode={transaction_type}
 def IMT_Service(start_date,end_date,df_excel,service_name):
      logger.info(f"Fetching data from HUB for {service_name}")
      query = f'''
-           SELECT
-            mt2.TransactionRefNum AS IHUB_REFERENCE,
-            pst.VendorReferenceId as vendor_reference,
-            u.UserName,
-            mt2.TransactionStatus AS IHUB_Master_status,
-            mst.TransactionStatus AS MasterSubTrans_status,
-            pst.PaySprintTransStatus as {service_name}_status,
-            CASE
-            WHEN iw.IHubReferenceId  IS NOT NULL THEN 'Yes'
-            ELSE 'No'
+                SELECT mt2.TransactionRefNum AS IHUB_REFERENCE,
+                pst.VendorReferenceId as vendor_reference,
+                u.UserName,
+                mt2.TransactionStatus AS IHUB_Master_status,
+                mst.TransactionStatus AS MasterSubTrans_status,
+                pst.PaySprintTransStatus as {service_name}_status,
+                CASE
+                WHEN a.IHubReferenceId  IS NOT NULL THEN 'Yes'
+                ELSE 'No'
                 END AS Ihub_Ledger_status
-            FROM
+                FROM
                 ihubcore.MasterTransaction mt2
-            LEFT JOIN
+                LEFT JOIN
                 ihubcore.MasterSubTransaction mst ON mst.MasterTransactionId = mt2.Id
-            LEFT JOIN
+                LEFT JOIN
                 ihubcore.PaySprint_Transaction pst ON pst.MasterSubTransactionId = mst.Id
-            LEFT JOIN
-                tenantinetcsc.EboDetail ed ON mt.EboDetailId = ed.Id
-            LEFT JOIN
+                LEFT JOIN
+                tenantinetcsc.EboDetail ed ON mt2.EboDetailId = ed.Id
+                LEFT JOIN
                 tenantinetcsc.`User` u ON u.id = ed.UserId
-            LEFT JOIN
-                 (SELECT DISTINCT iwt.IHubReferenceId AS IHubReferenceId
-            FROM ihubcore.IHubWalletTransaction iwt
-            WHERE DATE(iwt.CreationTs) BETWEEN '{start_date}' AND CURRENT_DATE()
-            ) a   ON a.IHubReferenceId = mt2.TransactionRefNum
-            WHERE
-            DATE(pst.CreationTs) BETWEEN '{start_date}' AND '{end_date}' 
-        '''
+                LEFT JOIN
+                (SELECT DISTINCT iwt.IHubReferenceId AS IHubReferenceId
+                FROM ihubcore.IHubWalletTransaction iwt
+                WHERE DATE(iwt.CreationTs) BETWEEN '{start_date}' AND CURRENT_DATE()
+                ) a ON a.IHubReferenceId = mt2.TransactionRefNum
+                WHERE
+                DATE(pst.CreationTs) BETWEEN '{start_date}' AND '{end_date}' 
+            '''
         #Reading data from Server
      df_db = pd.read_sql(query, con=engine)
-     df_excel['STATUS'] = df_excel['STATUS'].replace('Refunded', 'failed')
-     #mapping status name with enum
+     df_db['vendor_reference'] = df_db['vendor_reference'].astype(str)
+     df_excel['REFID'] = df_excel['REFID'].astype(str)
+     refunded_trans_ids=df_excel[df_excel["STATUS"].isin(['Refunded','Failed'])]
+     #print(refunded_trans_ids)
+     #Extract the REFID column as a list of strings (safely handling quotes)
+     refunded_ids_list = refunded_trans_ids['REFID'].astype(str).tolist()
+     # Join the list into a properly quoted string for SQL
+     #refunded_ids_string = "\n   UNION ALL\n   ".join(
+     #f"SELECT '{refid}' AS TransactionRefNumVendor" for refid in refunded_ids_list)   
+     refunded_ids_string = ",".join(f"'{refid}'" for refid in refunded_ids_list)
+     #print(refunded_ids_string)
+     # Now build your SQL query properly
+     query = f"""
+           SELECT pst.VendorReferenceId,
+       CASE WHEN mr.MasterSubTransactionId IS NOT NULL THEN 'refunded'
+            ELSE 'not_refunded'
+       END AS Ihub_refund_status
+            FROM ihubcore.PaySprint_Transaction pst
+            LEFT JOIN ihubcore.MasterRefund mr
+            ON mr.MasterSubTransactionId = pst.MasterSubTransactionId
+            WHERE pst.VendorReferenceId IN ({refunded_ids_string})
+            AND DATE(pst.creationTs) BETWEEN "{start_date}" AND "{end_date}"
+        """
+     #print(query)
+     refunded_db = pd.read_sql(query, con=engine)
+     #print(refunded_db)
+     refunded_db['VendorReferenceId'] = refunded_db['VendorReferenceId'].astype(str)
+     merged_df = df_db.merge(refunded_db,how='left',left_on='vendor_reference',right_on='VendorReferenceId')
+     merged_df.drop(columns=['VendorReferenceId'], inplace=True)
+     df_db=merged_df
+     df_db['Ihub_refund_status'] = df_db['Ihub_refund_status'].fillna('not_applicable')
+     #print(df_db)
+     #df_db.to_excel("C:\\Users\\Sathyaswaruban\\Documents\\IMT.xlsx", index=False)
+     #df_excel['STATUS'] = df_excel['STATUS'].replace('Refunded', 'failed')
+     logger.info("Refunded status in IMT excel renamed to failed since IHUB portal don't have refunded status")
+     #mapping status name with enums
      status_mapping = {
          0: "unknown",
          1: "success",
@@ -274,44 +305,41 @@ def IMT_Service(start_date,end_date,df_excel,service_name):
     #calling filtering function
      result=filtering_Data(df_db,df_excel,service_name)
      return result
-
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
-#BBPS FUNCTIONn
+#BBPS FUNCTION
 def Bbps_service(start_date,end_date,df_excel,service_name):
     logger.info(f"Fetching data from HUB for {service_name}")
     query = f'''
-           SELECT
-            mt2.TransactionRefNum AS IHUB_REFERENCE,
-            pst.VendorReferenceId as vendor_reference,
-            u.UserName,
-            mt2.TransactionStatus AS IHUB_Master_status,
+        SELECT mt2.Id ,
+            mt2.TransactionRefNum,
+            bbp.TxnRefId ,
+            mt2.TransactionStatus AS HUB_Master_status,
             mst.TransactionStatus AS MasterSubTrans_status,
-            pst.PaySprintTransStatus as {service_name}_status,
-            CASE
-            WHEN iw.IHubReferenceId  IS NOT NULL THEN 'Yes'
-            ELSE 'No'
-                END AS Ihub_Ledger_status
-            FROM
-                ihubcore.MasterTransaction mt2
-            LEFT JOIN
-                ihubcore.MasterSubTransaction mst ON mst.MasterTransactionId = mt2.Id
-            LEFT JOIN
-                ihubcore.PaySprint_Transaction pst ON pst.MasterSubTransactionId = mst.Id
-            LEFT JOIN
-                tenantinetcsc.EboDetail ed ON mt.EboDetailId = ed.Id
-            LEFT JOIN
-                tenantinetcsc.`User` u ON u.id = ed.UserId
-            LEFT JOIN
-                (SELECT DISTINCT iwt.IHubReferenceId FROM IHubWalletTransaction iwt
-                 where date(iwt.creationTs) between '{start_date}' and '{end_date}' )
-                 iw ON iw.IHubReferenceId  = mt2.TransactionRefNum
+            bbp.TransactionStatusType ,u.UserName,bbp.HeadReferenceId ,
+            CASE when iw.IHubReferenceId IS NOT NULL THEN 'Yes'
+            ELSE 'NO'
+            END AS IhubLedger_status,
+                CASE when bf.HeadReferenceId IS NOT NULL THEN 'Yes'
+            ELSE 'NO'
+            END AS Billfetch_status
+            FROM  ihubcore.MasterTransaction mt2
+            LEFT JOIN 
+            ihubcore.MasterSubTransaction mst ON mst.MasterTransactionId = mt2.Id
+            LEFT JOIN 
+            ihubcore.BBPS_BillPay bbp ON bbp.MasterSubTransactionId = mst.Id 
+            left join tenantinetcsc.EboDetail ed on ed.Id = mt2.EboDetailId 
+            left join tenantinetcsc.`User` u  on u.id = ed.UserId 
+            left join (Select DISTINCT iwt.IHubReferenceId from ihubcore.IHubWalletTransaction iwt 
+            where date(iwt.creationTs) between '{start_date}' and CURRENT_DATE() ) as iw 
+            on iw.IHubReferenceId =mt2.TransactionRefNum 
+            left join (select DISTINCT bbf.HeadReferenceId  from ihubcore.BBPS_BillFetch bbf where date(bbf.creationTs) 
+            between '{start_date}' and current_date()) as bf on bf.HeadReferenceId  = bbp.HeadReferenceId
             WHERE
-            DATE(pst.CreationTs) BETWEEN '{start_date}' AND '{end_date}' 
+            DATE(bbp.CreationTs) BETWEEN '{start_date}' AND '{end_date}' 
         '''
         #Reading data from Server
     df_db = pd.read_sql(query, con=engine)
-    df_excel['STATUS'] = df_excel['STATUS'].replace('Refunded', 'failed')
     #mapping status name with enum
     status_mapping = {
       0: "unknown",
