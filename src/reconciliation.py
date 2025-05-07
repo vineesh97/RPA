@@ -10,6 +10,7 @@ def run_Reconciliation(start_date,end_date,service_name,transaction_type,df_exce
 
     if service_name == 'Recharge':
             df_excel = df_excel.rename(columns={'REFID': 'REFID', 'DATE': 'VEND_DATE'})
+            df_excel = df_excel.rename(columns={'REFID': 'REFID', 'DATE': 'VEND_DATE'})
             logger.info("Recharge service: Column 'REFID' renamed to 'REFID'")
     
     if service_name == 'Aeps':
@@ -46,6 +47,7 @@ def filtering_Data (df_db,df_excel,service_name):
     4: "partial success",
     }
     columns_to_update = ["IHUB_Master_status", "MasterSubTrans_status"]
+    columns_to_update = ["IHUB_Master_status", "MasterSubTrans_status"]
     df_db[columns_to_update] = df_db[columns_to_update].apply(lambda x:x.map(status_mapping).fillna(x))
 
     def safe_column_select(df, columns):
@@ -53,6 +55,7 @@ def filtering_Data (df_db,df_excel,service_name):
         return df[existing_cols].copy()
     
 
+    required_columns = ["CATEGORY", "REFID", "VEND_DATE","IHUB_REFERENCE","vendor_reference", "UserName", "AMOUNT", "STATUS", "IHUB_Master_status",f"{service_name}_status","service_date","Ihub_Ledger_status"]
     required_columns = ["CATEGORY", "REFID", "VEND_DATE","IHUB_REFERENCE","vendor_reference", "UserName", "AMOUNT", "STATUS", "IHUB_Master_status",f"{service_name}_status","service_date","Ihub_Ledger_status"]
 
     not_in_vendor = df_db[~df_db["vendor_reference"].isin(df_excel["REFID"])].copy()
@@ -257,6 +260,12 @@ def aeps_Service(start_date,end_date,service_name,transaction_type,df_excel):
     1: 'success',
     255: 'initiated',
     254: 'failed',
+    0: 'failed',
+    3: 'inprocess',    
+    2: 'timeout',
+    1: 'success',
+    255: 'initiated',
+    254: 'failed',
     0: 'failed'
     }
     df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(lambda x: status_mapping.get(x, x))
@@ -290,6 +299,10 @@ def IMT_Service(start_date,end_date,df_excel,service_name):
             LEFT JOIN
                 tenantinetcsc.`User` u ON u.id = ed.UserId
             LEFT JOIN
+                 (SELECT DISTINCT iwt.IHubReferenceId AS IHubReferenceId
+            FROM ihubcore.IHubWalletTransaction iwt
+            WHERE DATE(iwt.CreationTs) BETWEEN '{start_date}' AND CURRENT_DATE()
+            ) a   ON a.IHubReferenceId = mt2.TransactionRefNum
                  (SELECT DISTINCT iwt.IHubReferenceId AS IHubReferenceId
             FROM ihubcore.IHubWalletTransaction iwt
             WHERE DATE(iwt.CreationTs) BETWEEN '{start_date}' AND CURRENT_DATE()
