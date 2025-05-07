@@ -1,9 +1,9 @@
 CONFIG = {
     "db": {
-        "user": "root",
-        "password": "Admin%40123",
-        "host": "192.168.1.70",
-        "database": "ihub_dev",
-        "port": "3307"
+        "user": "rpa",
+        "password": "inet%4012345#",
+        "host": "192.168.1.3",
+        "database": "ihubcore",
+        "port": "3306"
     }
 }

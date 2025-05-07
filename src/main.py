@@ -3,8 +3,9 @@ import pandas as pd
 from logger_config import logger
     
 
-def main(from_date, to_date, service_name, file):
+def main(from_date, to_date, service_name, file,transaction_type):
     try:
+        logger.info("Entered Main Function...")
         # Read the uploaded Excel file
         df_excel = pd.read_excel(file, dtype=str)
         #print(df_excel)
@@ -25,7 +26,7 @@ def main(from_date, to_date, service_name, file):
             logger.info("Records found within the date range. Running reconciliation...")
 
             # Call the reconciliation function
-            result = run_Reconciliation(from_date, to_date, service_name, df_excel)
+            result = run_Reconciliation(from_date, to_date, service_name,transaction_type, df_excel)
             logger.info("Reconciliation Ends")
             return result  # Should be a dictionary of DataFrames
 
