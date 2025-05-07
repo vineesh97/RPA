@@ -1,0 +1,255 @@
+2025-04-30 14:02:38,497 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 14:02:38,509 - INFO - Request received to filter data
+2025-04-30 14:02:38,510 - INFO - Entered Main Function...
+2025-04-30 14:02:43,769 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 14:02:43,769 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 14:02:43,788 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 14:02:43,788 - INFO - Fetching data from HUB for Recharge
+2025-04-30 14:02:44,304 - ERROR - Error in filter_data(): 'status'
+2025-04-30 15:23:58,480 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 15:23:58,480 - INFO - Request received to filter data
+2025-04-30 15:23:58,485 - INFO - Entered Main Function...
+2025-04-30 15:24:01,943 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 15:24:01,945 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 15:24:01,951 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 15:24:01,951 - INFO - Fetching data from HUB for Recharge
+2025-04-30 15:24:03,110 - ERROR - Error in filter_data(): 'status'
+2025-04-30 15:41:40,333 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 15:41:40,334 - INFO - Request received to filter data
+2025-04-30 15:41:40,340 - INFO - Entered Main Function...
+2025-04-30 15:41:41,235 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 15:41:41,236 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 15:41:41,243 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 15:41:41,243 - INFO - Fetching data from HUB for Recharge
+2025-04-30 15:41:41,487 - ERROR - Error in filter_data(): 'status'
+2025-04-30 15:45:48,025 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 15:45:48,026 - INFO - Request received to filter data
+2025-04-30 15:45:48,026 - INFO - Entered Main Function...
+2025-04-30 15:45:48,692 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 15:45:48,693 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 15:45:48,693 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 15:45:48,693 - INFO - Fetching data from HUB for Recharge
+2025-04-30 15:45:48,852 - ERROR - Error in filter_data(): 'status'
+2025-04-30 15:47:20,209 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 15:47:20,210 - INFO - Request received to filter data
+2025-04-30 15:47:20,210 - INFO - Entered Main Function...
+2025-04-30 15:47:20,747 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 15:47:20,747 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 15:47:20,748 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 15:47:20,748 - INFO - Fetching data from HUB for Recharge
+2025-04-30 15:47:20,868 - ERROR - Error in filter_data(): 'status'
+2025-04-30 15:47:24,587 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 15:47:24,588 - INFO - Request received to filter data
+2025-04-30 15:47:24,588 - INFO - Entered Main Function...
+2025-04-30 15:47:24,649 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 15:47:24,649 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 15:47:24,650 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 15:47:24,651 - INFO - Fetching data from HUB for Recharge
+2025-04-30 15:47:24,736 - ERROR - Error in filter_data(): 'status'
+2025-04-30 15:48:09,243 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 15:48:09,245 - INFO - Request received to filter data
+2025-04-30 15:48:09,246 - INFO - Entered Main Function...
+2025-04-30 15:48:10,076 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 15:48:10,076 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 15:48:10,083 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 15:48:10,084 - INFO - Fetching data from HUB for Recharge
+2025-04-30 15:48:10,460 - ERROR - Error in filter_data(): 'status'
+2025-04-30 15:49:47,752 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 15:49:47,755 - INFO - Request received to filter data
+2025-04-30 15:49:47,756 - INFO - Entered Main Function...
+2025-04-30 15:49:48,631 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 15:49:48,632 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 15:49:48,633 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 15:49:48,634 - INFO - Fetching data from HUB for Recharge
+2025-04-30 15:49:48,841 - ERROR - Error in filter_data(): 'status'
+2025-04-30 15:50:06,467 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 15:50:06,467 - INFO - Request received to filter data
+2025-04-30 15:50:06,467 - INFO - Entered Main Function...
+2025-04-30 15:50:06,609 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 15:50:06,609 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 15:50:06,611 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 15:50:06,611 - INFO - Fetching data from HUB for Recharge
+2025-04-30 15:50:06,961 - ERROR - Error in filter_data(): 'status'
+2025-04-30 15:50:27,807 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 15:50:27,807 - INFO - Request received to filter data
+2025-04-30 15:50:27,808 - INFO - Entered Main Function...
+2025-04-30 15:50:27,883 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 15:50:27,883 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 15:50:27,884 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 15:50:27,884 - INFO - Fetching data from HUB for Recharge
+2025-04-30 15:50:28,001 - ERROR - Error in filter_data(): 'status'
+2025-04-30 15:51:43,974 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 15:51:43,975 - INFO - Request received to filter data
+2025-04-30 15:51:43,975 - INFO - Entered Main Function...
+2025-04-30 15:51:44,607 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 15:51:44,607 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 15:51:44,608 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 15:51:44,608 - INFO - Fetching data from HUB for Recharge
+2025-04-30 15:51:44,807 - ERROR - Error in filter_data(): 'status'
+2025-04-30 16:04:31,118 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 16:04:31,119 - INFO - Request received to filter data
+2025-04-30 16:04:31,120 - INFO - Entered Main Function...
+2025-04-30 16:04:31,815 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 16:04:31,815 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 16:04:31,816 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 16:04:31,816 - INFO - Fetching data from HUB for Recharge
+2025-04-30 16:04:31,936 - ERROR - Error in filter_data(): 'status'
+2025-04-30 16:05:43,621 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 16:05:43,621 - INFO - Request received to filter data
+2025-04-30 16:05:43,622 - INFO - Entered Main Function...
+2025-04-30 16:05:43,679 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 16:05:43,679 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 16:05:43,680 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 16:05:43,681 - INFO - Fetching data from HUB for Recharge
+2025-04-30 16:05:43,699 - ERROR - Error in filter_data(): 'status'
+2025-04-30 16:06:15,545 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 16:06:15,545 - INFO - Request received to filter data
+2025-04-30 16:06:15,546 - INFO - Entered Main Function...
+2025-04-30 16:06:16,001 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 16:06:16,002 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 16:06:16,002 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 16:06:16,002 - INFO - Fetching data from HUB for Recharge
+2025-04-30 16:06:16,256 - ERROR - Error in filter_data(): 'status'
+2025-04-30 16:12:41,564 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 16:12:41,565 - INFO - Request received to filter data
+2025-04-30 16:12:41,566 - INFO - Entered Main Function...
+2025-04-30 16:12:42,403 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 16:12:42,403 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 16:12:42,409 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 16:12:42,409 - INFO - Fetching data from HUB for Recharge
+2025-04-30 16:12:47,760 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 16:12:47,760 - INFO - Request received to filter data
+2025-04-30 16:12:47,760 - INFO - Entered Main Function...
+2025-04-30 16:12:47,816 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 16:12:47,816 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 16:12:47,818 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 16:12:47,818 - INFO - Fetching data from HUB for Recharge
+2025-04-30 16:12:54,744 - INFO - Filteration Starts
+2025-04-30 16:12:55,280 - ERROR - Error in filter_data(): 'status'
+2025-04-30 16:12:59,652 - INFO - Filteration Starts
+2025-04-30 16:12:59,792 - ERROR - Error in filter_data(): 'status'
+2025-04-30 18:31:59,647 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 18:31:59,647 - INFO - Request received to filter data
+2025-04-30 18:31:59,648 - INFO - Entered Main Function...
+2025-04-30 18:32:00,656 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 18:32:00,656 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 18:32:00,663 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 18:32:00,663 - INFO - Fetching data from HUB for Recharge
+2025-04-30 18:32:08,533 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 18:32:08,533 - INFO - Request received to filter data
+2025-04-30 18:32:08,534 - INFO - Entered Main Function...
+2025-04-30 18:32:09,057 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 18:32:09,057 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 18:32:09,060 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 18:32:09,060 - INFO - Fetching data from HUB for Recharge
+2025-04-30 18:32:12,521 - INFO - Filteration Starts
+2025-04-30 18:32:12,612 - ERROR - Error in filter_data(): 'status'
+2025-04-30 18:32:20,844 - INFO - Filteration Starts
+2025-04-30 18:32:20,878 - ERROR - Error in filter_data(): 'status'
+2025-04-30 18:53:54,536 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 18:53:54,537 - INFO - Request received to filter data
+2025-04-30 18:53:54,537 - INFO - Entered Main Function...
+2025-04-30 18:53:55,885 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 18:53:55,885 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 18:53:55,890 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 18:53:55,890 - INFO - Fetching data from HUB for Recharge
+2025-04-30 18:54:06,579 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 18:54:06,579 - INFO - Request received to filter data
+2025-04-30 18:54:06,579 - INFO - Entered Main Function...
+2025-04-30 18:54:07,071 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 18:54:07,072 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 18:54:07,074 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 18:54:07,074 - INFO - Fetching data from HUB for Recharge
+2025-04-30 18:54:07,621 - INFO - Filteration Starts
+2025-04-30 18:54:07,727 - INFO - Filteration Ends
+2025-04-30 18:54:07,728 - INFO - Reconciliation Ends
+2025-04-30 18:54:08,693 - ERROR - Error in filter_data(): Excel worksheet name 'vendor_success_ihub_success_not_in_ledger' must be <= 31 chars.
+2025-04-30 18:54:18,784 - INFO - Filteration Starts
+2025-04-30 18:54:18,852 - INFO - Filteration Ends
+2025-04-30 18:54:18,853 - INFO - Reconciliation Ends
+2025-04-30 18:54:19,207 - ERROR - Error in filter_data(): Excel worksheet name 'vendor_success_ihub_success_not_in_ledger' must be <= 31 chars.
+2025-04-30 18:54:58,386 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 18:54:58,387 - INFO - Request received to filter data
+2025-04-30 18:54:58,389 - INFO - Entered Main Function...
+2025-04-30 18:54:59,048 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 18:54:59,048 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 18:54:59,051 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 18:54:59,051 - INFO - Fetching data from HUB for Recharge
+2025-04-30 18:54:59,111 - ERROR - Error in filter_data(): 'status'
+2025-04-30 18:55:02,674 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 18:55:02,674 - INFO - Request received to filter data
+2025-04-30 18:55:02,675 - INFO - Entered Main Function...
+2025-04-30 18:55:03,208 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 18:55:03,208 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 18:55:03,212 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 18:55:03,212 - INFO - Fetching data from HUB for Recharge
+2025-04-30 18:55:05,836 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 18:55:05,836 - INFO - Request received to filter data
+2025-04-30 18:55:05,836 - INFO - Entered Main Function...
+2025-04-30 18:55:06,436 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 18:55:06,436 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 18:55:06,441 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 18:55:06,441 - INFO - Fetching data from HUB for Recharge
+2025-04-30 18:55:06,960 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 18:55:06,960 - INFO - Request received to filter data
+2025-04-30 18:55:06,960 - INFO - Entered Main Function...
+2025-04-30 18:55:07,602 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 18:55:07,602 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 18:55:07,609 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 18:55:07,609 - INFO - Fetching data from HUB for Recharge
+2025-04-30 18:55:15,100 - INFO - Filteration Starts
+2025-04-30 18:55:15,176 - INFO - Filteration Ends
+2025-04-30 18:55:15,177 - INFO - Reconciliation Ends
+2025-04-30 18:55:15,517 - ERROR - Error in filter_data(): Excel worksheet name 'vendor_success_ihub_success_not_in_ledger' must be <= 31 chars.
+2025-04-30 18:55:18,266 - INFO - Filteration Starts
+2025-04-30 18:55:18,321 - INFO - Filteration Ends
+2025-04-30 18:55:18,322 - INFO - Reconciliation Ends
+2025-04-30 18:55:18,544 - ERROR - Error in filter_data(): Excel worksheet name 'vendor_success_ihub_success_not_in_ledger' must be <= 31 chars.
+2025-04-30 18:55:19,382 - INFO - Filteration Starts
+2025-04-30 18:55:19,481 - INFO - Filteration Ends
+2025-04-30 18:55:19,482 - INFO - Reconciliation Ends
+2025-04-30 18:55:20,025 - ERROR - Error in filter_data(): Excel worksheet name 'vendor_success_ihub_success_not_in_ledger' must be <= 31 chars.
+2025-04-30 18:55:23,624 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 18:55:23,624 - INFO - Request received to filter data
+2025-04-30 18:55:23,625 - INFO - Entered Main Function...
+2025-04-30 18:55:24,197 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 18:55:24,197 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 18:55:24,199 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 18:55:24,199 - INFO - Fetching data from HUB for Recharge
+2025-04-30 18:55:29,474 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 18:55:29,475 - INFO - Request received to filter data
+2025-04-30 18:55:29,475 - INFO - Entered Main Function...
+2025-04-30 18:55:30,010 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 18:55:30,010 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 18:55:30,013 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 18:55:30,013 - INFO - Fetching data from HUB for Recharge
+2025-04-30 18:55:35,526 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 18:55:35,526 - INFO - Request received to filter data
+2025-04-30 18:55:35,526 - INFO - Entered Main Function...
+2025-04-30 18:55:35,911 - INFO - Filteration Starts
+2025-04-30 18:55:35,977 - INFO - Filteration Ends
+2025-04-30 18:55:35,978 - INFO - Reconciliation Ends
+2025-04-30 18:55:36,349 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 18:55:36,349 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 18:55:36,352 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 18:55:36,352 - INFO - Fetching data from HUB for Recharge
+2025-04-30 18:55:36,435 - ERROR - Error in filter_data(): Excel worksheet name 'vendor_success_ihub_success_not_in_ledger' must be <= 31 chars.
+2025-04-30 18:55:41,772 - INFO - Filteration Starts
+2025-04-30 18:55:41,870 - INFO - Filteration Ends
+2025-04-30 18:55:41,871 - INFO - Reconciliation Ends
+2025-04-30 18:55:42,253 - ERROR - Error in filter_data(): Excel worksheet name 'vendor_success_ihub_success_not_in_ledger' must be <= 31 chars.
+2025-04-30 18:55:48,189 - INFO - Filteration Starts
+2025-04-30 18:55:48,255 - INFO - Filteration Ends
+2025-04-30 18:55:48,256 - INFO - Reconciliation Ends
+2025-04-30 18:55:48,570 - ERROR - Error in filter_data(): Excel worksheet name 'vendor_success_ihub_success_not_in_ledger' must be <= 31 chars.
+2025-04-30 18:55:58,276 - INFO - ------------------------------------------------------------------------------------
+2025-04-30 18:55:58,276 - INFO - Request received to filter data
+2025-04-30 18:55:58,276 - INFO - Entered Main Function...
+2025-04-30 18:55:59,367 - INFO - Records found within the date range. Running reconciliation...
+2025-04-30 18:55:59,367 - INFO - Entering Reconciliation for Recharge Service
+2025-04-30 18:55:59,369 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-04-30 18:55:59,369 - INFO - Fetching data from HUB for Recharge
+2025-04-30 18:56:11,153 - INFO - Filteration Starts
+2025-04-30 18:56:11,909 - INFO - Filteration Ends
+2025-04-30 18:56:11,910 - INFO - Reconciliation Ends
+2025-04-30 18:56:12,943 - ERROR - Error in filter_data(): Excel worksheet name 'vendor_success_ihub_success_not_in_ledger' must be <= 31 chars.
