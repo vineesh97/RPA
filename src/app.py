@@ -17,7 +17,7 @@ from datetime import timedelta
 
 app = Flask(__name__)
 app.secret_key = "4242"
-app.permanent_session_lifetime = timedelta(minutes=5)
+app.permanent_session_lifetime = timedelta(minutes=30)
 
 
 @app.route("/login")
