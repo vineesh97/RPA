@@ -168,13 +168,14 @@ def recharge_Service(start_date, end_date, df_excel, service_name):
             mt2.TransactionStatus AS IHUB_Master_status,
             mst.TransactionStatus AS MasterSubTrans_status,
             sn.CreationTs AS service_date,
-            sn.rechargeStatus AS {service_name}_status,
+            sn.rechargeStatus {service_name}_status,
             CASE
             WHEN a.IHubReferenceId  IS NOT NULL THEN 'Yes'
             ELSE 'No'
             END AS Ihub_Ledger_status
-            FROM 
-            ihubcore.MasterTransaction mt2
+            FROM tenantinetcsc.MasterTransaction mt 
+            left join ihubcore.MasterTransaction mt2
+            on mt.id = mt2.TenantMasterTransactionId 
             LEFT JOIN ihubcore.MasterSubTransaction mst
             ON mst.MasterTransactionId = mt2.Id
             LEFT JOIN ihubcore.PsRechargeTransaction sn
@@ -186,7 +187,7 @@ def recharge_Service(start_date, end_date, df_excel, service_name):
             LEFT JOIN
             (SELECT DISTINCT iwt.IHubReferenceId AS IHubReferenceId
             FROM ihubcore.IHubWalletTransaction iwt
-            WHERE DATE(iwt.CreationTs) BETWEEN '{start_date}' AND CURRENT_DATE()
+            WHERE DATE(iwt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
             ) a
             ON a.IHubReferenceId = mt2.TransactionRefNum
             WHERE DATE(sn.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
