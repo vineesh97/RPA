@@ -20,8 +20,13 @@ app.secret_key = "4242"
 app.permanent_session_lifetime = timedelta(minutes=30)
 
 
+@app.route("/")
+def land():
+    return render_template("login.html")
+
+
 @app.route("/login")
-def Login_page():
+def login_page():
     return render_template("login.html")
 
 
@@ -42,7 +47,7 @@ def form():
 @app.route("/filter_form")
 def home():
     if "username" not in session:
-        return redirect(url_for("Login_page"))
+        return redirect(url_for("login_page"))
     response = make_response(render_template("index.html"))
     response.headers["Cache-Control"] = (
         "no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0"
@@ -131,7 +136,7 @@ def filter_data():
 def logout():
     session.clear()
     session.pop("username", None)
-    return redirect(url_for("Login_page"))
+    return redirect(url_for("login_page"))
 
 
 if __name__ == "__main__":

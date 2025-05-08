@@ -26,6 +26,9 @@ def run_Reconciliation(start_date, end_date, service_name, transaction_type, df_
     if service_name == "Pan_UTI":
         df_excel = df_excel.rename()
         result = Panuti_service(start_date, end_date, df_excel, service_name)
+    if service_name == "BBPS":
+        df_excel = df_excel.rename()
+        result = Bbps_service(start_date, end_date, df_excel, service_name)
     return result
 
 
