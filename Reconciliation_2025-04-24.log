@@ -1,0 +1,202 @@
+<<<<<<< HEAD
+2025-04-24 16:58:19,548 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 16:58:19,548 - INFO - Request received to filter data
+2025-04-24 16:58:22,688 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 16:58:22,688 - INFO - Request received to filter data
+2025-04-24 16:58:25,417 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 16:58:25,417 - INFO - Entering Reconciliation for Recharge Service
+2025-04-24 16:58:25,417 - INFO - Fetching data from HUB for Recharge
+2025-04-24 16:58:25,417 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 16:58:25,417 - INFO - Entering Reconciliation for Recharge Service
+2025-04-24 16:58:25,417 - INFO - Fetching data from HUB for Recharge
+2025-04-24 16:58:25,716 - INFO - Filteration Starts
+2025-04-24 16:58:25,743 - INFO - Filteration Starts
+2025-04-24 16:58:25,798 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 16:58:25,798 - INFO - Request received to filter data
+2025-04-24 16:58:25,816 - INFO - Filteration Ends
+2025-04-24 16:58:25,825 - INFO - Reconciliation Ends
+2025-04-24 16:58:25,848 - INFO - Filteration Ends
+2025-04-24 16:58:25,849 - INFO - Reconciliation Ends
+2025-04-24 16:58:25,909 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 16:58:25,909 - INFO - Entering Reconciliation for Recharge Service
+2025-04-24 16:58:25,909 - INFO - Fetching data from HUB for Recharge
+2025-04-24 16:58:26,019 - INFO - Filteration Starts
+2025-04-24 16:58:26,064 - INFO - Filteration Ends
+2025-04-24 16:58:26,064 - INFO - Reconciliation Ends
+2025-04-24 16:58:27,660 - INFO - Report successfully exported for Recharge
+2025-04-24 16:58:27,660 - INFO - ----------------------------------------------------------------------------------
+2025-04-24 16:58:27,678 - INFO - Report successfully exported for Recharge
+2025-04-24 16:58:27,678 - INFO - Report successfully exported for Recharge
+2025-04-24 16:58:27,680 - INFO - ----------------------------------------------------------------------------------
+2025-04-24 16:58:27,681 - INFO - ----------------------------------------------------------------------------------
+2025-04-24 18:04:52,176 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 18:04:52,177 - INFO - Request received to filter data
+2025-04-24 18:04:53,191 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 18:04:53,191 - INFO - Entering Reconciliation for Recharge Service
+2025-04-24 18:04:53,191 - INFO - Fetching data from HUB for Recharge
+2025-04-24 18:04:53,526 - INFO - Filteration Starts
+2025-04-24 18:04:54,071 - ERROR - Error in filter_data(): 'status'
+2025-04-24 18:25:24,055 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 18:25:24,057 - INFO - Request received to filter data
+2025-04-24 18:25:24,907 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 18:25:24,907 - INFO - Entering Reconciliation for Recharge Service
+2025-04-24 18:25:24,907 - INFO - Fetching data from HUB for Recharge
+2025-04-24 18:25:25,218 - INFO - Filteration Starts
+2025-04-24 18:25:25,297 - ERROR - Error in filter_data(): 'status'
+2025-04-24 18:27:20,974 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 18:27:20,974 - INFO - Request received to filter data
+2025-04-24 18:27:22,053 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 18:27:22,053 - INFO - Entering Reconciliation for Recharge Service
+2025-04-24 18:27:22,053 - INFO - Fetching data from HUB for Recharge
+2025-04-24 18:27:22,381 - INFO - Filteration Starts
+2025-04-24 18:27:22,499 - INFO - Filteration Ends
+2025-04-24 18:27:22,499 - INFO - Reconciliation Ends
+2025-04-24 18:27:23,509 - INFO - Report successfully exported for Recharge
+2025-04-24 18:27:23,511 - INFO - ----------------------------------------------------------------------------------
+2025-04-24 18:53:02,050 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 18:53:02,050 - INFO - Request received to filter data
+2025-04-24 18:53:03,581 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 18:53:03,581 - INFO - Entering Reconciliation for Recharge Service
+2025-04-24 18:53:03,581 - INFO - Fetching data from HUB for Recharge
+2025-04-24 18:53:04,092 - INFO - Filteration Starts
+2025-04-24 18:53:04,186 - INFO - Filteration Ends
+2025-04-24 18:53:04,186 - INFO - Reconciliation Ends
+2025-04-24 18:53:07,995 - INFO - Report successfully exported for Recharge
+2025-04-24 18:53:07,995 - INFO - ----------------------------------------------------------------------------------
+2025-04-24 18:55:10,928 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 18:55:10,928 - INFO - Request received to filter data
+2025-04-24 18:55:12,442 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 18:55:12,442 - INFO - Entering Reconciliation for Recharge Service
+2025-04-24 18:55:12,442 - INFO - Fetching data from HUB for Recharge
+2025-04-24 18:55:12,909 - INFO - Filteration Starts
+2025-04-24 18:55:12,988 - INFO - Filteration Ends
+2025-04-24 18:55:12,988 - INFO - Reconciliation Ends
+2025-04-24 18:55:13,563 - INFO - Report successfully exported for Recharge
+2025-04-24 18:55:13,563 - INFO - ----------------------------------------------------------------------------------
+2025-04-24 18:58:08,671 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 18:58:08,671 - INFO - Request received to filter data
+2025-04-24 18:58:10,381 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 18:58:10,381 - INFO - Entering Reconciliation for Recharge Service
+2025-04-24 18:58:10,381 - INFO - Fetching data from HUB for Recharge
+2025-04-24 18:58:10,849 - INFO - Filteration Starts
+2025-04-24 18:58:10,912 - INFO - Filteration Ends
+2025-04-24 18:58:10,912 - INFO - Reconciliation Ends
+2025-04-24 18:58:11,327 - INFO - Report successfully exported for Recharge
+2025-04-24 18:58:11,327 - INFO - ----------------------------------------------------------------------------------
+=======
+2025-04-24 17:26:51,475 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 17:26:51,476 - INFO - Request received to filter data
+2025-04-24 17:26:52,303 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 17:26:52,303 - INFO - Entering Reconciliation for PaySprint-IMT Service
+2025-04-24 17:26:52,303 - INFO - Fetching data from HUB for PaySprint-IMT
+2025-04-24 17:26:52,561 - INFO - Filteration Starts
+2025-04-24 17:26:53,036 - ERROR - Error in filter_data(): 'status'
+2025-04-24 17:28:56,956 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 17:28:56,957 - INFO - Request received to filter data
+2025-04-24 17:28:57,343 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 17:28:57,343 - INFO - Entering Reconciliation for PaySprint-IMT Service
+2025-04-24 17:28:57,343 - INFO - Fetching data from HUB for PaySprint-IMT
+2025-04-24 17:28:57,422 - INFO - Filteration Starts
+2025-04-24 17:28:57,509 - ERROR - Error in filter_data(): 'status'
+2025-04-24 17:31:14,049 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 17:31:14,050 - INFO - Request received to filter data
+2025-04-24 17:31:14,079 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 17:31:14,079 - INFO - Entering Reconciliation for PaySprint-IMT Service
+2025-04-24 17:31:14,080 - INFO - Fetching data from HUB for PaySprint-IMT
+2025-04-24 17:31:14,204 - ERROR - Error in filter_data(): 'status'
+2025-04-24 17:31:29,895 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 17:31:29,895 - INFO - Request received to filter data
+2025-04-24 17:31:29,930 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 17:31:29,930 - INFO - Entering Reconciliation for PaySprint-IMT Service
+2025-04-24 17:31:29,930 - INFO - Fetching data from HUB for PaySprint-IMT
+2025-04-24 17:31:29,984 - INFO - Filteration Starts
+2025-04-24 17:31:30,001 - ERROR - Error in filter_data(): 'status'
+2025-04-24 17:32:14,616 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 17:32:14,616 - INFO - Request received to filter data
+2025-04-24 17:32:15,688 - WARNING - No records found within the given date range!
+2025-04-24 17:33:18,777 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 17:33:18,778 - INFO - Request received to filter data
+2025-04-24 17:33:19,406 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 17:33:19,406 - INFO - Entering Reconciliation for Recharge Service
+2025-04-24 17:33:19,406 - INFO - Fetching data from HUB for Recharge
+2025-04-24 17:33:19,419 - ERROR - Error in filter_data(): 'status'
+2025-04-24 17:36:06,035 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 17:36:06,035 - INFO - Request received to filter data
+2025-04-24 17:36:07,670 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 17:36:07,670 - INFO - Entering Reconciliation for Recharge Service
+2025-04-24 17:36:07,671 - INFO - Fetching data from HUB for Recharge
+2025-04-24 17:36:08,130 - INFO - Filteration Starts
+2025-04-24 17:36:08,211 - INFO - Filteration Ends
+2025-04-24 17:36:08,212 - INFO - Reconciliation Ends
+2025-04-24 17:36:11,543 - INFO - Report successfully exported for Recharge
+2025-04-24 17:36:11,543 - INFO - ----------------------------------------------------------------------------------
+2025-04-24 17:37:14,133 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 17:37:14,133 - INFO - Request received to filter data
+2025-04-24 17:37:14,183 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 17:37:14,183 - INFO - Entering Reconciliation for PaySprint-IMT Service
+2025-04-24 17:37:14,184 - INFO - Fetching data from HUB for PaySprint-IMT
+2025-04-24 17:37:14,244 - ERROR - Error in filter_data(): 'status'
+2025-04-24 17:37:56,356 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 17:37:56,356 - INFO - Request received to filter data
+2025-04-24 17:37:56,385 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 17:37:56,386 - INFO - Entering Reconciliation for PaySprint-IMT Service
+2025-04-24 17:37:56,386 - INFO - Fetching data from HUB for PaySprint-IMT
+2025-04-24 17:37:56,466 - INFO - Filteration Starts
+2025-04-24 17:37:56,510 - ERROR - Error in filter_data(): 'status'
+2025-04-24 17:42:29,188 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 17:42:29,188 - INFO - Request received to filter data
+2025-04-24 17:42:29,560 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 17:42:29,560 - INFO - Entering Reconciliation for PaySprint-IMT Service
+2025-04-24 17:42:29,560 - INFO - Fetching data from HUB for PaySprint-IMT
+2025-04-24 17:42:29,806 - ERROR - Error in filter_data(): 'status'
+2025-04-24 17:45:39,934 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 17:45:39,935 - INFO - Request received to filter data
+2025-04-24 17:45:40,398 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 17:45:40,398 - INFO - Entering Reconciliation for PaySprint-IMT Service
+2025-04-24 17:45:40,398 - INFO - Fetching data from HUB for PaySprint-IMT
+2025-04-24 17:45:40,470 - INFO - Filteration Starts
+2025-04-24 17:45:40,560 - ERROR - Error in filter_data(): 'status'
+2025-04-24 18:06:39,200 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 18:06:39,201 - INFO - Request received to filter data
+2025-04-24 18:06:39,620 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 18:06:39,620 - INFO - Entering Reconciliation for PaySprint-IMT Service
+2025-04-24 18:06:39,620 - INFO - Fetching data from HUB for PaySprint-IMT
+2025-04-24 18:06:39,715 - INFO - Filteration Starts
+2025-04-24 18:06:39,776 - INFO - Filteration Ends
+2025-04-24 18:06:39,776 - INFO - Reconciliation Ends
+2025-04-24 18:06:40,041 - INFO - Report successfully exported for PaySprint-IMT
+2025-04-24 18:06:40,041 - INFO - ----------------------------------------------------------------------------------
+2025-04-24 18:13:33,756 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 18:13:33,756 - INFO - Request received to filter data
+2025-04-24 18:13:34,169 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 18:13:34,169 - INFO - Entering Reconciliation for PaySprint-IMT Service
+2025-04-24 18:13:34,169 - INFO - Fetching data from HUB for PaySprint-IMT
+2025-04-24 18:13:34,241 - INFO - Filteration Starts
+2025-04-24 18:13:34,427 - ERROR - Error in filter_data(): 'status'
+2025-04-24 18:15:43,184 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 18:15:43,184 - INFO - Request received to filter data
+2025-04-24 18:15:43,541 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 18:15:43,541 - INFO - Entering Reconciliation for PaySprint-IMT Service
+2025-04-24 18:15:43,541 - INFO - Fetching data from HUB for PaySprint-IMT
+2025-04-24 18:15:43,620 - INFO - Filteration Starts
+2025-04-24 18:15:43,645 - INFO - Filteration Ends
+2025-04-24 18:15:43,646 - INFO - Reconciliation Ends
+2025-04-24 18:15:43,840 - INFO - Report successfully exported for PaySprint-IMT
+2025-04-24 18:15:43,840 - INFO - ----------------------------------------------------------------------------------
+2025-04-24 18:33:20,156 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 18:33:20,156 - INFO - Request received to filter data
+2025-04-24 18:33:20,251 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 18:33:20,251 - INFO - Entering Reconciliation for PaySprint-IMT Service
+2025-04-24 18:33:20,251 - INFO - Fetching data from HUB for PaySprint-IMT
+2025-04-24 18:33:20,316 - ERROR - Error in filter_data(): 'status'
+2025-04-24 18:33:49,602 - INFO - ------------------------------------------------------------------------------------
+2025-04-24 18:33:49,602 - INFO - Request received to filter data
+2025-04-24 18:33:49,707 - INFO - Records found within the date range. Running reconciliation...
+2025-04-24 18:33:49,708 - INFO - Entering Reconciliation for PaySprint-IMT Service
+2025-04-24 18:33:49,708 - INFO - Fetching data from HUB for PaySprint-IMT
+2025-04-24 18:33:49,790 - INFO - Filteration Starts
+2025-04-24 18:33:49,837 - INFO - Filteration Ends
+2025-04-24 18:33:49,837 - INFO - Reconciliation Ends
+2025-04-24 18:33:50,370 - INFO - Report successfully exported for PaySprint-IMT
+2025-04-24 18:33:50,370 - INFO - ----------------------------------------------------------------------------------
+>>>>>>> 45b20bb46b26a23fd29ea77f24c19bb56db0092f

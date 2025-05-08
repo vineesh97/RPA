@@ -1,0 +1,12 @@
+2025-05-07 16:59:32,212 - INFO - ------------------------------------------------------------------------------------
+2025-05-07 16:59:32,212 - INFO - Request received to filter data
+2025-05-07 16:59:32,214 - INFO - Entered Main Function...
+2025-05-07 16:59:32,957 - INFO - ------------------------------------------------------------------------------------
+2025-05-07 16:59:33,443 - INFO - Request received to filter data
+2025-05-07 16:59:33,443 - ERROR - Error in filter_data(): 'status'
+2025-05-07 16:59:33,444 - INFO - Entered Main Function...
+2025-05-07 16:59:33,612 - ERROR - Error in filter_data(): 'status'
+2025-05-07 18:13:04,240 - INFO - ------------------------------------------------------------------------------------
+2025-05-07 18:13:04,240 - INFO - Request received to filter data
+2025-05-07 18:13:04,241 - INFO - Entered Main Function...
+2025-05-07 18:13:04,723 - ERROR - Error in filter_data(): 'status'
