@@ -15,15 +15,42 @@ from main import main
 from logger_config import logger
 from datetime import timedelta
 from handler import handler
+from flask_cors import CORS
+
 
 app = Flask(__name__)
 app.secret_key = "4242"
+CORS(app, supports_credentials=True)
 app.permanent_session_lifetime = timedelta(minutes=30)
 
 
 @app.route("/")
 def land():
     return render_template("login.html")
+
+
+# --------new next js-------------------------------------------------------
+@app.route("/api/login", methods=["POST"])
+def login_form():
+    data = request.get_json()  # <- Get JSON body
+    username = data.get("username")
+    password = data.get("password")
+
+    print("Username:", username)
+    print("Password:", password)
+
+    if username == "admin" and password == "123":
+        session.permanent = True
+        session["username"] = username  # store user info in session
+        return jsonify({"message": "Login Successful", "redirect": "/filter_form"}), 200
+    else:
+        return (
+            jsonify({"message": "Username or password incorrect!"}),
+            401,
+        )  # Use 401 for auth failure
+
+
+# ---------------------------------------------------------------
 
 
 @app.route("/login")
@@ -58,11 +85,17 @@ def home():
     return response
 
 
-@app.route("/dummydata")
+# ------returning resukt as json to next.js api
+@app.route("/api/dummydata", methods=["POST"])
 def dummydata():
     file_path = "data/uploading_excel/Recharge.xlsx"
+    from_date = request.form.get("from_date")
+    to_date = request.form.get("to_date")
+    service_name = request.form.get("service_name")
+    transaction_type = request.form.get("transaction_type")
+    file = request.files.get("file")
 
-    result = main("2025-02-18", "2025-02-19", "Recharge", file_path, "")
+    result = main(from_date, to_date, service_name, file, transaction_type)
     # print(result)#
     # Loop through all keys in result dict
     for key, value in result.items():
@@ -76,10 +109,12 @@ def dummydata():
     handler_result = handler(result)
     return handler_result
 
-    # return {"data": data}
+
+# ---------------------------------------------------------
 
 
-@app.route("/filter")
+# flask html result returning page
+@app.route("/filter", method=["post"])
 def filter_data():
     # app.logger.info("✅ filter_data() function is called!")
     try:
