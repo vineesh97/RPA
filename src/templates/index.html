@@ -54,8 +54,10 @@
                 });
 
                 console.log("Response Status:", response.status);
+                console.log("Response Status:", response);
 
                 if (response.status === 200) {
+
                     let blob = await response.blob();
                     let downloadLink = document.createElement("a");
                     downloadLink.href = URL.createObjectURL(blob);
@@ -177,11 +179,12 @@
                 <label class="apple-label">Select Service</label>
                 <select id="service_name" class="apple-select" onchange="toggleTransactionType()">
                     <option value="default">--Select service--</option>
-                    <option value="Recharge">Recharge</option>
-                    <option value="Aeps">Aeps</option>
+                    <option value="Recharge">PaySprint-Recharge</option>
+                    <option value="Aeps">PaySprint-Aeps</option>
                     <option value="IMT">PaySprint-IMT</option>
                     <option value="BBPS">BBPS</option>
-                    <option value="Pan_UTI">Pan_UTI</option>
+                    <option value="Pan_UTI" style="color: red;">Pan_UTI</option>
+                    <option value="Pan_NSDL" style="color: red;">Pan_NSDL</option>
 
 
                 </select>

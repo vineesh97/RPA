@@ -14,6 +14,7 @@ from io import BytesIO
 from main import main
 from logger_config import logger
 from datetime import timedelta
+from handler import handler
 
 app = Flask(__name__)
 app.secret_key = "4242"
@@ -57,7 +58,28 @@ def home():
     return response
 
 
-@app.route("/filter", methods=["POST"])
+@app.route("/dummydata")
+def dummydata():
+    file_path = "data/uploading_excel/Recharge.xlsx"
+
+    result = main("2025-02-18", "2025-02-19", "Recharge", file_path, "")
+    # print(result)#
+    # Loop through all keys in result dict
+    for key, value in result.items():
+        if isinstance(value, pd.DataFrame):
+            # Convert datetime columns to strings, replace NaT with None
+            for col in value.select_dtypes(include=["datetime64[ns]"]).columns:
+                value[col] = value[col].astype(str).replace("NaT", None)
+
+            # Now safely convert whole DF to dict
+            result[key] = value.to_dict(orient="records")
+    handler_result = handler(result)
+    return handler_result
+
+    # return {"data": data}
+
+
+@app.route("/filter")
 def filter_data():
     # app.logger.info("✅ filter_data() function is called!")
     try:
