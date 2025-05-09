@@ -56,7 +56,7 @@ def filtering_Data(df_db, df_excel, service_name):
         "CATEGORY",
         "REFID",
         "VEND_DATE",
-        "IHUB_REFERENCE",
+        "Ihub_reference",
         "vendor_reference",
         "UserName",
         "AMOUNT",
@@ -165,7 +165,7 @@ def filtering_Data(df_db, df_excel, service_name):
 def recharge_Service(start_date, end_date, df_excel, service_name):
     logger.info(f"Fetching data from HUB for {service_name}")
     query = f"""
-            SELECT mt2.TransactionRefNum AS IHUB_REFERENCE,
+            SELECT mt2.TransactionRefNum AS Ihub_reference,
             sn.requestID AS vendor_reference,
             u.UserName,
             mt2.TransactionStatus AS IHUB_Master_status,
@@ -221,7 +221,7 @@ def aeps_Service(start_date, end_date, service_name, transaction_type, df_excel)
     logger.info(f"Fetching data from HUB for {service_name}")
     query = f"""
         SELECT 
-        mt2.TransactionRefNum AS IHUB_REFERENCE,
+        mt2.TransactionRefNum AS Ihub_reference,
         pat.BankRrn AS vendor_reference,
         u.UserName,
         mt2.TransactionStatus AS IHUB_Master_status,
@@ -273,7 +273,7 @@ def aeps_Service(start_date, end_date, service_name, transaction_type, df_excel)
 def IMT_Service(start_date, end_date, df_excel, service_name):
     logger.info(f"Fetching data from HUB for {service_name}")
     query = f"""
-            SELECT mt2.TransactionRefNum AS IHUB_REFERENCE,
+            SELECT mt2.TransactionRefNum AS Ihub_reference,
             pst.VendorReferenceId as vendor_reference,
             u.UserName,
             mt2.TransactionStatus AS IHUB_Master_status,
@@ -366,9 +366,10 @@ def IMT_Service(start_date, end_date, df_excel, service_name):
 def Bbps_service(start_date, end_date, df_excel, service_name):
     logger.info(f"Fetching data from HUB for {service_name}")
     query = f"""
-        SELECT mt2.Id ,
-        mt2.TransactionRefNum,
-        bbp.TxnRefId ,
+        SELECT
+        mt2.TransactionRefNum as Ihub_reference,
+        u.Username,
+        bbp.TxnRefId  as vendor_reference,
         mt2.TransactionStatus AS HUB_Master_status,
         mst.TransactionStatus AS MasterSubTrans_status,
         bbp.TransactionStatusType ,u.UserName,bbp.HeadReferenceId ,
@@ -388,10 +389,10 @@ def Bbps_service(start_date, end_date, df_excel, service_name):
         left join (Select DISTINCT iwt.IHubReferenceId from ihubcore.IHubWalletTransaction iwt 
         where date(iwt.creationTs) between '{start_date}' and CURRENT_DATE() ) as iw 
         on iw.IHubReferenceId =mt2.TransactionRefNum 
-        left join (select DISTINCT bbf.HeadReferenceId  from ihubcore.BBPS_BillFetch bbf where date(bbf.creationTs) 
-        between '{start_date}' and current_date()) as bf on bf.HeadReferenceId  = bbp.HeadReferenceId
-        WHERE
-        DATE(bbp.CreationTs) BETWEEN '{start_date}' AND '{end_date}' 
+        left join (select DISTINCT bbf.HeadReferenceId  from ihubcore.BBPS_BillFetch bbf 
+        where date(bbf.creationTs) between '{start_date}' and current_date()) as bf 
+        on bf.HeadReferenceId  = bbp.HeadReferenceId
+        WHERE DATE(bbp.CreationTs) BETWEEN '{start_date}' AND '{end_date}' 
         """
     # Reading data from Server
     df_db = pd.read_sql(query, con=engine)
@@ -416,10 +417,12 @@ def Bbps_service(start_date, end_date, df_excel, service_name):
 def Panuti_service(start_date, end_date, df_excel, service_name):
     logger.info(f"Fetching data from HUB for {service_name}")
     query = f"""
-        select u.ApplicationNumber,u.UTITSLTransID_Gateway as UTITSLTrans_id,mt.TransactionRefNum AS IHUB_REFERENCE,
+        select u.ApplicationNumber as vendor_reference,
+        u.UTITSLTransID_Gateway as UTITSLTrans_id,
+        mt.TransactionRefNum AS Ihub_reference,
         mt.TransactionStatus AS IHUB_Master_status,
         mst.TransactionStatus AS MasterSubTrans_status,
-        u.TransactionStatusType as Status,
+        u.TransactionStatusType as {service_name}_status,
         CASE When 
         a.IHubReferenceId IS NOT NULL THEN 'Yes'
         ELSE 'NO'
@@ -427,8 +430,11 @@ def Panuti_service(start_date, end_date, df_excel, service_name):
         from ihubcore.UTIITSLTTransaction u 
         left join ihubcore.MasterSubTransaction mst on mst.Id  = u.MasterSubTransactionId
         left join ihubcore.MasterTransaction mt on mt.Id  = mst.MasterTransactionId
+        left join tenantinetcsc.EboDetail ed on ed.Id = mt.EboDetailId 
+        left join tenantinetcsc.`User` u  on u.id = ed.UserId 
         left join (select DISTINCT iwt.IHubReferenceId  from ihubcore.IHubWalletTransaction iwt  
-        WHERE Date(iwt.creationTs) BETWEEN '{start_date}'AND CURRENT_DATE()) a on a.IHubReferenceId = mt.TransactionRefNum
+        WHERE Date(iwt.creationTs) BETWEEN '{start_date}'AND CURRENT_DATE()) a 
+        on a.IHubReferenceId = mt.TransactionRefNum
         where DATE(u.CreationTs) BETWEEN '{start_date}' and '{end_date}
         """
     # Reading data from Server
@@ -440,6 +446,53 @@ def Panuti_service(start_date, end_date, df_excel, service_name):
         2: "failed",
         3: "inprogress",
         4: "partial success",
+    }
+    df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(
+        lambda x: status_mapping.get(x, x)
+    )
+    # calling filtering function
+    result = filtering_Data(df_db, df_excel, service_name)
+    return result
+
+
+# ------------------------------------------------------------------------
+# PAN-NSDL Service function
+def Pannsdl_service(start_date, end_date, df_excel, service_name):
+    logger.info(f"Fetching data from HUB for {service_name}")
+    query = f"""
+        select pit.AcknowledgeNo as vendor_reference,mt.TransactionRefNum AS Ihub_reference,
+        mt.TransactionStatus AS IHUB_Master_status,
+        mst.TransactionStatus AS MasterSubTrans_status,
+        u.Username,
+        pit.applicationstatus as {service_name}_status,
+        CASE When 
+        a.IHubReferenceId IS NOT NULL THEN 'Yes'
+        ELSE 'NO'
+        END AS 'Ihub_Ledger_status'
+        from ihubcore.PanInTransaction pit
+        left join ihubcore.MasterSubTransaction mst on mst.id= pit.MasterSubTransactionId
+        left join ihubcore.MasterTransaction mt on mt.id = mst.MasterTransactionId
+        left join tenantinetcsc.EboDetail ed on ed.Id = mt.EboDetailId 
+        left join tenantinetcsc.`User` u  on u.id = ed.UserId 
+        left join (select DISTINCT iwt.IHubReferenceId  from ihubcore.IHubWalletTransaction iwt  
+        WHERE Date(iwt.creationTs) BETWEEN '{start_date}'AND CURRENT_DATE()) a 
+        on a.IHubReferenceId = mt.TransactionRefNum
+        where DATE(u.CreationTs) BETWEEN '{start_date}' and '{end_date}
+        """
+    # Reading data from Server
+    df_db = pd.read_sql(query, con=engine)
+    # mapping status name with enum
+    status_mapping = {
+        0: "None",
+        1: "New",
+        2: "Acknowledged",
+        3: "Rejected",
+        4: "Uploaded",
+        5: "Processed",
+        6: "Reupload",
+        7: "Alloted",
+        8: "Objection",
+        9: "MoveToNew",
     }
     df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(
         lambda x: status_mapping.get(x, x)
