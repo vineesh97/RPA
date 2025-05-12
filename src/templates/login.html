@@ -39,7 +39,7 @@
                     // Redirect after 1 second
                     setTimeout(() => {
                         window.location.href = json.redirect;
-                    }, 1000);
+                    }, 500);
                 }
                 else if (response.status === 202) {
                     let json = await response.json();
