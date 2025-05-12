@@ -6,7 +6,7 @@ engine = get_db_connection()
 
 
 # service function selection
-def run_Reconciliation(start_date, end_date, service_name, transaction_type, df_excel):
+def outward_service_selection(start_date, end_date, service_name, transaction_type, df_excel):
     logger.info(f"Entering Reconciliation for {service_name} Service")
     start_date = start_date
     end_date = end_date
