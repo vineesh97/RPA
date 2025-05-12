@@ -2,6 +2,8 @@ import pandas as pd
 from db_connector import get_db_connection
 from logger_config import logger
 
+engine = get_db_connection()
+
 
 def inward_service_selection(
     start_date, end_date, service_name, transaction_type, df_excel
