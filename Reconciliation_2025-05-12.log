@@ -1,0 +1,21 @@
+2025-05-12 11:56:11,874 - INFO - Entered Main Function...
+2025-05-12 11:56:12,808 - INFO - Records found within the date range. Running reconciliation...
+2025-05-12 11:56:12,808 - INFO - Entering Reconciliation for Recharge Service
+2025-05-12 11:56:12,810 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-12 11:56:12,810 - INFO - Fetching data from HUB for Recharge
+2025-05-12 11:56:14,342 - INFO - Filteration Starts
+2025-05-12 11:56:14,475 - INFO - Filteration Ends
+2025-05-12 11:56:14,477 - INFO - Reconciliation Ends
+2025-05-12 11:56:44,837 - INFO - Entered Main Function...
+2025-05-12 11:56:44,944 - INFO - Records found within the date range. Running reconciliation...
+2025-05-12 11:56:44,946 - INFO - Entering Reconciliation for Recharge Service
+2025-05-12 11:56:44,947 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-12 11:56:44,948 - INFO - Fetching data from HUB for Recharge
+2025-05-12 11:58:26,085 - INFO - Entered Main Function...
+2025-05-12 11:58:26,852 - INFO - Records found within the date range. Running reconciliation...
+2025-05-12 11:58:26,853 - INFO - Entering Reconciliation for Recharge Service
+2025-05-12 11:58:26,854 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-12 11:58:26,854 - INFO - Fetching data from HUB for Recharge
+2025-05-12 11:58:28,378 - INFO - Filteration Starts
+2025-05-12 11:58:28,438 - INFO - Filteration Ends
+2025-05-12 11:58:28,439 - INFO - Reconciliation Ends

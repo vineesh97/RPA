@@ -29,9 +29,19 @@ def run_Reconciliation(start_date, end_date, service_name, transaction_type, df_
     if service_name == "BBPS":
         df_excel = df_excel.rename()
         result = Bbps_service(start_date, end_date, df_excel, service_name)
+
+    if service_name == "Pan_UTI":
+        df_excel = df_excel.rename()
+        result = Panuti_service(start_date, end_date, df_excel, service_name)
+
+    if service_name == "Pan_NSDL":
+        df_excel = df_excel.rename()
+        result = Pannsdl_service(start_date, end_date, df_excel, service_name)
+
     return result
 
 
+# ---------------------------------------------------------------------------------
 # ---------------------------------------------------------------------------------
 # Filtering Function
 def filtering_Data(df_db, df_excel, service_name):
@@ -56,7 +66,7 @@ def filtering_Data(df_db, df_excel, service_name):
         "CATEGORY",
         "REFID",
         "VEND_DATE",
-        "Ihub_reference",
+        "IHUB_REFERENCE",
         "vendor_reference",
         "UserName",
         "AMOUNT",
@@ -131,6 +141,16 @@ def filtering_Data(df_db, df_excel, service_name):
         vendor_failed_ihub_initiated, required_columns
     )
 
+    vend_ihub_succes_not_in_ledger = matched[
+        (matched["STATUS"].str.lower() == "success")
+        & (matched["IHUB_Master_status"].str.lower() == "success")
+        & (matched["Ihub_Ledger_status"].str.lower() == "no")
+    ].copy()
+    vend_ihub_succes_not_in_ledger["CATEGORY"] = "VENDOR & IHUB SUCCESS_NOTIN_LEDGER"
+    vend_ihub_succes_not_in_ledger = safe_column_select(
+        vend_ihub_succes_not_in_ledger, required_columns
+    )
+
     combined = pd.concat(
         [
             not_in_vendor,
@@ -140,6 +160,7 @@ def filtering_Data(df_db, df_excel, service_name):
             vendor_success_ihub_initiated,
             vendor_success_ihub_failed,
             vendor_failed_ihub_initiated,
+            vend_ihub_succes_not_in_ledger,
         ],
         ignore_index=True,
     )
@@ -157,6 +178,7 @@ def filtering_Data(df_db, df_excel, service_name):
         "VENDOR_SUCCESS_IHUB_FAILED": vendor_success_ihub_failed,
         "not_in_Portal_vendor_success": not_in_portal_vendor_success,
         "Vendor_failed_ihub_initiated": vendor_failed_ihub_initiated,
+        "vend_ihub_succes_not_in_ledger": vend_ihub_succes_not_in_ledger,
     }
 
 

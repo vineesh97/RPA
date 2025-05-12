@@ -114,7 +114,7 @@ def dummydata():
 
 
 # flask html result returning page
-@app.route("/filter", method=["post"])
+@app.route("/filter")
 def filter_data():
     # app.logger.info("✅ filter_data() function is called!")
     try:
