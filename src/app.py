@@ -107,6 +107,7 @@ def filter_data():
                     "VENDOR_SUCCESS_IHUB_FAILED",
                     "not_in_Portal_vendor_success",
                     "Vendor_failed_ihub_initiated",
+                    "vend_ihub_succes_not_in_ledger"
                 ]:
                     if sheet_name in result:
                         result[sheet_name].to_excel(
