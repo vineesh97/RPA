@@ -14,14 +14,47 @@ from io import BytesIO
 from main import main
 from logger_config import logger
 from datetime import timedelta
+from handler import handler
+from flask_cors import CORS
+
 
 app = Flask(__name__)
 app.secret_key = "4242"
+CORS(app, supports_credentials=True)
 app.permanent_session_lifetime = timedelta(minutes=30)
 
 
+@app.route("/")
+def land():
+    return render_template("login.html")
+
+
+# --------new next js-------------------------------------------------------
+@app.route("/api/login", methods=["POST"])
+def login_form():
+    data = request.get_json()  # <- Get JSON body
+    username = data.get("username")
+    password = data.get("password")
+
+    print("Username:", username)
+    print("Password:", password)
+
+    if username == "admin" and password == "123":
+        session.permanent = True
+        session["username"] = username  # store user info in session
+        return jsonify({"message": "Login Successful", "redirect": "/filter_form"}), 200
+    else:
+        return (
+            jsonify({"message": "Username or password incorrect!"}),
+            401,
+        )  # Use 401 for auth failure
+
+
+# ---------------------------------------------------------------
+
+
 @app.route("/login")
-def Login_page():
+def login_page():
     return render_template("login.html")
 
 
@@ -42,7 +75,7 @@ def form():
 @app.route("/filter_form")
 def home():
     if "username" not in session:
-        return redirect(url_for("Login_page"))
+        return redirect(url_for("login_page"))
     response = make_response(render_template("index.html"))
     response.headers["Cache-Control"] = (
         "no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0"
@@ -52,7 +85,36 @@ def home():
     return response
 
 
-@app.route("/filter", methods=["POST"])
+# ------returning resukt as json to next.js api
+@app.route("/api/dummydata", methods=["POST"])
+def dummydata():
+    file_path = "data/uploading_excel/Recharge.xlsx"
+    from_date = request.form.get("from_date")
+    to_date = request.form.get("to_date")
+    service_name = request.form.get("service_name")
+    transaction_type = request.form.get("transaction_type")
+    file = request.files.get("file")
+
+    result = main(from_date, to_date, service_name, file, transaction_type)
+    # print(result)#
+    # Loop through all keys in result dict
+    for key, value in result.items():
+        if isinstance(value, pd.DataFrame):
+            # Convert datetime columns to strings, replace NaT with None
+            for col in value.select_dtypes(include=["datetime64[ns]"]).columns:
+                value[col] = value[col].astype(str).replace("NaT", None)
+
+            # Now safely convert whole DF to dict
+            result[key] = value.to_dict(orient="records")
+    handler_result = handler(result)
+    return handler_result
+
+
+# ---------------------------------------------------------
+
+
+# flask html result returning page
+@app.route("/filter", methods=["post"])
 def filter_data():
     # app.logger.info("✅ filter_data() function is called!")
     try:
@@ -107,6 +169,7 @@ def filter_data():
                     "VENDOR_SUCCESS_IHUB_FAILED",
                     "not_in_Portal_vendor_success",
                     "Vendor_failed_ihub_initiated",
+                    "Tenant_db_ini_not_in_hubdb",
                 ]:
                     if sheet_name in result:
                         result[sheet_name].to_excel(
@@ -131,7 +194,7 @@ def filter_data():
 def logout():
     session.clear()
     session.pop("username", None)
-    return redirect(url_for("Login_page"))
+    return redirect(url_for("login_page"))
 
 
 if __name__ == "__main__":
