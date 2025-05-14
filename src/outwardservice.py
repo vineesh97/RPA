@@ -190,7 +190,8 @@ def filtering_Data(df_db, df_excel, service_name, df_db2):
 def recharge_Service(start_date, end_date, df_excel, service_name):
     logger.info(f"Fetching data from HUB for {service_name}")
     query = f"""
-            SELECT mt2.TransactionRefNum AS Ihub_reference,
+            SELECT
+            mt2.TransactionRefNum AS Ihub_reference,
             sn.requestID AS vendor_reference,
             u.UserName,
             mt2.TransactionStatus AS IHUB_Master_status,
@@ -198,26 +199,35 @@ def recharge_Service(start_date, end_date, df_excel, service_name):
             sn.CreationTs AS service_date,
             sn.rechargeStatus AS {service_name}_status,
             CASE
-            WHEN a.IHubReferenceId  IS NOT NULL THEN 'Yes'
-            ELSE 'No'
-            END AS Ihub_Ledger_status
-            FROM 
+                WHEN iwt.IHubReferenceId IS NOT NULL THEN 'Yes'
+                ELSE 'No'
+            END AS Ihub_Ledger_status,
+            CASE
+                WHEN twt.IHubReferenceId IS NOT NULL THEN 'Yes'
+                ELSE 'No'
+            END AS Tenant_Ledger_status
+            FROM
             ihubcore.MasterTransaction mt2
-            LEFT JOIN ihubcore.MasterSubTransaction mst
+        LEFT JOIN ihubcore.MasterSubTransaction mst
             ON mst.MasterTransactionId = mt2.Id
-            LEFT JOIN ihubcore.PsRechargeTransaction sn
+        LEFT JOIN ihubcore.PsRechargeTransaction sn
             ON sn.MasterSubTransactionId = mst.Id
-            LEFT JOIN tenantinetcsc.EboDetail ed
+        LEFT JOIN tenantinetcsc.EboDetail ed
             ON mt2.EboDetailId = ed.Id
-            LEFT JOIN tenantinetcsc.`User` u
-            ON u.id = ed.UserId
-            LEFT JOIN
-            (SELECT DISTINCT iwt.IHubReferenceId AS IHubReferenceId
-            FROM ihubcore.IHubWalletTransaction iwt
-            WHERE DATE(iwt.CreationTs) BETWEEN '{start_date}' AND CURRENT_DATE()
-            ) a
-            ON a.IHubReferenceId = mt2.TransactionRefNum
-            WHERE DATE(sn.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
+        LEFT JOIN tenantinetcsc.`User` u
+            ON u.Id = ed.UserId
+        LEFT JOIN (
+            SELECT DISTINCT IHubReferenceId
+            FROM ihubcore.IHubWalletTransaction
+            WHERE DATE(CreationTs) BETWEEN '{start_date}' AND CURRENT_DATE()
+        ) iwt ON iwt.IHubReferenceId = mt2.TransactionRefNum
+        LEFT JOIN (
+            SELECT DISTINCT IHubReferenceId
+            FROM ihubcore.TenantWalletTransaction
+            WHERE DATE(CreationTs) BETWEEN '{start_date}' AND CURRENT_DATE()
+        ) twt ON twt.IHubReferenceId = mt2.TransactionRefNum
+        WHERE
+            DATE(sn.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
         """
     try:
         with engine.begin() as connection:
