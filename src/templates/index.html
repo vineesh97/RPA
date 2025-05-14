@@ -30,7 +30,7 @@
             let from_date = document.getElementById("from_date").value;
             let to_date = document.getElementById("to_date").value;
             let service_name = document.getElementById("service_name").value;
-            let transaction_type = document.getElementById("transaction_type").value
+            let transaction_type = document.getElementById("transaction_type").value;
             let file = document.getElementById("file_input").files[0];
 
             if (!from_date || !to_date || !service_name || !file) {
@@ -47,17 +47,17 @@
             formData.append("transaction_type", transaction_type);
             formData.append("file", file);
 
+            document.getElementById("overlay-loader").style.display = "flex";
+
             try {
                 let response = await fetch("/filter", {
                     method: "POST",
                     body: formData
                 });
 
-                console.log("Response Status:", response.status);
-                console.log("Response Status:", response);
+
 
                 if (response.status === 200) {
-
                     let blob = await response.blob();
                     let downloadLink = document.createElement("a");
                     downloadLink.href = URL.createObjectURL(blob);
@@ -77,8 +77,11 @@
                 }
             } catch (error) {
                 console.error("❌ Error:", error);
+                document.getElementById("overlay-loader").style.display = "none";
                 document.getElementById("status").innerText = "Something went wrong!";
                 document.getElementById("status").style.color = "#FF453A";
+            } finally {
+                document.getElementById("overlay-loader").style.display = "none";
             }
         }
 
@@ -252,6 +255,12 @@
             document.getElementById('file_name').textContent = fileName;
         });
     </script>
+    <div id="overlay-loader" class="apple-overlay" style="display: none;">
+        <div class="apple-loader-card">
+            <div class="apple-loader"></div>
+            <p class="apple-loader-text">Data is Processing...Please Wait..!</p>
+        </div>
+    </div>
 </body>
 
 </html>

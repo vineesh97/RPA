@@ -1,6 +1,7 @@
 import pandas as pd
 from db_connector import get_db_connection
 from logger_config import logger
+from sqlalchemy.exc import SQLAlchemyError
 
 engine = get_db_connection()
 
@@ -91,7 +92,7 @@ def filtering_Data(df_db, df_excel, service_name, df_db2):
         (~df_excel["REFID"].isin(df_db["vendor_reference"]))
         & (df_excel["STATUS"].str.lower() == "success")
         & (df_db["Ihub_Ledger_status"].str.lower() == "no")
-    ].copy()
+    ]
 
     not_in_portal_vendor_success["CATEGORY"] = "NOT_IN_PORTAL_VENDOR_SUCCESS"
     not_in_portal_vendor_success = safe_column_select(
@@ -189,7 +190,8 @@ def filtering_Data(df_db, df_excel, service_name, df_db2):
 def recharge_Service(start_date, end_date, df_excel, service_name):
     logger.info(f"Fetching data from HUB for {service_name}")
     query = f"""
-            SELECT mt2.TransactionRefNum AS Ihub_reference,
+            SELECT
+            mt2.TransactionRefNum AS Ihub_reference,
             sn.requestID AS vendor_reference,
             u.UserName,
             mt2.TransactionStatus AS IHUB_Master_status,
@@ -197,86 +199,102 @@ def recharge_Service(start_date, end_date, df_excel, service_name):
             sn.CreationTs AS service_date,
             sn.rechargeStatus AS {service_name}_status,
             CASE
-            WHEN a.IHubReferenceId  IS NOT NULL THEN 'Yes'
-            ELSE 'No'
-            END AS Ihub_Ledger_status
-            FROM 
+                WHEN iwt.IHubReferenceId IS NOT NULL THEN 'Yes'
+                ELSE 'No'
+            END AS Ihub_Ledger_status,
+            CASE
+                WHEN twt.IHubReferenceId IS NOT NULL THEN 'Yes'
+                ELSE 'No'
+            END AS Tenant_Ledger_status
+            FROM
             ihubcore.MasterTransaction mt2
-            LEFT JOIN ihubcore.MasterSubTransaction mst
+        LEFT JOIN ihubcore.MasterSubTransaction mst
             ON mst.MasterTransactionId = mt2.Id
-            LEFT JOIN ihubcore.PsRechargeTransaction sn
+        LEFT JOIN ihubcore.PsRechargeTransaction sn
             ON sn.MasterSubTransactionId = mst.Id
-            LEFT JOIN tenantinetcsc.EboDetail ed
+        LEFT JOIN tenantinetcsc.EboDetail ed
             ON mt2.EboDetailId = ed.Id
-            LEFT JOIN tenantinetcsc.`User` u
-            ON u.id = ed.UserId
-            LEFT JOIN
-            (SELECT DISTINCT iwt.IHubReferenceId AS IHubReferenceId
-            FROM ihubcore.IHubWalletTransaction iwt
-            WHERE DATE(iwt.CreationTs) BETWEEN '{start_date}' AND CURRENT_DATE()
-            ) a
-            ON a.IHubReferenceId = mt2.TransactionRefNum
-            WHERE DATE(sn.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
+        LEFT JOIN tenantinetcsc.`User` u
+            ON u.Id = ed.UserId
+        LEFT JOIN (
+            SELECT DISTINCT IHubReferenceId
+            FROM ihubcore.IHubWalletTransaction
+            WHERE DATE(CreationTs) BETWEEN '{start_date}' AND CURRENT_DATE()
+        ) iwt ON iwt.IHubReferenceId = mt2.TransactionRefNum
+        LEFT JOIN (
+            SELECT DISTINCT IHubReferenceId
+            FROM ihubcore.TenantWalletTransaction
+            WHERE DATE(CreationTs) BETWEEN '{start_date}' AND CURRENT_DATE()
+        ) twt ON twt.IHubReferenceId = mt2.TransactionRefNum
+        WHERE
+            DATE(sn.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
         """
+    try:
+        with engine.begin() as connection:
+            # Reading data from Server
+            df_db = pd.read_sql(query, con=connection)
 
-    # Reading data from Server
-    df_db = pd.read_sql(query, con=engine)
+            # print(df_db.columns)
 
-    # print(df_db.columns)
+            # replacing the enums to its corresponding status values
+            status_mapping = {
+                0: "initiated",
+                1: "success",
+                2: "pending",
+                3: "failed",
+                4: "instant failed",
+            }
+            df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(
+                lambda x: status_mapping.get(x, x)
+            )
+            # To find transaction that is initiated by EBO present in tenant data base But do not hit in hub database
+            query = f"""
+                WITH cte AS (
+                SELECT 
+                src.Id,
+                src.UserName ,
+                src.TranAmountTotal,
+                src.TransactionStatus as Tenant_status,
+                src.CreationTs,
+                src.VendorSubServiceMappingId,
+                hub.Id AS hub_id,
+                hub.VendorSubServiceMappingId AS HVM_id
+                FROM (
+                SELECT mt.*,u.UserName  FROM tenantinetcsc.MasterTransaction mt left join tenantinetcsc.EboDetail ed on ed.id = mt.EboDetailId
+                left join tenantinetcsc.`User` u  on u.Id = ed.UserId
+                WHERE DATE(mt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
+                AND mt.VendorSubServiceMappingId = 160
 
-    # replacing the enums to its corresponding status values
-    status_mapping = {
-        0: "initiated",
-        1: "success",
-        2: "pending",
-        3: "failed",
-        4: "instant failed",
-    }
-    df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(
-        lambda x: status_mapping.get(x, x)
-    )
-    # To find transaction that is initiated by EBO present in tenant data base But do not hit in hub database
-    query = """ #for recharge service paysprint
-        WITH cte AS (
-        SELECT 
-        src.Id,
-        src.TranAmountTotal,
-        src.TransactionStatus as Tenant_status,
-        src.CreationTs,
-        src.VendorSubServiceMappingId,
-        hub.Id AS hub_id,
-        hub.VendorSubServiceMappingId AS HVM_id
-        FROM (
-        SELECT * FROM tenantinetcsc.MasterTransaction
-        WHERE DATE(CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
-          AND VendorSubServiceMappingId = 160
+                UNION ALL
 
-        UNION ALL
+                SELECT umt.*,u.UserName FROM tenantupcb.MasterTransaction umt left join tenantupcb.EboDetail ed on ed.id = umt.EboDetailId
+                left join tenantupcb.`User` u  on u.Id = ed.UserId
+                WHERE DATE(umt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
+                AND umt.VendorSubServiceMappingId = 160
 
-        SELECT * FROM tenantupcb.MasterTransaction
-        WHERE DATE(CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
-          AND VendorSubServiceMappingId = 160
+                UNION ALL
 
-        UNION ALL
+                SELECT imt.*,u.UserName FROM tenantiticsc.MasterTransaction imt  left join tenantiticsc.EboDetail ed on ed.id = imt.EboDetailId
+                left join tenantiticsc.`User` u  on u.Id = ed.UserId
+                WHERE DATE(imt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
+                AND imt.VendorSubServiceMappingId = 160
+                ) AS src
+                LEFT JOIN ihubcore.MasterTransaction AS hub
+                ON hub.TenantMasterTransactionId = src.Id
+                AND hub.TenantDetailId = 1
+                AND DATE(hub.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
+                AND hub.VendorSubServiceMappingId = 7378
+                )
+                SELECT *
+                FROM cte
+                WHERE hub_id IS NULL"""
+            # df_db2 has the record for the above scenario query
+            df_db2 = pd.read_sql(query, con=engine)
+            # print(df_db2)
 
-        SELECT * FROM tenantiticsc.MasterTransaction
-        WHERE DATE(CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
-          AND VendorSubServiceMappingId = 160
-        ) AS src
-        LEFT JOIN ihubcore.MasterTransaction AS hub
-        ON hub.TenantMasterTransactionId = src.Id
-        AND hub.TenantDetailId = 1
-        AND DATE(hub.CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
-        AND hub.VendorSubServiceMappingId = 7378
-    )
-    SELECT *
-    FROM cte
-    WHERE hub_id IS NULL"""
-    # df_db2 has the record for the above scenario query
-    df_db2 = pd.read_sql(query, con=engine)
-    # print(df_db2)
-
-    result = filtering_Data(df_db, df_excel, service_name, df_db2)
+            result = filtering_Data(df_db, df_excel, service_name, df_db2)
+    except SQLAlchemyError as e:
+        logger.error(f"Database error in recharge_Service(): {e}")
     return result
 
 
