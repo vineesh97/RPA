@@ -240,6 +240,7 @@ def recharge_Service(start_date, end_date, df_excel, service_name):
         WITH cte AS (
         SELECT 
         src.Id,
+        src.UserName ,
         src.TranAmountTotal,
         src.TransactionStatus as Tenant_status,
         src.CreationTs,
@@ -247,31 +248,34 @@ def recharge_Service(start_date, end_date, df_excel, service_name):
         hub.Id AS hub_id,
         hub.VendorSubServiceMappingId AS HVM_id
         FROM (
-        SELECT * FROM tenantinetcsc.MasterTransaction
-        WHERE DATE(CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
-          AND VendorSubServiceMappingId = 160
+        SELECT mt.*,u.UserName  FROM tenantinetcsc.MasterTransaction mt left join tenantinetcsc.EboDetail ed on ed.id = mt.EboDetailId
+        left join tenantinetcsc.`User` u  on u.Id = ed.UserId
+        WHERE DATE(mt.CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
+          AND mt.VendorSubServiceMappingId = 160
 
         UNION ALL
 
-        SELECT * FROM tenantupcb.MasterTransaction
-        WHERE DATE(CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
-          AND VendorSubServiceMappingId = 160
+        SELECT umt.*,u.UserName FROM tenantupcb.MasterTransaction umt left join tenantupcb.EboDetail ed on ed.id = umt.EboDetailId
+        left join tenantupcb.`User` u  on u.Id = ed.UserId
+        WHERE DATE(umt.CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
+          AND umt.VendorSubServiceMappingId = 160
 
         UNION ALL
 
-        SELECT * FROM tenantiticsc.MasterTransaction
-        WHERE DATE(CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
-          AND VendorSubServiceMappingId = 160
+        SELECT imt.*,u.UserName FROM tenantiticsc.MasterTransaction imt  left join tenantiticsc.EboDetail ed on ed.id = imt.EboDetailId
+        left join tenantiticsc.`User` u  on u.Id = ed.UserId
+        WHERE DATE(imt.CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
+          AND imt.VendorSubServiceMappingId = 160
         ) AS src
         LEFT JOIN ihubcore.MasterTransaction AS hub
         ON hub.TenantMasterTransactionId = src.Id
         AND hub.TenantDetailId = 1
         AND DATE(hub.CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
         AND hub.VendorSubServiceMappingId = 7378
-    )
-    SELECT *
-    FROM cte
-    WHERE hub_id IS NULL"""
+        )
+        SELECT *
+        FROM cte
+        WHERE hub_id IS NULL"""
     # df_db2 has the record for the above scenario query
     df_db2 = pd.read_sql(query, con=engine)
     # print(df_db2)
