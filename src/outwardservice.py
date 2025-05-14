@@ -54,6 +54,10 @@ def filtering_Data(df_db, df_excel, service_name, df_db2):
         lambda x: x.map(status_mapping).fillna(x)
     )
 
+    df_db2["Tenant_status"] = df_db2["Tenant_status"].apply(
+        lambda x: status_mapping.get(x, x)
+    )
+
     def safe_column_select(df, columns):
         existing_cols = [col for col in columns if col in df.columns]
         return df[existing_cols].copy()
@@ -157,6 +161,7 @@ def filtering_Data(df_db, df_excel, service_name, df_db2):
             vendor_success_ihub_failed,
             vendor_failed_ihub_initiated,
             vend_ihub_succes_not_in_ledger,
+            df_db2,
         ],
         ignore_index=True,
     )
@@ -175,6 +180,7 @@ def filtering_Data(df_db, df_excel, service_name, df_db2):
         "not_in_Portal_vendor_success": not_in_portal_vendor_success,
         "Vendor_failed_ihub_initiated": vendor_failed_ihub_initiated,
         "vend_ihub_succes_not_in_ledger": vend_ihub_succes_not_in_ledger,
+        "Tenant_db_ini_not_in_hubdb": df_db2,
     }
 
 
@@ -235,7 +241,7 @@ def recharge_Service(start_date, end_date, df_excel, service_name):
         SELECT 
         src.Id,
         src.TranAmountTotal,
-        src.TransactionStatus,
+        src.TransactionStatus as Tenant_status,
         src.CreationTs,
         src.VendorSubServiceMappingId,
         hub.Id AS hub_id,
