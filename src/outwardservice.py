@@ -91,7 +91,7 @@ def filtering_Data(df_db, df_excel, service_name, df_db2):
         (~df_excel["REFID"].isin(df_db["vendor_reference"]))
         & (df_excel["STATUS"].str.lower() == "success")
         & (df_db["Ihub_Ledger_status"].str.lower() == "no")
-    ].copy()
+    ]
 
     not_in_portal_vendor_success["CATEGORY"] = "NOT_IN_PORTAL_VENDOR_SUCCESS"
     not_in_portal_vendor_success = safe_column_select(
