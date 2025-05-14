@@ -1,6 +1,7 @@
 import pandas as pd
 from db_connector import get_db_connection
 from logger_config import logger
+from sqlalchemy.exc import SQLAlchemyError
 
 engine = get_db_connection()
 
@@ -218,69 +219,72 @@ def recharge_Service(start_date, end_date, df_excel, service_name):
             ON a.IHubReferenceId = mt2.TransactionRefNum
             WHERE DATE(sn.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
         """
+    try:
+        with engine.begin() as connection:
+            # Reading data from Server
+            df_db = pd.read_sql(query, con=connection)
 
-    # Reading data from Server
-    df_db = pd.read_sql(query, con=engine)
+            # print(df_db.columns)
 
-    # print(df_db.columns)
+            # replacing the enums to its corresponding status values
+            status_mapping = {
+                0: "initiated",
+                1: "success",
+                2: "pending",
+                3: "failed",
+                4: "instant failed",
+            }
+            df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(
+                lambda x: status_mapping.get(x, x)
+            )
+            # To find transaction that is initiated by EBO present in tenant data base But do not hit in hub database
+            query = """ #for recharge service paysprint
+                WITH cte AS (
+                SELECT 
+                src.Id,
+                src.UserName ,
+                src.TranAmountTotal,
+                src.TransactionStatus as Tenant_status,
+                src.CreationTs,
+                src.VendorSubServiceMappingId,
+                hub.Id AS hub_id,
+                hub.VendorSubServiceMappingId AS HVM_id
+                FROM (
+                SELECT mt.*,u.UserName  FROM tenantinetcsc.MasterTransaction mt left join tenantinetcsc.EboDetail ed on ed.id = mt.EboDetailId
+                left join tenantinetcsc.`User` u  on u.Id = ed.UserId
+                WHERE DATE(mt.CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
+                AND mt.VendorSubServiceMappingId = 160
 
-    # replacing the enums to its corresponding status values
-    status_mapping = {
-        0: "initiated",
-        1: "success",
-        2: "pending",
-        3: "failed",
-        4: "instant failed",
-    }
-    df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(
-        lambda x: status_mapping.get(x, x)
-    )
-    # To find transaction that is initiated by EBO present in tenant data base But do not hit in hub database
-    query = """ #for recharge service paysprint
-        WITH cte AS (
-        SELECT 
-        src.Id,
-        src.UserName ,
-        src.TranAmountTotal,
-        src.TransactionStatus as Tenant_status,
-        src.CreationTs,
-        src.VendorSubServiceMappingId,
-        hub.Id AS hub_id,
-        hub.VendorSubServiceMappingId AS HVM_id
-        FROM (
-        SELECT mt.*,u.UserName  FROM tenantinetcsc.MasterTransaction mt left join tenantinetcsc.EboDetail ed on ed.id = mt.EboDetailId
-        left join tenantinetcsc.`User` u  on u.Id = ed.UserId
-        WHERE DATE(mt.CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
-          AND mt.VendorSubServiceMappingId = 160
+                UNION ALL
 
-        UNION ALL
+                SELECT umt.*,u.UserName FROM tenantupcb.MasterTransaction umt left join tenantupcb.EboDetail ed on ed.id = umt.EboDetailId
+                left join tenantupcb.`User` u  on u.Id = ed.UserId
+                WHERE DATE(umt.CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
+                AND umt.VendorSubServiceMappingId = 160
 
-        SELECT umt.*,u.UserName FROM tenantupcb.MasterTransaction umt left join tenantupcb.EboDetail ed on ed.id = umt.EboDetailId
-        left join tenantupcb.`User` u  on u.Id = ed.UserId
-        WHERE DATE(umt.CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
-          AND umt.VendorSubServiceMappingId = 160
+                UNION ALL
 
-        UNION ALL
+                SELECT imt.*,u.UserName FROM tenantiticsc.MasterTransaction imt  left join tenantiticsc.EboDetail ed on ed.id = imt.EboDetailId
+                left join tenantiticsc.`User` u  on u.Id = ed.UserId
+                WHERE DATE(imt.CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
+                AND imt.VendorSubServiceMappingId = 160
+                ) AS src
+                LEFT JOIN ihubcore.MasterTransaction AS hub
+                ON hub.TenantMasterTransactionId = src.Id
+                AND hub.TenantDetailId = 1
+                AND DATE(hub.CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
+                AND hub.VendorSubServiceMappingId = 7378
+                )
+                SELECT *
+                FROM cte
+                WHERE hub_id IS NULL"""
+            # df_db2 has the record for the above scenario query
+            df_db2 = pd.read_sql(query, con=engine)
+            # print(df_db2)
 
-        SELECT imt.*,u.UserName FROM tenantiticsc.MasterTransaction imt  left join tenantiticsc.EboDetail ed on ed.id = imt.EboDetailId
-        left join tenantiticsc.`User` u  on u.Id = ed.UserId
-        WHERE DATE(imt.CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
-          AND imt.VendorSubServiceMappingId = 160
-        ) AS src
-        LEFT JOIN ihubcore.MasterTransaction AS hub
-        ON hub.TenantMasterTransactionId = src.Id
-        AND hub.TenantDetailId = 1
-        AND DATE(hub.CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
-        AND hub.VendorSubServiceMappingId = 7378
-        )
-        SELECT *
-        FROM cte
-        WHERE hub_id IS NULL"""
-    # df_db2 has the record for the above scenario query
-    df_db2 = pd.read_sql(query, con=engine)
-    # print(df_db2)
-
-    result = filtering_Data(df_db, df_excel, service_name, df_db2)
+            result = filtering_Data(df_db, df_excel, service_name, df_db2)
+    except SQLAlchemyError as e:
+        logger.error(f"Database error in recharge_Service(): {e}")
     return result
 
 
