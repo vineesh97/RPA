@@ -1,6 +1,7 @@
 import pandas as pd
 from db_connector import get_db_connection
 from logger_config import logger
+from sqlalchemy.exc import SQLAlchemyError
 
 engine = get_db_connection()
 
@@ -91,7 +92,7 @@ def filtering_Data(df_db, df_excel, service_name, df_db2):
         (~df_excel["REFID"].isin(df_db["vendor_reference"]))
         & (df_excel["STATUS"].str.lower() == "success")
         & (df_db["Ihub_Ledger_status"].str.lower() == "no")
-    ].copy()
+    ]
 
     not_in_portal_vendor_success["CATEGORY"] = "NOT_IN_PORTAL_VENDOR_SUCCESS"
     not_in_portal_vendor_success = safe_column_select(
@@ -218,44 +219,43 @@ def recharge_Service(start_date, end_date, df_excel, service_name):
             ON a.IHubReferenceId = mt2.TransactionRefNum
             WHERE DATE(sn.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
         """
+    try:
+        with engine.begin() as connection:
+            # Reading data from Server
+            df_db = pd.read_sql(query, con=connection)
 
-    # Reading data from Server
-    df_db = pd.read_sql(query, con=engine)
+            # print(df_db.columns)
 
-    # print(df_db.columns)
+            # replacing the enums to its corresponding status values
+            status_mapping = {
+                0: "initiated",
+                1: "success",
+                2: "pending",
+                3: "failed",
+                4: "instant failed",
+            }
+            df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(
+                lambda x: status_mapping.get(x, x)
+            )
+            # To find transaction that is initiated by EBO present in tenant data base But do not hit in hub database
+            query = """ #for recharge service paysprint
+                WITH cte AS (
+                SELECT 
+                src.Id,
+                src.UserName ,
+                src.TranAmountTotal,
+                src.TransactionStatus as Tenant_status,
+                src.CreationTs,
+                src.VendorSubServiceMappingId,
+                hub.Id AS hub_id,
+                hub.VendorSubServiceMappingId AS HVM_id
+                FROM (
+                SELECT mt.*,u.UserName  FROM tenantinetcsc.MasterTransaction mt left join tenantinetcsc.EboDetail ed on ed.id = mt.EboDetailId
+                left join tenantinetcsc.`User` u  on u.Id = ed.UserId
+                WHERE DATE(mt.CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
+                AND mt.VendorSubServiceMappingId = 160
 
-    # replacing the enums to its corresponding status values
-    status_mapping = {
-        0: "initiated",
-        1: "success",
-        2: "pending",
-        3: "failed",
-        4: "instant failed",
-    }
-    df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(
-        lambda x: status_mapping.get(x, x)
-    )
-    # To find transaction that is initiated by EBO present in tenant data base But do not hit in hub database
-    query = f""" -- for recharge service paysprint
-        WITH cte AS (
-        SELECT 
-        src.Id,
-        src.UserName,
-        src.TranAmountTotal,
-        src.TransactionStatus as Tenant_status,
-        src.CreationTs,
-        src.VendorSubServiceMappingId,
-        hub.Id AS hub_id,
-        hub.VendorSubServiceMappingId AS HVM_id
-        FROM (
-        SELECT mt.*, u.UserName  
-        FROM tenantinetcsc.MasterTransaction mt 
-        LEFT JOIN tenantinetcsc.EboDetail ed ON ed.id = mt.EboDetailId
-        LEFT JOIN tenantinetcsc.`User` u ON u.Id = ed.UserId
-        WHERE DATE(mt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
-          AND mt.VendorSubServiceMappingId = 160
-
-        UNION ALL
+                UNION ALL
 
         SELECT umt.*, u.UserName 
         FROM tenantupcb.MasterTransaction umt 
@@ -264,7 +264,7 @@ def recharge_Service(start_date, end_date, df_excel, service_name):
         WHERE DATE(umt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
           AND umt.VendorSubServiceMappingId = 160
 
-        UNION ALL
+                UNION ALL
 
         SELECT imt.*, u.UserName 
         FROM tenantiticsc.MasterTransaction imt  
@@ -287,7 +287,9 @@ def recharge_Service(start_date, end_date, df_excel, service_name):
     df_db2 = pd.read_sql(query, con=engine)
     # print(df_db2)
 
-    result = filtering_Data(df_db, df_excel, service_name, df_db2)
+            result = filtering_Data(df_db, df_excel, service_name, df_db2)
+    except SQLAlchemyError as e:
+        logger.error(f"Database error in recharge_Service(): {e}")
     return result
 
 
