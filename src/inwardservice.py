@@ -8,6 +8,8 @@ engine = get_db_connection()
 def inward_service_selection(
     start_date, end_date, service_name, transaction_type, df_excel
 ):
+    logger.info(f"Entering Reconciliation for {service_name} Service")
+
     if service_name == "Aeps":
         df_excel = df_excel.rename(columns={"UTR": "REFID", "DATE": "VEND_DATE"})
         logger.info("Aeps service: Column 'UTR' renamed to 'REFID'")
@@ -18,7 +20,7 @@ def inward_service_selection(
 
 
 def filtering_Data(df_db, df_excel, service_name):
-    logger.info("Filteration Starts")
+    logger.info(f"Filteration Starts for Inward service {service_name}")
     status_mapping = {
         0: "initiated",
         1: "success",

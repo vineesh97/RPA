@@ -6,7 +6,9 @@ engine = get_db_connection()
 
 
 # service function selection
-def outward_service_selection(start_date, end_date, service_name, transaction_type, df_excel):
+def outward_service_selection(
+    start_date, end_date, service_name, transaction_type, df_excel
+):
     logger.info(f"Entering Reconciliation for {service_name} Service")
     start_date = start_date
     end_date = end_date
@@ -15,12 +17,6 @@ def outward_service_selection(start_date, end_date, service_name, transaction_ty
         df_excel = df_excel.rename(columns={"REFID": "REFID", "DATE": "VEND_DATE"})
         logger.info("Recharge service: Column 'REFID' renamed to 'REFID'")
         result = recharge_Service(start_date, end_date, df_excel, service_name)
-    if service_name == "Aeps":
-        df_excel = df_excel.rename(columns={"UTR": "REFID", "DATE": "VEND_DATE"})
-        logger.info("Aeps service: Column 'UTR' renamed to 'REFID'")
-        result = aeps_Service(
-            start_date, end_date, service_name, transaction_type, df_excel
-        )
     if service_name == "IMT":
         result = IMT_Service(start_date, end_date, df_excel, service_name)
     if service_name == "Pan_UTI":
@@ -44,8 +40,8 @@ def outward_service_selection(start_date, end_date, service_name, transaction_ty
 # ---------------------------------------------------------------------------------
 # ---------------------------------------------------------------------------------
 # Filtering Function
-def filtering_Data(df_db, df_excel, service_name):
-    logger.info("Filteration Starts")
+def filtering_Data(df_db, df_excel, service_name, df_db2):
+    logger.info(f"Filteration Starts for Inward service {service_name}")
     status_mapping = {
         0: "initiated",
         1: "success",
@@ -233,60 +229,48 @@ def recharge_Service(start_date, end_date, df_excel, service_name):
     df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(
         lambda x: status_mapping.get(x, x)
     )
-    result = filtering_Data(df_db, df_excel, service_name)
-    return result
-
-
-# -----------------------------------------------------------------------------------
-# Aeps function
-def aeps_Service(start_date, end_date, service_name, transaction_type, df_excel):
-    logger.info(f"Fetching data from HUB for {service_name}")
-    query = f"""
+    # To find transaction that is initiated by EBO present in tenant data base But do not hit in hub database
+    query = """ #for recharge service paysprint
+        WITH cte AS (
         SELECT 
-        mt2.TransactionRefNum AS Ihub_reference,
-        pat.BankRrn AS vendor_reference,
-        u.UserName,
-        mt2.TransactionStatus AS IHUB_Master_status,
-        mst.TransactionStatus AS MasterSubTrans_status,
-        pat.CreationTs AS service_date,
-        pat.TransStatus AS {service_name}_status,
-        CASE 
-        WHEN a.IHubReferenceId IS NOT NULL THEN 'Yes'
-        ELSE 'No'
-        END AS Ihub_Ledger_status
-        FROM ihubcore.MasterTransaction mt2 
-        LEFT JOIN ihubcore.MasterSubTransaction mst
-        ON mst.MasterTransactionId = mt2.Id
-        LEFT JOIN ihubcore.PsAepsTransaction pat 
-        ON pat.MasterSubTransactionId = mst.Id
-        LEFT JOIN tenantinetcsc.EboDetail ed
-        ON mt2.EboDetailId = ed.Id
-        LEFT JOIN tenantinetcsc.`User` u
-        ON u.id = ed.UserId
-        LEFT JOIN (
-        SELECT DISTINCT iwt.IHubReferenceId AS IHubReferenceId
-        FROM ihubcore.IHubWalletTransaction iwt
-        WHERE DATE(iwt.CreationTs) BETWEEN '{start_date}' AND CURRENT_DATE()
-        ) a 
-        ON a.IHubReferenceId = mt2.TransactionRefNum
-        WHERE mt2.TenantDetailId = 1 and pat.TransMode={transaction_type}
-        AND DATE(pat.CreationTs) BETWEEN '{start_date}' AND '{end_date}';
-    """
-    df_db = pd.read_sql(query, con=engine)
-    # mapping status name with enum
-    status_mapping = {
-        3: "inprocess",
-        2: "timeout",
-        1: "success",
-        255: "initiated",
-        254: "failed",
-        0: "failed",
-    }
-    df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(
-        lambda x: status_mapping.get(x, x)
+        src.Id,
+        src.TranAmountTotal,
+        src.TransactionStatus,
+        src.CreationTs,
+        src.VendorSubServiceMappingId,
+        hub.Id AS hub_id,
+        hub.VendorSubServiceMappingId AS HVM_id
+        FROM (
+        SELECT * FROM tenantinetcsc.MasterTransaction
+        WHERE DATE(CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
+          AND VendorSubServiceMappingId = 160
+
+        UNION ALL
+
+        SELECT * FROM tenantupcb.MasterTransaction
+        WHERE DATE(CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
+          AND VendorSubServiceMappingId = 160
+
+        UNION ALL
+
+        SELECT * FROM tenantiticsc.MasterTransaction
+        WHERE DATE(CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
+          AND VendorSubServiceMappingId = 160
+        ) AS src
+        LEFT JOIN ihubcore.MasterTransaction AS hub
+        ON hub.TenantMasterTransactionId = src.Id
+        AND hub.TenantDetailId = 1
+        AND DATE(hub.CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
+        AND hub.VendorSubServiceMappingId = 7378
     )
-    # calling filtering function
-    result = filtering_Data(df_db, df_excel, service_name)
+    SELECT *
+    FROM cte
+    WHERE hub_id IS NULL"""
+    # df_db2 has the record for the above scenario query
+    df_db2 = pd.read_sql(query, con=engine)
+    # print(df_db2)
+
+    result = filtering_Data(df_db, df_excel, service_name, df_db2)
     return result
 
 
