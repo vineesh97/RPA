@@ -238,56 +238,59 @@ def recharge_Service(start_date, end_date, df_excel, service_name):
                 lambda x: status_mapping.get(x, x)
             )
             # To find transaction that is initiated by EBO present in tenant data base But do not hit in hub database
-            query = """ #for recharge service paysprint
-                WITH cte AS (
-                SELECT 
-                src.Id,
-                src.UserName ,
-                src.TranAmountTotal,
-                src.TransactionStatus as Tenant_status,
-                src.CreationTs,
-                src.VendorSubServiceMappingId,
-                hub.Id AS hub_id,
-                hub.VendorSubServiceMappingId AS HVM_id
-                FROM (
-                SELECT mt.*,u.UserName  FROM tenantinetcsc.MasterTransaction mt left join tenantinetcsc.EboDetail ed on ed.id = mt.EboDetailId
-                left join tenantinetcsc.`User` u  on u.Id = ed.UserId
-                WHERE DATE(mt.CreationTs) BETWEEN '2025-05-07' AND '2025-05-08'
-                AND mt.VendorSubServiceMappingId = 160
+            query = f""" -- for recharge service paysprint
+            WITH cte AS (
+            SELECT 
+            src.Id,
+            src.UserName,
+            src.TranAmountTotal,
+            src.TransactionStatus as Tenant_status,
+            src.CreationTs,
+            src.VendorSubServiceMappingId,
+            hub.Id AS hub_id,
+            hub.VendorSubServiceMappingId AS HVM_id
+            FROM (
+            SELECT mt.*, u.UserName  
+            FROM tenantinetcsc.MasterTransaction mt 
+            LEFT JOIN tenantinetcsc.EboDetail ed ON ed.id = mt.EboDetailId
+            LEFT JOIN tenantinetcsc.`User` u ON u.Id = ed.UserId
+            WHERE DATE(mt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
+            AND mt.VendorSubServiceMappingId = 160
 
-                UNION ALL
+            UNION ALL
 
-        SELECT umt.*, u.UserName 
-        FROM tenantupcb.MasterTransaction umt 
-        LEFT JOIN tenantupcb.EboDetail ed ON ed.id = umt.EboDetailId
-        LEFT JOIN tenantupcb.`User` u ON u.Id = ed.UserId
-        WHERE DATE(umt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
-          AND umt.VendorSubServiceMappingId = 160
+            SELECT umt.*, u.UserName 
+            FROM tenantupcb.MasterTransaction umt 
+            LEFT JOIN tenantupcb.EboDetail ed ON ed.id = umt.EboDetailId
+            LEFT JOIN tenantupcb.`User` u ON u.Id = ed.UserId
+            WHERE DATE(umt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
+            AND umt.VendorSubServiceMappingId = 160
 
-                UNION ALL
+            UNION ALL
 
-        SELECT imt.*, u.UserName 
-        FROM tenantiticsc.MasterTransaction imt  
-        LEFT JOIN tenantiticsc.EboDetail ed ON ed.id = imt.EboDetailId
-        LEFT JOIN tenantiticsc.`User` u ON u.Id = ed.UserId
-        WHERE DATE(imt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
-          AND imt.VendorSubServiceMappingId = 160
-        ) AS src
-        LEFT JOIN ihubcore.MasterTransaction AS hub
-        ON hub.TenantMasterTransactionId = src.Id
-        AND hub.TenantDetailId = 1
-        AND DATE(hub.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
-        AND hub.VendorSubServiceMappingId = 7378
-        )
-        SELECT *
-        FROM cte
-        WHERE hub_id IS NULL"""
+            SELECT imt.*, u.UserName 
+            FROM tenantiticsc.MasterTransaction imt  
+            LEFT JOIN tenantiticsc.EboDetail ed ON ed.id = imt.EboDetailId
+            LEFT JOIN tenantiticsc.`User` u ON u.Id = ed.UserId
+            WHERE DATE(imt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
+            AND imt.VendorSubServiceMappingId = 160
+            ) AS src
+            LEFT JOIN ihubcore.MasterTransaction AS hub
+            ON hub.TenantMasterTransactionId = src.Id
+            AND hub.TenantDetailId = 1
+            AND DATE(hub.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
+            AND hub.VendorSubServiceMappingId = 7378
+            )
+            SELECT *
+            FROM cte
+            WHERE hub_id IS NULL"""
+
 
     # df_db2 has the record for the above scenario query
-    df_db2 = pd.read_sql(query, con=engine)
+        df_db2 = pd.read_sql(query, con=engine)
     # print(df_db2)
 
-            result = filtering_Data(df_db, df_excel, service_name, df_db2)
+        result = filtering_Data(df_db, df_excel, service_name, df_db2)
     except SQLAlchemyError as e:
         logger.error(f"Database error in recharge_Service(): {e}")
     return result
