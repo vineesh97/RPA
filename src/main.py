@@ -1,14 +1,15 @@
-from reconciliation import run_Reconciliation
+from outwardservice import outward_service_selection
 import pandas as pd
 from logger_config import logger
-    
+from inwardservice import inward_service_selection
 
-def main(from_date, to_date, service_name, file,transaction_type):
+
+def main(from_date, to_date, service_name, file, transaction_type):
     try:
         logger.info("Entered Main Function...")
         # Read the uploaded Excel file
         df_excel = pd.read_excel(file, dtype=str)
-        #print(df_excel)
+        # print(df_excel)
         # Convert the DATE column to datetime
         df_excel["DATE"] = pd.to_datetime(df_excel["DATE"], errors="coerce").dt.date
 
@@ -17,16 +18,26 @@ def main(from_date, to_date, service_name, file,transaction_type):
         to_date = pd.to_datetime(to_date).date()
 
         # Filter records within the given date range
-        Date_check = df_excel[(df_excel["DATE"] >= from_date) & (df_excel["DATE"] <= to_date)]
+        Date_check = df_excel[
+            (df_excel["DATE"] >= from_date) & (df_excel["DATE"] <= to_date)
+        ]
 
         if Date_check.empty:
             logger.warning("No records found within the given date range!")
-            return {"status":"202"}
+            return {"status": "202"}
         else:
-            logger.info("Records found within the date range. Running reconciliation...")
-
-            # Call the reconciliation function
-            result = run_Reconciliation(from_date, to_date, service_name,transaction_type, df_excel)
+            logger.info(
+                "Records found within the date range. Running reconciliation..."
+            )
+            if service_name in ["Aeps", "MATM", "UPIQR"]:
+                result = inward_service_selection(
+                    from_date, to_date, service_name, transaction_type, df_excel
+                )
+            else:
+                # Call the reconciliation function
+                result = outward_service_selection(
+                    from_date, to_date, service_name, transaction_type, df_excel
+                )
             logger.info("Reconciliation Ends")
             return result  # Should be a dictionary of DataFrames
 

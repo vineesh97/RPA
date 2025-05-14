@@ -114,7 +114,7 @@ def dummydata():
 
 
 # flask html result returning page
-@app.route("/filter", methods=["POST"])
+@app.route("/filter", methods=["post"])
 def filter_data():
     # app.logger.info("✅ filter_data() function is called!")
     try:
@@ -169,7 +169,7 @@ def filter_data():
                     "VENDOR_SUCCESS_IHUB_FAILED",
                     "not_in_Portal_vendor_success",
                     "Vendor_failed_ihub_initiated",
-                    "vend_ihub_succes_not_in_ledger"
+                    "Tenant_db_ini_not_in_hubdb",
                 ]:
                     if sheet_name in result:
                         result[sheet_name].to_excel(
