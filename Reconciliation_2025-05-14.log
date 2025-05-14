@@ -218,3 +218,15 @@
 2025-05-14 15:37:24,935 - INFO - Reconciliation Ends
 2025-05-14 15:37:25,611 - INFO - Report successfully exported for Recharge
 2025-05-14 15:37:25,611 - INFO - ----------------------------------------------------------------------------------
+2025-05-14 16:22:13,031 - INFO - ------------------------------------------------------------------------------------
+2025-05-14 16:22:13,032 - INFO - Request received to filter data
+2025-05-14 16:22:13,034 - INFO - Entered Main Function...
+2025-05-14 16:22:13,718 - INFO - Records found within the date range. Running reconciliation...
+2025-05-14 16:22:13,719 - INFO - Entering Reconciliation for Recharge Service
+2025-05-14 16:22:13,719 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-14 16:22:13,719 - INFO - Fetching data from HUB for Recharge
+2025-05-14 16:22:15,628 - INFO - Filteration Starts for Inward service Recharge
+2025-05-14 16:22:15,692 - INFO - Filteration Ends
+2025-05-14 16:22:15,700 - INFO - Reconciliation Ends
+2025-05-14 16:22:16,013 - INFO - Report successfully exported for Recharge
+2025-05-14 16:22:16,014 - INFO - ----------------------------------------------------------------------------------
