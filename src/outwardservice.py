@@ -289,7 +289,6 @@ def recharge_Service(start_date, end_date, df_excel, service_name):
     # df_db2 has the record for the above scenario query
         df_db2 = pd.read_sql(query, con=engine)
     # print(df_db2)
-
         result = filtering_Data(df_db, df_excel, service_name, df_db2)
     except SQLAlchemyError as e:
         logger.error(f"Database error in recharge_Service(): {e}")

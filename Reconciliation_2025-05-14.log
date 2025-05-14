@@ -218,3 +218,39 @@
 2025-05-14 15:37:24,935 - INFO - Reconciliation Ends
 2025-05-14 15:37:25,611 - INFO - Report successfully exported for Recharge
 2025-05-14 15:37:25,611 - INFO - ----------------------------------------------------------------------------------
+2025-05-14 17:53:45,573 - INFO - ------------------------------------------------------------------------------------
+2025-05-14 17:53:45,574 - INFO - Request received to filter data
+2025-05-14 17:53:45,574 - INFO - Entered Main Function...
+2025-05-14 17:54:00,581 - INFO - Records found within the date range. Running reconciliation...
+2025-05-14 17:54:00,582 - INFO - Entering Reconciliation for Recharge Service
+2025-05-14 17:54:00,597 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-14 17:54:00,599 - INFO - Fetching data from HUB for Recharge
+2025-05-14 17:54:20,208 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-14 17:54:20,481 - ERROR - Error in filter_data(): 'status'
+2025-05-14 17:55:30,153 - INFO - ------------------------------------------------------------------------------------
+2025-05-14 17:55:30,160 - INFO - Request received to filter data
+2025-05-14 17:55:30,165 - INFO - Entered Main Function...
+2025-05-14 17:55:35,967 - INFO - Records found within the date range. Running reconciliation...
+2025-05-14 17:55:35,968 - INFO - Entering Reconciliation for Recharge Service
+2025-05-14 17:55:35,972 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-14 17:55:35,973 - INFO - Fetching data from HUB for Recharge
+2025-05-14 17:55:53,333 - INFO - ------------------------------------------------------------------------------------
+2025-05-14 17:55:53,333 - INFO - Request received to filter data
+2025-05-14 17:55:53,333 - INFO - Entered Main Function...
+2025-05-14 17:55:55,712 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-14 17:55:56,495 - ERROR - Error in filter_data(): 'status'
+2025-05-14 17:55:57,213 - INFO - Records found within the date range. Running reconciliation...
+2025-05-14 17:55:57,213 - INFO - Entering Reconciliation for Recharge Service
+2025-05-14 17:55:57,231 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-14 17:55:57,233 - INFO - Fetching data from HUB for Recharge
+2025-05-14 17:56:16,684 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-14 17:56:16,712 - ERROR - Error in filter_data(): 'status'
+2025-05-14 17:58:50,661 - INFO - ------------------------------------------------------------------------------------
+2025-05-14 17:58:50,663 - INFO - Request received to filter data
+2025-05-14 17:58:50,677 - INFO - Entered Main Function...
+2025-05-14 17:58:56,344 - INFO - Records found within the date range. Running reconciliation...
+2025-05-14 17:58:56,349 - INFO - Entering Reconciliation for Recharge Service
+2025-05-14 17:58:56,362 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-14 17:58:56,363 - INFO - Fetching data from HUB for Recharge
+2025-05-14 17:59:16,112 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-14 17:59:16,918 - ERROR - Error in filter_data(): 'status'
