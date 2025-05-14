@@ -1,0 +1,188 @@
+2025-04-22 15:12:48,618 - INFO - ------------------------------------------------------------------------------------
+2025-04-22 15:12:48,618 - INFO - Request received to filter data
+2025-04-22 15:12:51,101 - INFO - Records found within the date range. Running reconciliation...
+2025-04-22 15:12:51,101 - INFO - Entering Reconciliation for Aeps Service
+2025-04-22 15:12:51,102 - INFO - Fetching data from HUB for Aeps
+2025-04-22 15:12:51,402 - ERROR - Error in filter_data(): 'status'
+2025-04-22 15:16:59,571 - INFO - ------------------------------------------------------------------------------------
+2025-04-22 15:16:59,571 - INFO - Request received to filter data
+2025-04-22 15:17:00,058 - INFO - Records found within the date range. Running reconciliation...
+2025-04-22 15:17:00,058 - INFO - Entering Reconciliation for Aeps Service
+2025-04-22 15:17:00,058 - INFO - Fetching data from HUB for Aeps
+2025-04-22 15:17:00,187 - ERROR - Error in filter_data(): 'status'
+2025-04-22 15:17:03,866 - INFO - ------------------------------------------------------------------------------------
+2025-04-22 15:17:03,866 - INFO - Request received to filter data
+2025-04-22 15:17:03,900 - INFO - Records found within the date range. Running reconciliation...
+2025-04-22 15:17:03,900 - INFO - Entering Reconciliation for Recharge Service
+2025-04-22 15:17:03,900 - INFO - Fetching data from HUB for Recharge
+2025-04-22 15:17:03,971 - ERROR - Error in filter_data(): 'status'
+2025-04-22 15:17:09,186 - INFO - ------------------------------------------------------------------------------------
+2025-04-22 15:17:09,186 - INFO - Request received to filter data
+2025-04-22 15:17:09,719 - INFO - Records found within the date range. Running reconciliation...
+2025-04-22 15:17:09,719 - INFO - Entering Reconciliation for Recharge Service
+2025-04-22 15:17:09,719 - INFO - Fetching data from HUB for Recharge
+2025-04-22 15:17:09,843 - ERROR - Error in filter_data(): 'status'
+2025-04-22 15:17:11,683 - INFO - ------------------------------------------------------------------------------------
+2025-04-22 15:17:11,683 - INFO - Request received to filter data
+2025-04-22 15:17:12,342 - INFO - Records found within the date range. Running reconciliation...
+2025-04-22 15:17:12,342 - INFO - Entering Reconciliation for Recharge Service
+2025-04-22 15:17:12,342 - INFO - Fetching data from HUB for Recharge
+2025-04-22 15:17:12,698 - ERROR - Error in filter_data(): 'status'
+2025-04-22 15:19:27,676 - INFO - ------------------------------------------------------------------------------------
+2025-04-22 15:19:27,677 - INFO - Request received to filter data
+2025-04-22 15:19:28,643 - INFO - Records found within the date range. Running reconciliation...
+2025-04-22 15:19:28,643 - INFO - Entering Reconciliation for Recharge Service
+2025-04-22 15:19:28,643 - INFO - Fetching data from HUB for Recharge
+2025-04-22 15:19:28,958 - ERROR - Error in filter_data(): 'status'
+2025-04-22 15:21:11,647 - INFO - ------------------------------------------------------------------------------------
+2025-04-22 15:21:11,647 - INFO - Request received to filter data
+2025-04-22 15:21:12,418 - INFO - Records found within the date range. Running reconciliation...
+2025-04-22 15:21:12,418 - INFO - Entering Reconciliation for Recharge Service
+2025-04-22 15:21:12,418 - INFO - Fetching data from HUB for Recharge
+2025-04-22 15:21:12,446 - ERROR - Error in filter_data(): 'status'
+2025-04-22 15:21:14,469 - INFO - ------------------------------------------------------------------------------------
+2025-04-22 15:21:14,469 - INFO - Request received to filter data
+2025-04-22 15:21:14,979 - INFO - Records found within the date range. Running reconciliation...
+2025-04-22 15:21:14,979 - INFO - Entering Reconciliation for Recharge Service
+2025-04-22 15:21:14,980 - INFO - Fetching data from HUB for Recharge
+2025-04-22 15:21:15,185 - ERROR - Error in filter_data(): 'status'
+2025-04-22 15:28:11,395 - INFO - ------------------------------------------------------------------------------------
+2025-04-22 15:28:11,396 - INFO - Request received to filter data
+2025-04-22 15:28:12,295 - INFO - Records found within the date range. Running reconciliation...
+2025-04-22 15:28:12,295 - INFO - Entering Reconciliation for Recharge Service
+2025-04-22 15:28:12,295 - INFO - Fetching data from HUB for Recharge
+2025-04-22 15:28:13,723 - INFO - ------------------------------------------------------------------------------------
+2025-04-22 15:28:13,723 - INFO - Request received to filter data
+2025-04-22 15:28:14,422 - INFO - Records found within the date range. Running reconciliation...
+2025-04-22 15:28:14,423 - INFO - Entering Reconciliation for Recharge Service
+2025-04-22 15:28:14,423 - INFO - Fetching data from HUB for Recharge
+2025-04-22 15:28:14,487 - INFO - Filteration Starts
+2025-04-22 15:28:14,534 - INFO - Filteration Ends
+2025-04-22 15:28:14,535 - INFO - Reconciliation Ends
+2025-04-22 15:28:16,128 - INFO - Report successfully exported for Recharge
+2025-04-22 15:28:16,128 - INFO - ----------------------------------------------------------------------------------
+2025-04-22 15:28:16,141 - INFO - Filteration Starts
+2025-04-22 15:28:16,251 - INFO - Filteration Ends
+2025-04-22 15:28:16,255 - INFO - Reconciliation Ends
+2025-04-22 15:28:16,485 - INFO - Report successfully exported for Recharge
+2025-04-22 15:28:16,486 - INFO - ----------------------------------------------------------------------------------
+2025-04-22 16:11:01,302 - INFO - ------------------------------------------------------------------------------------
+2025-04-22 16:11:01,303 - INFO - Request received to filter data
+2025-04-22 16:11:02,247 - INFO - Records found within the date range. Running reconciliation...
+2025-04-22 16:11:02,248 - INFO - Entering Reconciliation for Recharge Service
+2025-04-22 16:11:02,248 - INFO - Fetching data from HUB for Recharge
+2025-04-22 16:11:02,710 - INFO - Filteration Starts
+2025-04-22 16:11:02,756 - INFO - Filteration Ends
+2025-04-22 16:11:02,757 - INFO - Reconciliation Ends
+2025-04-22 16:11:02,918 - INFO - Report successfully exported for Recharge
+2025-04-22 16:11:02,918 - INFO - ----------------------------------------------------------------------------------
+2025-04-22 16:11:03,932 - INFO - ------------------------------------------------------------------------------------
+2025-04-22 16:11:03,932 - INFO - Request received to filter data
+2025-04-22 16:11:04,340 - INFO - Records found within the date range. Running reconciliation...
+2025-04-22 16:11:04,341 - INFO - Entering Reconciliation for Recharge Service
+2025-04-22 16:11:04,341 - INFO - Fetching data from HUB for Recharge
+2025-04-22 16:11:04,634 - INFO - Filteration Starts
+2025-04-22 16:11:04,657 - INFO - Filteration Ends
+2025-04-22 16:11:04,658 - INFO - Reconciliation Ends
+2025-04-22 16:11:04,788 - INFO - Report successfully exported for Recharge
+2025-04-22 16:11:04,789 - INFO - ----------------------------------------------------------------------------------
+2025-04-22 16:11:28,329 - INFO - ------------------------------------------------------------------------------------
+2025-04-22 16:11:28,330 - INFO - Request received to filter data
+2025-04-22 16:11:28,740 - INFO - Records found within the date range. Running reconciliation...
+2025-04-22 16:11:28,741 - INFO - Entering Reconciliation for Recharge Service
+2025-04-22 16:11:28,741 - INFO - Fetching data from HUB for Recharge
+2025-04-22 16:11:28,958 - INFO - Filteration Starts
+2025-04-22 16:11:28,979 - INFO - Filteration Ends
+2025-04-22 16:11:28,979 - INFO - Reconciliation Ends
+2025-04-22 16:11:29,072 - INFO - Report successfully exported for Recharge
+2025-04-22 16:11:29,072 - INFO - ----------------------------------------------------------------------------------
+2025-04-22 16:25:53,414 - INFO - ------------------------------------------------------------------------------------
+2025-04-22 16:25:53,414 - INFO - Request received to filter data
+2025-04-22 16:25:54,121 - INFO - Records found within the date range. Running reconciliation...
+2025-04-22 16:25:54,121 - INFO - Entering Reconciliation for Recharge Service
+2025-04-22 16:25:54,122 - INFO - Fetching data from HUB for Recharge
+2025-04-22 16:25:54,517 - INFO - Filteration Starts
+2025-04-22 16:25:54,546 - INFO - Filteration Ends
+2025-04-22 16:25:54,546 - INFO - Reconciliation Ends
+2025-04-22 16:25:54,760 - INFO - Report successfully exported for Recharge
+2025-04-22 16:25:54,761 - INFO - ----------------------------------------------------------------------------------
+2025-04-22 16:27:36,771 - INFO - ------------------------------------------------------------------------------------
+2025-04-22 16:27:36,771 - INFO - Request received to filter data
+2025-04-22 16:27:37,487 - INFO - Records found within the date range. Running reconciliation...
+2025-04-22 16:27:37,488 - INFO - Entering Reconciliation for Recharge Service
+2025-04-22 16:27:37,488 - INFO - Fetching data from HUB for Recharge
+2025-04-22 16:27:37,813 - INFO - Filteration Starts
+2025-04-22 16:27:37,830 - INFO - Filteration Ends
+2025-04-22 16:27:37,831 - INFO - Reconciliation Ends
+2025-04-22 16:27:37,973 - INFO - Report successfully exported for Recharge
+2025-04-22 16:27:37,974 - INFO - ----------------------------------------------------------------------------------
+2025-04-22 16:40:02,757 - INFO - ------------------------------------------------------------------------------------
+2025-04-22 16:40:02,757 - INFO - Request received to filter data
+2025-04-22 16:40:03,987 - INFO - Records found within the date range. Running reconciliation...
+2025-04-22 16:40:03,987 - INFO - Entering Reconciliation for Recharge Service
+2025-04-22 16:40:03,987 - INFO - Fetching data from HUB for Recharge
+2025-04-22 16:40:04,396 - INFO - Filteration Starts
+2025-04-22 16:40:04,449 - INFO - Filteration Ends
+2025-04-22 16:40:04,449 - INFO - Reconciliation Ends
+2025-04-22 16:40:04,797 - INFO - Report successfully exported for Recharge
+2025-04-22 16:40:04,797 - INFO - ----------------------------------------------------------------------------------
+2025-04-22 16:46:17,837 - INFO - ------------------------------------------------------------------------------------
+2025-04-22 16:46:17,837 - INFO - Request received to filter data
+2025-04-22 16:46:18,826 - INFO - Records found within the date range. Running reconciliation...
+2025-04-22 16:46:18,826 - INFO - Entering Reconciliation for Recharge Service
+2025-04-22 16:46:18,827 - INFO - Fetching data from HUB for Recharge
+2025-04-22 16:46:19,177 - INFO - Filteration Starts
+2025-04-22 16:46:19,206 - INFO - Filteration Ends
+2025-04-22 16:46:19,206 - INFO - Reconciliation Ends
+2025-04-22 16:46:19,398 - INFO - Report successfully exported for Recharge
+2025-04-22 16:46:19,398 - INFO - ----------------------------------------------------------------------------------
+2025-04-22 16:46:34,106 - INFO - ------------------------------------------------------------------------------------
+2025-04-22 16:46:34,106 - INFO - Request received to filter data
+2025-04-22 16:46:34,926 - INFO - Records found within the date range. Running reconciliation...
+2025-04-22 16:46:34,926 - INFO - Entering Reconciliation for Recharge Service
+2025-04-22 16:46:34,927 - INFO - Fetching data from HUB for Recharge
+2025-04-22 16:46:35,322 - INFO - Filteration Starts
+2025-04-22 16:46:35,361 - INFO - Filteration Ends
+2025-04-22 16:46:35,362 - INFO - Reconciliation Ends
+2025-04-22 16:46:35,554 - INFO - Report successfully exported for Recharge
+2025-04-22 16:46:35,554 - INFO - ----------------------------------------------------------------------------------
+2025-04-22 16:46:45,148 - INFO - ------------------------------------------------------------------------------------
+2025-04-22 16:46:45,148 - INFO - Request received to filter data
+2025-04-22 16:46:46,258 - INFO - Records found within the date range. Running reconciliation...
+2025-04-22 16:46:46,260 - INFO - Entering Reconciliation for Recharge Service
+2025-04-22 16:46:46,260 - INFO - Fetching data from HUB for Recharge
+2025-04-22 16:46:46,628 - INFO - Filteration Starts
+2025-04-22 16:46:46,680 - INFO - Filteration Ends
+2025-04-22 16:46:46,686 - INFO - Reconciliation Ends
+2025-04-22 16:46:46,859 - INFO - Report successfully exported for Recharge
+2025-04-22 16:46:46,859 - INFO - ----------------------------------------------------------------------------------
+2025-04-22 16:49:37,374 - INFO - ------------------------------------------------------------------------------------
+2025-04-22 16:49:37,375 - INFO - Request received to filter data
+2025-04-22 16:49:38,309 - INFO - Records found within the date range. Running reconciliation...
+2025-04-22 16:49:38,309 - INFO - Entering Reconciliation for Recharge Service
+2025-04-22 16:49:38,309 - INFO - Fetching data from HUB for Recharge
+2025-04-22 16:49:38,889 - INFO - Filteration Starts
+2025-04-22 16:49:38,920 - INFO - Filteration Ends
+2025-04-22 16:49:38,921 - INFO - Reconciliation Ends
+2025-04-22 16:49:39,158 - INFO - Report successfully exported for Recharge
+2025-04-22 16:49:39,158 - INFO - ----------------------------------------------------------------------------------
+2025-04-22 16:52:33,780 - INFO - ------------------------------------------------------------------------------------
+2025-04-22 16:52:33,780 - INFO - Request received to filter data
+2025-04-22 16:52:34,819 - INFO - Records found within the date range. Running reconciliation...
+2025-04-22 16:52:34,819 - INFO - Entering Reconciliation for Recharge Service
+2025-04-22 16:52:34,820 - INFO - Fetching data from HUB for Recharge
+2025-04-22 16:52:35,238 - INFO - Filteration Starts
+2025-04-22 16:52:35,270 - INFO - Filteration Ends
+2025-04-22 16:52:35,272 - INFO - Reconciliation Ends
+2025-04-22 16:52:35,482 - INFO - Report successfully exported for Recharge
+2025-04-22 16:52:35,482 - INFO - ----------------------------------------------------------------------------------
+2025-04-22 16:55:02,829 - INFO - ------------------------------------------------------------------------------------
+2025-04-22 16:55:02,829 - INFO - Request received to filter data
+2025-04-22 16:55:03,950 - INFO - Records found within the date range. Running reconciliation...
+2025-04-22 16:55:03,950 - INFO - Entering Reconciliation for Recharge Service
+2025-04-22 16:55:03,951 - INFO - Fetching data from HUB for Recharge
+2025-04-22 16:55:04,388 - INFO - Filteration Starts
+2025-04-22 16:55:04,422 - INFO - Filteration Ends
+2025-04-22 16:55:04,422 - INFO - Reconciliation Ends
+2025-04-22 16:55:04,758 - INFO - Report successfully exported for Recharge
+2025-04-22 16:55:04,758 - INFO - ----------------------------------------------------------------------------------
