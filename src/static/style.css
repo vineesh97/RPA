@@ -209,8 +209,9 @@ body.wrapper {
     border-radius: 18px;
     padding: 15px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    margin-top: 75px;
-    width: 85%;
+    margin-top: 75px !important;
+    margin: auto;
+    width: 70%;
 }
 
 .apple-card-title {
