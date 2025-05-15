@@ -89,7 +89,7 @@ def outward_service_selection(
         result = filtering_Data(hub_data, df_excel, service_name, tenant_data)
 
     if service_name == "Passport":
-        tenant_service_id = (
+        Hub_service_id = (
             183,
             184,
             185,
@@ -101,8 +101,20 @@ def outward_service_selection(
             191,
             192,
         )
-        Hub_service_id = ",".join(str(x) for x in tenant_service_id)
-        tenant_service_id = Hub_service_id
+        Hub_service_id = ",".join(str(x) for x in Hub_service_id)
+        tenant_service_id = (
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            174,
+            175,
+        )
+        tenant_service_id = ",".join(str(x) for x in tenant_service_id)
         hub_data = passport_service(start_date, end_date, service_name)
         tenant_data = tenant_filtering(
             start_date, end_date, tenant_service_id, Hub_service_id
