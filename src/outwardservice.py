@@ -6,6 +6,7 @@ from sqlalchemy.exc import SQLAlchemyError
 engine = get_db_connection()
 
 
+# -----------------------------------------------------------------------------
 # service function selection
 def outward_service_selection(
     start_date, end_date, service_name, transaction_type, df_excel
@@ -26,26 +27,93 @@ def outward_service_selection(
         result = filtering_Data(hub_data, df_excel, service_name, tenant_data)
 
     if service_name == "IMT":
-        result = IMT_Service(start_date, end_date, df_excel, service_name)
+        df_excel = df_excel.rename(columns={"REFID": "REFID", "DATE": "VEND_DATE"})
+        tenant_service_id = 158
+        Hub_service_id = 158
+        hub_data = IMT_Service(start_date, end_date, service_name)
+        tenant_data = tenant_filtering(
+            start_date, end_date, tenant_service_id, Hub_service_id
+        )
+        result = filtering_Data(hub_data, df_excel, service_name, tenant_data)
     if service_name == "Pan_UTI":
         df_excel = df_excel.rename()
-        result = Panuti_service(start_date, end_date, df_excel, service_name)
+        tenant_service_id = 4
+        Hub_service_id = 4
+        hub_data = Panuti_service(start_date, end_date, service_name)
+        tenant_data = tenant_filtering(
+            start_date, end_date, tenant_service_id, Hub_service_id
+        )
+        result = filtering_Data(hub_data, df_excel, service_name, tenant_data)
     if service_name == "BBPS":
-        df_excel = df_excel.rename()
-        result = Bbps_service(start_date, end_date, df_excel, service_name)
-
-    if service_name == "Pan_UTI":
-        df_excel = df_excel.rename()
-        result = Panuti_service(start_date, end_date, df_excel, service_name)
+        # df_excel = df_excel.rename()
+        tenant_service_id = (
+            10,
+            16,
+            22,
+            28,
+            34,
+            40,
+            46,
+            52,
+            58,
+            64,
+            70,
+            76,
+            82,
+            88,
+            94,
+            100,
+            106,
+            112,
+            118,
+            124,
+            130,
+            136,
+            148,
+        )
+        Hub_service_id = ",".join(str(x) for x in tenant_service_id)
+        tenant_service_id = Hub_service_id
+        hub_data = Bbps_service(start_date, end_date, service_name)
+        tenant_data = tenant_filtering(
+            start_date, end_date, tenant_service_id, Hub_service_id
+        )
+        result = filtering_Data(hub_data, df_excel, service_name, tenant_data)
 
     if service_name == "Pan_NSDL":
-        df_excel = df_excel.rename()
-        result = Pannsdl_service(start_date, end_date, df_excel, service_name)
+        tenant_service_id = 201
+        Hub_service_id = 218
+        hub_data = Pannsdl_service(start_date, end_date, service_name)
+        tenant_data = tenant_filtering(
+            start_date, end_date, tenant_service_id, Hub_service_id
+        )
+        result = filtering_Data(hub_data, df_excel, service_name, tenant_data)
 
+    if service_name == "Passport":
+        tenant_service_id = (
+            183,
+            184,
+            185,
+            186,
+            187,
+            188,
+            189,
+            190,
+            191,
+            192,
+        )
+        Hub_service_id = ",".join(str(x) for x in tenant_service_id)
+        tenant_service_id = Hub_service_id
+        hub_data = passport_service(start_date, end_date, service_name)
+        tenant_data = tenant_filtering(
+            start_date, end_date, tenant_service_id, Hub_service_id
+        )
+        result = filtering_Data(hub_data, df_excel, service_name, tenant_data)
     return result
 
 
 # ---------------------------------------------------------------------------------
+
+
 # ---------------------------------------------------------------------------------
 # Filtering Function
 def filtering_Data(df_db, df_excel, service_name, tenant_data):
@@ -193,6 +261,8 @@ def filtering_Data(df_db, df_excel, service_name, tenant_data):
     }
 
 
+# ----------------------------------------------------------------------------------
+# tenant database filtering function
 def tenant_filtering(
     start_date,
     end_date,
@@ -208,27 +278,28 @@ def tenant_filtering(
          SELECT mt.*,u.UserName  FROM tenantinetcsc.MasterTransaction mt left join tenantinetcsc.EboDetail ed on ed.id = mt.EboDetailId
          left join tenantinetcsc.`User` u  on u.Id = ed.UserId
          WHERE DATE(mt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
-         AND mt.VendorSubServiceMappingId = {tenant_service_id}
+         AND mt.VendorSubServiceMappingId in ({tenant_service_id})
          UNION ALL
          SELECT umt.*,u.UserName FROM tenantupcb.MasterTransaction umt left join tenantupcb.EboDetail ed on ed.id = umt.EboDetailId
          left join tenantupcb.`User` u  on u.Id = ed.UserId
          WHERE DATE(umt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
-         AND umt.VendorSubServiceMappingId =  {tenant_service_id}
+         AND umt.VendorSubServiceMappingId in  ({tenant_service_id})
          UNION ALL
          SELECT imt.*,u.UserName FROM tenantiticsc.MasterTransaction imt  left join tenantiticsc.EboDetail ed on ed.id = imt.EboDetailId
          left join tenantiticsc.`User` u  on u.Id = ed.UserId
          WHERE DATE(imt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
-         AND imt.VendorSubServiceMappingId =  {tenant_service_id}
+         AND imt.VendorSubServiceMappingId in  ({tenant_service_id})
          ) AS src
          LEFT JOIN ihubcore.MasterTransaction AS hub
          ON hub.TenantMasterTransactionId = src.Id
          AND hub.TenantDetailId = 1
          AND DATE(hub.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
-         AND hub.VendorSubServiceMappingId = {Hub_service_id}
+         AND hub.VendorSubServiceMappingId in ({Hub_service_id})
          )
          SELECT *
          FROM cte
          WHERE hub_id IS NULL"""
+    print(query)
     try:
         with engine.begin() as connection:
             # result has the record for data that trigerred in tenant but not hit hub
@@ -530,4 +601,12 @@ def Pannsdl_service(start_date, end_date, df_excel, service_name):
     )
     # calling filtering function
     result = filtering_Data(df_db, df_excel, service_name)
+    return result
+
+
+# ------------------------------------------------------------------------------
+# passport service function
+def passport_service(start_date, end_date, service_name):
+    # need to query
+    result = 0
     return result
