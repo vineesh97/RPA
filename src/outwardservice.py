@@ -17,7 +17,14 @@ def outward_service_selection(
     if service_name == "Recharge":
         df_excel = df_excel.rename(columns={"REFID": "REFID", "DATE": "VEND_DATE"})
         logger.info("Recharge service: Column 'REFID' renamed to 'REFID'")
-        result = recharge_Service(start_date, end_date, df_excel, service_name)
+        tenant_service_id = 160
+        Hub_service_id = 7378
+        hub_data = recharge_Service(start_date, end_date, service_name)
+        tenant_data = tenant_filtering(
+            start_date, end_date, tenant_service_id, Hub_service_id
+        )
+        result = filtering_Data(hub_data, df_excel, service_name, tenant_data)
+
     if service_name == "IMT":
         result = IMT_Service(start_date, end_date, df_excel, service_name)
     if service_name == "Pan_UTI":
@@ -41,7 +48,7 @@ def outward_service_selection(
 # ---------------------------------------------------------------------------------
 # ---------------------------------------------------------------------------------
 # Filtering Function
-def filtering_Data(df_db, df_excel, service_name, df_db2):
+def filtering_Data(df_db, df_excel, service_name, tenant_data):
     logger.info(f"Filteration Starts for Inward service {service_name}")
     status_mapping = {
         0: "initiated",
@@ -55,7 +62,7 @@ def filtering_Data(df_db, df_excel, service_name, df_db2):
         lambda x: x.map(status_mapping).fillna(x)
     )
 
-    df_db2["Tenant_status"] = df_db2["Tenant_status"].apply(
+    tenant_data["Tenant_status"] = tenant_data["Tenant_status"].apply(
         lambda x: status_mapping.get(x, x)
     )
 
@@ -76,6 +83,7 @@ def filtering_Data(df_db, df_excel, service_name, df_db2):
         f"{service_name}_status",
         "service_date",
         "Ihub_Ledger_status",
+        "Tenant_Ledger_status",
     ]
 
     not_in_vendor = df_db[~df_db["vendor_reference"].isin(df_excel["REFID"])].copy()
@@ -162,7 +170,7 @@ def filtering_Data(df_db, df_excel, service_name, df_db2):
             vendor_success_ihub_failed,
             vendor_failed_ihub_initiated,
             vend_ihub_succes_not_in_ledger,
-            df_db2,
+            tenant_data,
         ],
         ignore_index=True,
     )
@@ -181,23 +189,64 @@ def filtering_Data(df_db, df_excel, service_name, df_db2):
         "not_in_Portal_vendor_success": not_in_portal_vendor_success,
         "Vendor_failed_ihub_initiated": vendor_failed_ihub_initiated,
         "vend_ihub_succes_not_in_ledger": vend_ihub_succes_not_in_ledger,
-        "Tenant_db_ini_not_in_hubdb": df_db2,
+        "Tenant_db_ini_not_in_hubdb": tenant_data,
     }
+
+
+def tenant_filtering(
+    start_date,
+    end_date,
+    tenant_service_id,
+    Hub_service_id,
+):
+    # To find transaction that is initiated by EBO present in tenant data base But do not hit in hub database
+    query = f"""
+         WITH cte AS (
+         SELECT src.Id, src.UserName , src.TranAmountTotal,src.TransactionStatus as Tenant_status,
+         src.CreationTs, src.VendorSubServiceMappingId,hub.Id AS hub_id,hub.VendorSubServiceMappingId AS HVM_id
+         FROM (
+         SELECT mt.*,u.UserName  FROM tenantinetcsc.MasterTransaction mt left join tenantinetcsc.EboDetail ed on ed.id = mt.EboDetailId
+         left join tenantinetcsc.`User` u  on u.Id = ed.UserId
+         WHERE DATE(mt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
+         AND mt.VendorSubServiceMappingId = {tenant_service_id}
+         UNION ALL
+         SELECT umt.*,u.UserName FROM tenantupcb.MasterTransaction umt left join tenantupcb.EboDetail ed on ed.id = umt.EboDetailId
+         left join tenantupcb.`User` u  on u.Id = ed.UserId
+         WHERE DATE(umt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
+         AND umt.VendorSubServiceMappingId =  {tenant_service_id}
+         UNION ALL
+         SELECT imt.*,u.UserName FROM tenantiticsc.MasterTransaction imt  left join tenantiticsc.EboDetail ed on ed.id = imt.EboDetailId
+         left join tenantiticsc.`User` u  on u.Id = ed.UserId
+         WHERE DATE(imt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
+         AND imt.VendorSubServiceMappingId =  {tenant_service_id}
+         ) AS src
+         LEFT JOIN ihubcore.MasterTransaction AS hub
+         ON hub.TenantMasterTransactionId = src.Id
+         AND hub.TenantDetailId = 1
+         AND DATE(hub.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
+         AND hub.VendorSubServiceMappingId = {Hub_service_id}
+         )
+         SELECT *
+         FROM cte
+         WHERE hub_id IS NULL"""
+    try:
+        with engine.begin() as connection:
+            # result has the record for data that trigerred in tenant but not hit hub
+            result = pd.read_sql(query, con=engine)
+
+    except SQLAlchemyError as e:
+        logger.error(f"Database error in recharge_Service(): {e}")
+    return result
 
 
 # -----------------------------------------------------------------------------
 # Recharge service function
-def recharge_Service(start_date, end_date, df_excel, service_name):
+def recharge_Service(start_date, end_date, service_name):
     logger.info(f"Fetching data from HUB for {service_name}")
     query = f"""
-            SELECT
-            mt2.TransactionRefNum AS Ihub_reference,
-            sn.requestID AS vendor_reference,
-            u.UserName,
-            mt2.TransactionStatus AS IHUB_Master_status,
-            mst.TransactionStatus AS MasterSubTrans_status,
-            sn.CreationTs AS service_date,
-            sn.rechargeStatus AS {service_name}_status,
+            SELECT mt2.TransactionRefNum AS Ihub_reference, sn.requestID AS vendor_reference,
+            u.UserName, mt2.TransactionStatus AS IHUB_Master_status, mst.TransactionStatus AS MasterSubTrans_status,
+            sn.CreationTs AS service_date, sn.rechargeStatus AS {service_name}_status,
             CASE
                 WHEN iwt.IHubReferenceId IS NOT NULL THEN 'Yes'
                 ELSE 'No'
@@ -233,9 +282,6 @@ def recharge_Service(start_date, end_date, df_excel, service_name):
         with engine.begin() as connection:
             # Reading data from Server
             df_db = pd.read_sql(query, con=connection)
-
-            # print(df_db.columns)
-
             # replacing the enums to its corresponding status values
             status_mapping = {
                 0: "initiated",
@@ -247,52 +293,7 @@ def recharge_Service(start_date, end_date, df_excel, service_name):
             df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(
                 lambda x: status_mapping.get(x, x)
             )
-            # To find transaction that is initiated by EBO present in tenant data base But do not hit in hub database
-            query = f"""
-                WITH cte AS (
-                SELECT 
-                src.Id,
-                src.UserName ,
-                src.TranAmountTotal,
-                src.TransactionStatus as Tenant_status,
-                src.CreationTs,
-                src.VendorSubServiceMappingId,
-                hub.Id AS hub_id,
-                hub.VendorSubServiceMappingId AS HVM_id
-                FROM (
-                SELECT mt.*,u.UserName  FROM tenantinetcsc.MasterTransaction mt left join tenantinetcsc.EboDetail ed on ed.id = mt.EboDetailId
-                left join tenantinetcsc.`User` u  on u.Id = ed.UserId
-                WHERE DATE(mt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
-                AND mt.VendorSubServiceMappingId = 160
-
-                UNION ALL
-
-                SELECT umt.*,u.UserName FROM tenantupcb.MasterTransaction umt left join tenantupcb.EboDetail ed on ed.id = umt.EboDetailId
-                left join tenantupcb.`User` u  on u.Id = ed.UserId
-                WHERE DATE(umt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
-                AND umt.VendorSubServiceMappingId = 160
-
-                UNION ALL
-
-                SELECT imt.*,u.UserName FROM tenantiticsc.MasterTransaction imt  left join tenantiticsc.EboDetail ed on ed.id = imt.EboDetailId
-                left join tenantiticsc.`User` u  on u.Id = ed.UserId
-                WHERE DATE(imt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
-                AND imt.VendorSubServiceMappingId = 160
-                ) AS src
-                LEFT JOIN ihubcore.MasterTransaction AS hub
-                ON hub.TenantMasterTransactionId = src.Id
-                AND hub.TenantDetailId = 1
-                AND DATE(hub.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
-                AND hub.VendorSubServiceMappingId = 7378
-                )
-                SELECT *
-                FROM cte
-                WHERE hub_id IS NULL"""
-            # df_db2 has the record for the above scenario query
-            df_db2 = pd.read_sql(query, con=engine)
-            # print(df_db2)
-
-            result = filtering_Data(df_db, df_excel, service_name, df_db2)
+            result = df_db
     except SQLAlchemyError as e:
         logger.error(f"Database error in recharge_Service(): {e}")
     return result
