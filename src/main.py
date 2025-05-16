@@ -2,6 +2,7 @@ from outwardservice import outward_service_selection
 import pandas as pd
 from logger_config import logger
 from inwardservice import inward_service_selection
+from handler import handler
 
 
 def main(from_date, to_date, service_name, file, transaction_type):
@@ -20,7 +21,8 @@ def main(from_date, to_date, service_name, file, transaction_type):
 
         if Date_check.empty:
             logger.warning("No records found within the given date range!")
-            return {"status": "202"}
+            message = "No records found within the given date range!"
+            return message
 
         logger.info("Records found within the date range. Running reconciliation...")
 

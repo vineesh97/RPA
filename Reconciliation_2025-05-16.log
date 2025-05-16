@@ -1005,3 +1005,263 @@ NameError: name 'np' is not defined
 2025-05-16 17:35:02,288 - INFO - Filteration Starts for Inward service Recharge
 2025-05-16 17:35:02,425 - INFO - Filteration Ends
 2025-05-16 17:35:02,425 - INFO - Reconciliation Ends
+2025-05-16 17:37:11,264 - INFO - Entered Main Function...
+2025-05-16 17:37:11,331 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 17:37:11,332 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 17:37:11,333 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 17:37:11,333 - INFO - Fetching data from HUB for Recharge
+2025-05-16 17:37:11,334 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-16 17:37:11,334 - ERROR - Error in main(): cannot access local variable 'result' where it is not associated with a value
+2025-05-16 17:37:54,176 - INFO - Entered Main Function...
+2025-05-16 17:37:54,242 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 17:37:54,242 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 17:37:54,243 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 17:37:54,243 - INFO - Fetching data from HUB for Recharge
+2025-05-16 17:37:57,757 - INFO - Filteration Starts for Inward service Recharge
+2025-05-16 17:37:57,834 - INFO - Filteration Ends
+2025-05-16 17:37:57,834 - INFO - Reconciliation Ends
+2025-05-16 17:40:35,688 - INFO - Entered Main Function...
+2025-05-16 17:40:36,210 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 17:40:36,210 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 17:40:36,212 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 17:40:36,212 - INFO - Fetching data from HUB for Recharge
+2025-05-16 17:40:39,610 - INFO - Filteration Starts for Inward service Recharge
+2025-05-16 17:40:39,747 - INFO - Filteration Ends
+2025-05-16 17:40:39,748 - INFO - Reconciliation Ends
+2025-05-16 17:43:48,737 - INFO - Entered Main Function...
+2025-05-16 17:43:48,807 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 17:43:48,807 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 17:43:48,808 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 17:43:48,808 - INFO - Fetching data from HUB for Recharge
+2025-05-16 17:43:48,809 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-16 17:43:48,809 - ERROR - Error in main(): cannot access local variable 'result' where it is not associated with a value
+2025-05-16 17:44:10,151 - INFO - Entered Main Function...
+2025-05-16 17:44:10,223 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 17:44:10,223 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 17:44:10,224 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 17:44:10,224 - INFO - Fetching data from HUB for Recharge
+2025-05-16 17:44:13,134 - INFO - Filteration Starts for Inward service Recharge
+2025-05-16 17:44:13,192 - INFO - Filteration Ends
+2025-05-16 17:44:13,193 - INFO - Reconciliation Ends
+2025-05-16 17:52:21,029 - INFO - Entered Main Function...
+2025-05-16 17:52:21,418 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 17:52:21,418 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 17:52:21,419 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 17:52:21,419 - INFO - Fetching data from HUB for Recharge
+2025-05-16 17:52:24,842 - INFO - Filteration Starts for Inward service Recharge
+2025-05-16 17:52:24,917 - INFO - Filteration Ends
+2025-05-16 17:52:24,917 - INFO - Reconciliation Ends
+2025-05-16 17:57:46,138 - INFO - Entered Main Function...
+2025-05-16 17:57:46,177 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 17:57:46,178 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 17:57:46,178 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 17:57:46,178 - INFO - Fetching data from HUB for Recharge
+2025-05-16 17:57:46,179 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-16 17:57:46,179 - ERROR - Error in main(): cannot access local variable 'result' where it is not associated with a value
+2025-05-16 17:57:54,653 - INFO - Entered Main Function...
+2025-05-16 17:57:54,692 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 17:57:54,692 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 17:57:54,693 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 17:57:54,693 - INFO - Fetching data from HUB for Recharge
+2025-05-16 17:57:58,104 - INFO - Filteration Starts for Inward service Recharge
+2025-05-16 17:57:58,177 - INFO - Filteration Ends
+2025-05-16 17:57:58,178 - INFO - Reconciliation Ends
+2025-05-16 18:00:00,281 - INFO - Entered Main Function...
+2025-05-16 18:00:00,991 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 18:00:00,991 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 18:00:00,991 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 18:00:00,991 - INFO - Fetching data from HUB for Recharge
+2025-05-16 18:00:04,473 - INFO - Filteration Starts for Inward service Recharge
+2025-05-16 18:00:04,522 - INFO - Filteration Ends
+2025-05-16 18:00:04,539 - INFO - Reconciliation Ends
+2025-05-16 18:00:30,117 - INFO - Entered Main Function...
+2025-05-16 18:00:30,445 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 18:00:30,445 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 18:00:30,446 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 18:00:30,446 - INFO - Fetching data from HUB for Recharge
+2025-05-16 18:00:33,873 - INFO - Filteration Starts for Inward service Recharge
+2025-05-16 18:00:33,920 - INFO - Filteration Ends
+2025-05-16 18:00:33,943 - INFO - Reconciliation Ends
+2025-05-16 18:12:32,893 - INFO - Entered Main Function...
+2025-05-16 18:12:32,937 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 18:12:32,937 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 18:12:32,938 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 18:12:32,938 - INFO - Fetching data from HUB for Recharge
+2025-05-16 18:12:32,939 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-16 18:12:32,939 - ERROR - Error in main(): cannot access local variable 'result' where it is not associated with a value
+2025-05-16 18:12:40,805 - INFO - Entered Main Function...
+2025-05-16 18:12:40,863 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 18:12:40,863 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 18:12:40,864 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 18:12:40,864 - INFO - Fetching data from HUB for Recharge
+2025-05-16 18:12:43,914 - INFO - Filteration Starts for Inward service Recharge
+2025-05-16 18:12:43,942 - INFO - Filteration Ends
+2025-05-16 18:12:43,944 - INFO - Reconciliation Ends
+2025-05-16 18:16:53,797 - INFO - Entered Main Function...
+2025-05-16 18:16:54,517 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 18:16:54,517 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 18:16:54,517 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 18:16:54,517 - INFO - Fetching data from HUB for Recharge
+2025-05-16 18:16:57,552 - INFO - Filteration Starts for Inward service Recharge
+2025-05-16 18:16:57,604 - INFO - Filteration Ends
+2025-05-16 18:16:57,609 - INFO - Reconciliation Ends
+2025-05-16 18:17:23,867 - INFO - Entered Main Function...
+2025-05-16 18:17:23,930 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 18:17:23,930 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 18:17:23,932 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 18:17:23,932 - INFO - Fetching data from HUB for Recharge
+2025-05-16 18:17:27,457 - INFO - Filteration Starts for Inward service Recharge
+2025-05-16 18:17:27,509 - INFO - Filteration Ends
+2025-05-16 18:17:27,521 - INFO - Reconciliation Ends
+2025-05-16 18:18:14,059 - INFO - Entered Main Function...
+2025-05-16 18:18:14,735 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 18:18:14,736 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 18:18:14,736 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 18:18:14,736 - INFO - Fetching data from HUB for Recharge
+2025-05-16 18:18:18,213 - INFO - Filteration Starts for Inward service Recharge
+2025-05-16 18:18:18,270 - INFO - Filteration Ends
+2025-05-16 18:18:18,279 - INFO - Reconciliation Ends
+2025-05-16 18:18:37,968 - INFO - Entered Main Function...
+2025-05-16 18:18:38,105 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 18:18:38,105 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 18:18:38,105 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 18:18:38,106 - INFO - Fetching data from HUB for Recharge
+2025-05-16 18:18:41,519 - INFO - Filteration Starts for Inward service Recharge
+2025-05-16 18:18:41,587 - INFO - Filteration Ends
+2025-05-16 18:18:41,603 - INFO - Reconciliation Ends
+2025-05-16 18:19:20,701 - INFO - Entered Main Function...
+2025-05-16 18:19:20,779 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 18:19:20,779 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 18:19:20,779 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 18:19:20,779 - INFO - Fetching data from HUB for Recharge
+2025-05-16 18:19:20,780 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-16 18:19:20,780 - ERROR - Error in main(): cannot access local variable 'result' where it is not associated with a value
+2025-05-16 18:19:29,262 - INFO - Entered Main Function...
+2025-05-16 18:19:29,336 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 18:19:29,336 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 18:19:29,337 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 18:19:29,337 - INFO - Fetching data from HUB for Recharge
+2025-05-16 18:19:32,698 - INFO - Filteration Starts for Inward service Recharge
+2025-05-16 18:19:32,782 - INFO - Filteration Ends
+2025-05-16 18:19:32,797 - INFO - Reconciliation Ends
+2025-05-16 18:20:27,409 - INFO - Entered Main Function...
+2025-05-16 18:20:28,089 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 18:20:28,089 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 18:20:28,090 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 18:20:28,090 - INFO - Fetching data from HUB for Recharge
+2025-05-16 18:20:31,458 - INFO - Filteration Starts for Inward service Recharge
+2025-05-16 18:20:31,525 - INFO - Filteration Ends
+2025-05-16 18:20:31,538 - INFO - Reconciliation Ends
+2025-05-16 18:22:20,134 - INFO - Entered Main Function...
+2025-05-16 18:22:20,441 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 18:22:20,441 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 18:22:20,442 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 18:22:20,442 - INFO - Fetching data from HUB for Recharge
+2025-05-16 18:22:23,862 - INFO - Filteration Starts for Inward service Recharge
+2025-05-16 18:22:23,929 - INFO - Filteration Ends
+2025-05-16 18:22:23,942 - INFO - Reconciliation Ends
+2025-05-16 18:23:00,600 - INFO - Entered Main Function...
+2025-05-16 18:23:00,909 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 18:23:00,909 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 18:23:00,909 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 18:23:00,909 - INFO - Fetching data from HUB for Recharge
+2025-05-16 18:23:04,274 - INFO - Filteration Starts for Inward service Recharge
+2025-05-16 18:23:04,321 - INFO - Filteration Ends
+2025-05-16 18:23:04,331 - INFO - Reconciliation Ends
+2025-05-16 18:23:52,433 - INFO - Entered Main Function...
+2025-05-16 18:23:52,483 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 18:23:52,484 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 18:23:52,484 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 18:23:52,484 - INFO - Fetching data from HUB for Recharge
+2025-05-16 18:23:52,485 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-16 18:23:52,486 - ERROR - Error in main(): cannot access local variable 'result' where it is not associated with a value
+2025-05-16 18:23:57,391 - INFO - Entered Main Function...
+2025-05-16 18:23:57,432 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 18:23:57,432 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 18:23:57,432 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 18:23:57,432 - INFO - Fetching data from HUB for Recharge
+2025-05-16 18:24:00,885 - INFO - Filteration Starts for Inward service Recharge
+2025-05-16 18:24:00,949 - INFO - Filteration Ends
+2025-05-16 18:24:00,959 - INFO - Reconciliation Ends
+2025-05-16 18:25:28,982 - INFO - Entered Main Function...
+2025-05-16 18:25:29,347 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 18:25:29,347 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 18:25:29,347 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 18:25:29,347 - INFO - Fetching data from HUB for Recharge
+2025-05-16 18:25:32,972 - INFO - Filteration Starts for Inward service Recharge
+2025-05-16 18:25:33,049 - INFO - Filteration Ends
+2025-05-16 18:25:33,061 - INFO - Reconciliation Ends
+2025-05-16 18:46:18,535 - INFO - Entered Main Function...
+2025-05-16 18:46:19,187 - WARNING - No records found within the given date range!
+2025-05-16 18:46:34,326 - INFO - Entered Main Function...
+2025-05-16 18:46:34,408 - WARNING - No records found within the given date range!
+2025-05-16 18:49:15,957 - INFO - Entered Main Function...
+2025-05-16 18:49:16,125 - WARNING - No records found within the given date range!
+2025-05-16 18:54:45,494 - INFO - Entered Main Function...
+2025-05-16 18:54:45,936 - WARNING - No records found within the given date range!
+2025-05-16 18:54:45,936 - ERROR - Error in main(): 'str' object has no attribute 'values'
+2025-05-16 18:55:02,113 - INFO - Entered Main Function...
+2025-05-16 18:55:02,170 - WARNING - No records found within the given date range!
+2025-05-16 18:55:02,170 - ERROR - Error in main(): 'str' object has no attribute 'values'
+2025-05-16 18:57:49,192 - INFO - Entered Main Function...
+2025-05-16 18:57:49,946 - WARNING - No records found within the given date range!
+2025-05-16 18:57:49,948 - ERROR - Dummydata error: 'str' object has no attribute 'items'
+Traceback (most recent call last):
+  File "d:\GitHub\RPA\src\app.py", line 158, in dummydata
+    for key, value in result.items():
+                      ^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'items'
+
+2025-05-16 18:58:00,369 - INFO - Entered Main Function...
+2025-05-16 18:58:00,460 - WARNING - No records found within the given date range!
+2025-05-16 18:58:00,463 - ERROR - Dummydata error: 'str' object has no attribute 'items'
+Traceback (most recent call last):
+  File "d:\GitHub\RPA\src\app.py", line 158, in dummydata
+    for key, value in result.items():
+                      ^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'items'
+
+2025-05-16 19:02:20,529 - INFO - Entered Main Function...
+2025-05-16 19:02:20,907 - WARNING - No records found within the given date range!
+2025-05-16 19:02:28,010 - INFO - Entered Main Function...
+2025-05-16 19:02:28,117 - WARNING - No records found within the given date range!
+2025-05-16 19:05:27,149 - INFO - Entered Main Function...
+2025-05-16 19:05:27,989 - WARNING - No records found within the given date range!
+2025-05-16 19:07:28,536 - INFO - Entered Main Function...
+2025-05-16 19:07:28,658 - WARNING - No records found within the given date range!
+2025-05-16 19:07:35,348 - INFO - Entered Main Function...
+2025-05-16 19:07:35,397 - WARNING - No records found within the given date range!
+2025-05-16 19:08:36,328 - INFO - Entered Main Function...
+2025-05-16 19:08:36,367 - WARNING - No records found within the given date range!
+2025-05-16 19:08:43,954 - INFO - Entered Main Function...
+2025-05-16 19:08:44,047 - WARNING - No records found within the given date range!
+2025-05-16 19:08:49,815 - INFO - Entered Main Function...
+2025-05-16 19:08:49,869 - WARNING - No records found within the given date range!
+2025-05-16 19:10:17,378 - INFO - Entered Main Function...
+2025-05-16 19:10:17,461 - WARNING - No records found within the given date range!
+2025-05-16 19:10:18,889 - INFO - Entered Main Function...
+2025-05-16 19:10:18,978 - WARNING - No records found within the given date range!
+2025-05-16 19:10:20,610 - INFO - Entered Main Function...
+2025-05-16 19:10:20,716 - WARNING - No records found within the given date range!
+2025-05-16 19:10:28,829 - INFO - Entered Main Function...
+2025-05-16 19:10:28,925 - WARNING - No records found within the given date range!
+2025-05-16 19:10:30,604 - INFO - Entered Main Function...
+2025-05-16 19:10:30,712 - WARNING - No records found within the given date range!
+2025-05-16 19:10:32,795 - INFO - Entered Main Function...
+2025-05-16 19:10:32,894 - WARNING - No records found within the given date range!
+2025-05-16 19:10:35,284 - INFO - Entered Main Function...
+2025-05-16 19:10:35,386 - WARNING - No records found within the given date range!
+2025-05-16 19:10:38,605 - INFO - Entered Main Function...
+2025-05-16 19:10:38,665 - WARNING - No records found within the given date range!
+2025-05-16 19:11:54,510 - INFO - Entered Main Function...
+2025-05-16 19:11:55,625 - WARNING - No records found within the given date range!
+2025-05-16 19:12:40,763 - INFO - Entered Main Function...
+2025-05-16 19:12:40,859 - WARNING - No records found within the given date range!
+2025-05-16 19:13:05,246 - INFO - Entered Main Function...
+2025-05-16 19:13:05,359 - WARNING - No records found within the given date range!
+2025-05-16 19:13:07,526 - INFO - Entered Main Function...
+2025-05-16 19:13:07,590 - WARNING - No records found within the given date range!
+2025-05-16 19:17:04,776 - INFO - Entered Main Function...
+2025-05-16 19:17:04,875 - WARNING - No records found within the given date range!
+2025-05-16 19:17:09,558 - INFO - Entered Main Function...
+2025-05-16 19:17:09,614 - WARNING - No records found within the given date range!

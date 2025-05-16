@@ -154,29 +154,37 @@ def dummydata():
 
         # Process data
         result = main(from_date, to_date, service_name, file, transaction_type)
+        if isinstance(result, str):
+            return handler("", result)
+        else:
+            for key, value in result.items():
+                # Convert pandas DataFrames to array
+                if isinstance(value, pd.DataFrame):
+                    # Convert using pandas' built-in NaN handling
+                    print("pd.df loop")
+                    value = value.where(pd.notnull(value), None)
+                    for col in value.select_dtypes(include=["datetime64[ns]"]).columns:
+                        value[col] = (
+                            value[col]
+                            .astype(object)
+                            .where(pd.notnull(value[col]), None)
+                        )
+                    result[key] = value.to_dict(orient="records")
 
-        for key, value in result.items():
-            # Convert pandas DataFrames to dict
-            if isinstance(value, pd.DataFrame):
-                # Convert using pandas' built-in NaN handling
-                value = value.where(pd.notnull(value), None)
-                for col in value.select_dtypes(include=["datetime64[ns]"]).columns:
-                    value[col] = (
-                        value[col].astype(object).where(pd.notnull(value[col]), None)
-                    )
-                result[key] = value.to_dict(orient="records")
+                elif isinstance(value, list):
+                    # Ensure any lists contain proper serializable objects
+                    print("list loop")
+                    result[key] = [
+                        dict(item) if hasattr(item, "__dict__") else item
+                        for item in value
+                    ]
 
-            elif isinstance(value, list):
-                # Ensure any lists contain proper serializable objects
-                result[key] = [
-                    dict(item) if hasattr(item, "__dict__") else item for item in value
-                ]
+                elif hasattr(value, "__dict__"):
+                    # Convert objects to dictionaries
+                    ("dict loop")
+                    result[key] = value.__dict__
 
-            elif hasattr(value, "__dict__"):
-                # Convert objects to dictionaries
-                result[key] = value.__dict__
-
-        return handler(result)
+                return handler(result,"")
     except Exception as e:
         logger.error(f"Dummydata error: {str(e)}\n{traceback.format_exc()}")
         return jsonify({"error": "Failed to process data"}), 500

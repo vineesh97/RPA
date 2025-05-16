@@ -258,9 +258,11 @@ def filtering_Data(df_db, df_excel, service_name, tenant_data):
     # Export to Excel
     # combined.to_excel(output_file, index=False)
     logger.info("Filteration Ends")
+    print(not_in_vendor.head(10))
     return {
         "combined": combined,
         "not_in_Portal": not_in_portal.head(100),
+        "not_in_vendor": not_in_vendor,
         "mismatched": mismatched,
         "VENDOR_SUCCESS_IHUB_INPROGRESS": vendor_success_ihub_initiated,
         "VENDOR_SUCCESS_IHUB_FAILED": vendor_success_ihub_failed,
