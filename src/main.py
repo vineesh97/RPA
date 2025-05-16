@@ -7,17 +7,13 @@ from inwardservice import inward_service_selection
 def main(from_date, to_date, service_name, file, transaction_type):
     try:
         logger.info("Entered Main Function...")
-        # Read the uploaded Excel file
+
         df_excel = pd.read_excel(file, dtype=str)
-        # print(df_excel)
-        # Convert the DATE column to datetime
         df_excel["DATE"] = pd.to_datetime(df_excel["DATE"], errors="coerce").dt.date
 
-        # Convert user input dates to datetime
         from_date = pd.to_datetime(from_date).date()
         to_date = pd.to_datetime(to_date).date()
 
-        # Filter records within the given date range
         Date_check = df_excel[
             (df_excel["DATE"] >= from_date) & (df_excel["DATE"] <= to_date)
         ]
@@ -25,22 +21,21 @@ def main(from_date, to_date, service_name, file, transaction_type):
         if Date_check.empty:
             logger.warning("No records found within the given date range!")
             return {"status": "202"}
-        else:
-            logger.info(
-                "Records found within the date range. Running reconciliation..."
+
+        logger.info("Records found within the date range. Running reconciliation...")
+
+        if service_name in ["Aeps", "MATM", "UPIQR"]:
+            result = inward_service_selection(
+                from_date, to_date, service_name, transaction_type, df_excel
             )
-            if service_name in ["Aeps", "MATM", "UPIQR"]:
-                result = inward_service_selection(
-                    from_date, to_date, service_name, transaction_type, df_excel
-                )
-            else:
-                # Call the reconciliation function
-                result = outward_service_selection(
-                    from_date, to_date, service_name, transaction_type, df_excel
-                )
-            logger.info("Reconciliation Ends")
-            return result  # Should be a dictionary of DataFrames
+        else:
+            result = outward_service_selection(
+                from_date, to_date, service_name, transaction_type, df_excel
+            )
+
+        logger.info("Reconciliation Ends")
+        return result
 
     except Exception as e:
-        logger.error(f"❌ Error in main(): {str(e)}")
-        return {"error": f"Internal Server Error: {str(e)}"}
+        logger.error("Error in main(): %s", str(e))
+        return {"status": "500", "error": str(e)}

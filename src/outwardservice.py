@@ -259,7 +259,6 @@ def filtering_Data(df_db, df_excel, service_name, tenant_data):
     # combined.to_excel(output_file, index=False)
     logger.info("Filteration Ends")
     return {
-        # "status": "200",
         "combined": combined,
         "not_in_Portal": not_in_portal.head(100),
         "mismatched": mismatched,
