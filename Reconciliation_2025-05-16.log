@@ -979,3 +979,29 @@ NameError: name 'np' is not defined
 2025-05-16 17:30:10,597 - INFO - Filteration Ends
 2025-05-16 17:30:10,600 - INFO - Reconciliation Ends
 2025-05-16 17:30:10,862 - INFO - Report generated for Recharge
+2025-05-16 17:34:20,951 - INFO - Entered Main Function...
+2025-05-16 17:34:21,816 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 17:34:21,817 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 17:34:21,819 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 17:34:21,819 - INFO - Fetching data from HUB for Recharge
+2025-05-16 17:34:25,295 - INFO - Filteration Starts for Inward service Recharge
+2025-05-16 17:34:25,480 - INFO - Filteration Ends
+2025-05-16 17:34:25,480 - INFO - Reconciliation Ends
+2025-05-16 17:34:25,776 - INFO - Report generated for Recharge
+2025-05-16 17:34:30,720 - INFO - Entered Main Function...
+2025-05-16 17:34:30,820 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 17:34:30,820 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 17:34:30,821 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 17:34:30,821 - INFO - Fetching data from HUB for Recharge
+2025-05-16 17:34:34,482 - INFO - Filteration Starts for Inward service Recharge
+2025-05-16 17:34:34,620 - INFO - Filteration Ends
+2025-05-16 17:34:34,621 - INFO - Reconciliation Ends
+2025-05-16 17:34:34,854 - INFO - Report generated for Recharge
+2025-05-16 17:34:58,715 - INFO - Entered Main Function...
+2025-05-16 17:34:58,887 - INFO - Records found within the date range. Running reconciliation...
+2025-05-16 17:34:58,887 - INFO - Entering Reconciliation for Recharge Service
+2025-05-16 17:34:58,889 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-16 17:34:58,889 - INFO - Fetching data from HUB for Recharge
+2025-05-16 17:35:02,288 - INFO - Filteration Starts for Inward service Recharge
+2025-05-16 17:35:02,425 - INFO - Filteration Ends
+2025-05-16 17:35:02,425 - INFO - Reconciliation Ends
