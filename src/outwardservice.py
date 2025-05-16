@@ -259,8 +259,7 @@ def filtering_Data(df_db, df_excel, service_name, tenant_data):
     # combined.to_excel(output_file, index=False)
     logger.info("Filteration Ends")
     return {
-        "status": "200",
-        "not_in_vendor": not_in_vendor,
+        # "status": "200",
         "combined": combined,
         "not_in_Portal": not_in_portal.head(100),
         "mismatched": mismatched,
@@ -311,7 +310,6 @@ def tenant_filtering(
          SELECT *
          FROM cte
          WHERE hub_id IS NULL"""
-    print(query)
     try:
         with engine.begin() as connection:
             # result has the record for data that trigerred in tenant but not hit hub
