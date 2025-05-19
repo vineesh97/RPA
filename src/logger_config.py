@@ -1,9 +1,13 @@
+import os
 import logging
 from logging.handlers import TimedRotatingFileHandler
 import datetime
 
-# Get today's date in YYYY-MM-DD format
-log_filename = f"Reconciliation_{datetime.date.today()}.log"
+# Ensure 'log' directory exists
+os.makedirs("logs", exist_ok=True)
+
+# Define log file path inside 'log' folder
+log_filename = os.path.join("logs", f"Reconciliation_{datetime.date.today()}.log")
 
 # Create a logger
 logger = logging.getLogger("DailyLogger")
