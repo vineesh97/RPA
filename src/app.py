@@ -161,7 +161,7 @@ def dummydata():
                 # Convert pandas DataFrames to array
                 if isinstance(value, pd.DataFrame):
                     # Convert using pandas' built-in NaN handling
-                    print("pd.df loop")
+                    # print("pd.df loop")
                     value = value.where(pd.notnull(value), None)
                     for col in value.select_dtypes(include=["datetime64[ns]"]).columns:
                         value[col] = (
