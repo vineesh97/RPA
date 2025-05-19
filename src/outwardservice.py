@@ -129,7 +129,7 @@ def outward_service_selection(
 # ---------------------------------------------------------------------------------
 # Filtering Function
 def filtering_Data(df_db, df_excel, service_name, tenant_data):
-    logger.info(f"Filteration Starts for Inward service {service_name}")
+    logger.info(f"Filteration Starts for  service {service_name}")
     status_mapping = {
         0: "initiated",
         1: "success",
@@ -165,7 +165,7 @@ def filtering_Data(df_db, df_excel, service_name, tenant_data):
         "Ihub_Ledger_status",
         "Tenant_Ledger_status",
     ]
-
+    # 1
     not_in_vendor = df_db[~df_db["vendor_reference"].isin(df_excel["REFID"])].copy()
     not_in_vendor["CATEGORY"] = "NOT_IN_VENDOR"
     not_in_vendor = safe_column_select(not_in_vendor, required_columns)
@@ -229,7 +229,7 @@ def filtering_Data(df_db, df_excel, service_name, tenant_data):
     vendor_failed_ihub_initiated = safe_column_select(
         vendor_failed_ihub_initiated, required_columns
     )
-
+    # 9.
     vend_ihub_succes_not_in_ledger = matched[
         (matched["STATUS"].str.lower() == "success")
         & (matched["IHUB_Master_status"].str.lower() == "success")
@@ -239,29 +239,52 @@ def filtering_Data(df_db, df_excel, service_name, tenant_data):
     vend_ihub_succes_not_in_ledger = safe_column_select(
         vend_ihub_succes_not_in_ledger, required_columns
     )
-
-    combined = pd.concat(
-        [
-            not_in_vendor,
-            not_in_portal,
-            not_in_portal_vendor_success,
-            mismatched,
-            vendor_success_ihub_initiated,
-            vendor_success_ihub_failed,
-            vendor_failed_ihub_initiated,
-            vend_ihub_succes_not_in_ledger,
-            tenant_data,
-        ],
-        ignore_index=True,
-    )
+    tenant_data["CATEGORY"] = "TENANT DB INTI & NOT IN IHUB"
+    combined = [
+        not_in_vendor,
+        not_in_portal,
+        not_in_portal_vendor_success,
+        mismatched,
+        vendor_success_ihub_initiated,
+        vendor_success_ihub_failed,
+        vendor_failed_ihub_initiated,
+        vend_ihub_succes_not_in_ledger,
+        tenant_data,
+    ]
+    all_columns = set().union(*[df.columns for df in combined])
+    aligned_dfs = []
+    for df in combined:
+        # create missing columns with None
+        df_copy = df.copy()  # 🛡️ Make a copy so original is not modified
+        for col in all_columns - set(df_copy.columns):
+            df_copy[col] = None
+        df_copy = df_copy[list(all_columns)]  # Reorder columns
+        aligned_dfs.append(df_copy)
+    combined = pd.concat(aligned_dfs, ignore_index=True)
+    # combined = pd.concat(
+    #     [
+    #         not_in_vendor,
+    #         not_in_portal,
+    #         not_in_portal_vendor_success,
+    #         mismatched,
+    #         vendor_success_ihub_initiated,
+    #         vendor_success_ihub_failed,
+    #         vendor_failed_ihub_initiated,
+    #         vend_ihub_succes_not_in_ledger,
+    #         tenant_data,
+    #     ],
+    #     ignore_index=True,
+    # )
+    # columns_to_convert = ["Id", "AMOUNT", "VendorSubServiceMappingId"]
+    # combined[columns_to_convert] = combined[columns_to_convert].astype(str)
 
     # Export to Excel
     # combined.to_excel(output_file, index=False)
     logger.info("Filteration Ends")
-    print(not_in_vendor.head(10))
+    print(mismatched.head(10))
     return {
         "combined": combined,
-        "not_in_Portal": not_in_portal.head(100),
+        "not_in_Portal": not_in_portal,
         "not_in_vendor": not_in_vendor,
         "mismatched": mismatched,
         "VENDOR_SUCCESS_IHUB_INPROGRESS": vendor_success_ihub_initiated,
@@ -284,8 +307,8 @@ def tenant_filtering(
     # To find transaction that is initiated by EBO present in tenant data base But do not hit in hub database
     query = f"""
          WITH cte AS (
-         SELECT src.Id, src.UserName , src.TranAmountTotal,src.TransactionStatus as Tenant_status,
-         src.CreationTs, src.VendorSubServiceMappingId,hub.Id AS hub_id,hub.VendorSubServiceMappingId AS HVM_id
+         SELECT src.Id, src.UserName , src.TranAmountTotal as AMOUNT,src.TransactionStatus as Tenant_status,
+         src.CreationTs, src.VendorSubServiceMappingId,hub.Id AS hub_id
          FROM (
          SELECT mt.*,u.UserName  FROM tenantinetcsc.MasterTransaction mt left join tenantinetcsc.EboDetail ed on ed.id = mt.EboDetailId
          left join tenantinetcsc.`User` u  on u.Id = ed.UserId

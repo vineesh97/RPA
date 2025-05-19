@@ -183,8 +183,8 @@ def dummydata():
                     # Convert objects to dictionaries
                     ("dict loop")
                     result[key] = value.__dict__
-
-                return handler(result,"")
+            # print(type(result))
+            return handler(result, "")
     except Exception as e:
         logger.error(f"Dummydata error: {str(e)}\n{traceback.format_exc()}")
         return jsonify({"error": "Failed to process data"}), 500
