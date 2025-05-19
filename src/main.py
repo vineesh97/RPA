@@ -25,14 +25,25 @@ def main(from_date, to_date, service_name, file, transaction_type):
             return message
 
         logger.info("Records found within the date range. Running reconciliation...")
-
-        if service_name in ["Aeps", "MATM", "UPIQR"]:
+        print(service_name)
+        if service_name in ["AEPS", "MATM", "UPIQR"]:
             result = inward_service_selection(
                 from_date, to_date, service_name, transaction_type, df_excel
             )
-        else:
+        elif service_name in [
+            "RECHARGE",
+            "IMT",
+            "Pan_NSDL",
+            "Pan_UTI",
+            "BBPS",
+            "PASSPORT",
+        ]:
             result = outward_service_selection(
                 from_date, to_date, service_name, transaction_type, df_excel
+            )
+        else:
+            result = (
+                "Error in selecting outward or inwardward service function in Main.py"
             )
 
         logger.info("Reconciliation Ends")

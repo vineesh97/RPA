@@ -85,3 +85,156 @@
 2025-05-19 12:43:56,987 - INFO - Filteration Starts for  service Recharge
 2025-05-19 12:43:57,077 - INFO - Filteration Ends
 2025-05-19 12:43:57,110 - INFO - Reconciliation Ends
+2025-05-19 18:14:37,219 - INFO - Entered Main Function...
+2025-05-19 18:14:38,015 - INFO - Records found within the date range. Running reconciliation...
+2025-05-19 18:14:38,015 - INFO - Entering Reconciliation for Recharge Service
+2025-05-19 18:14:38,016 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-19 18:14:38,017 - INFO - Fetching data from HUB for Recharge
+2025-05-19 18:14:42,030 - INFO - Filteration Starts for  service Recharge
+2025-05-19 18:14:42,123 - INFO - Filteration Ends
+2025-05-19 18:14:42,144 - INFO - Reconciliation Ends
+2025-05-19 18:16:42,039 - INFO - Entered Main Function...
+2025-05-19 18:16:42,477 - INFO - Records found within the date range. Running reconciliation...
+2025-05-19 18:16:42,477 - INFO - Entering Reconciliation for Recharge Service
+2025-05-19 18:16:42,478 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-19 18:16:42,478 - INFO - Fetching data from HUB for Recharge
+2025-05-19 18:16:46,142 - INFO - Filteration Starts for  service Recharge
+2025-05-19 18:16:46,213 - INFO - Filteration Ends
+2025-05-19 18:16:46,225 - INFO - Reconciliation Ends
+2025-05-19 18:18:37,702 - INFO - Entered Main Function...
+2025-05-19 18:18:38,318 - INFO - Records found within the date range. Running reconciliation...
+2025-05-19 18:18:38,318 - INFO - Entering Reconciliation for Recharge Service
+2025-05-19 18:18:38,318 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-19 18:18:38,318 - INFO - Fetching data from HUB for Recharge
+2025-05-19 18:18:41,860 - INFO - Filteration Starts for  service Recharge
+2025-05-19 18:18:41,941 - INFO - Filteration Ends
+2025-05-19 18:18:41,967 - INFO - Reconciliation Ends
+2025-05-19 18:28:00,008 - INFO - Entered Main Function...
+2025-05-19 18:28:00,358 - INFO - Records found within the date range. Running reconciliation...
+2025-05-19 18:28:00,358 - INFO - Entering Reconciliation for Recharge Service
+2025-05-19 18:28:00,359 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-19 18:28:00,359 - INFO - Fetching data from HUB for Recharge
+2025-05-19 18:28:04,033 - INFO - Filteration Starts for  service Recharge
+2025-05-19 18:28:04,112 - INFO - Filteration Ends
+2025-05-19 18:28:04,137 - INFO - Reconciliation Ends
+2025-05-19 18:39:42,435 - INFO - Entered Main Function...
+2025-05-19 18:39:42,863 - INFO - Records found within the date range. Running reconciliation...
+2025-05-19 18:39:42,864 - INFO - Entering Reconciliation for Recharge Service
+2025-05-19 18:39:42,864 - ERROR - Error in main(): cannot access local variable 'result' where it is not associated with a value
+2025-05-19 18:39:44,074 - INFO - Entered Main Function...
+2025-05-19 18:39:44,137 - INFO - Records found within the date range. Running reconciliation...
+2025-05-19 18:39:44,137 - INFO - Entering Reconciliation for Recharge Service
+2025-05-19 18:39:44,137 - ERROR - Error in main(): cannot access local variable 'result' where it is not associated with a value
+2025-05-19 18:44:17,821 - INFO - Entered Main Function...
+2025-05-19 18:44:18,565 - INFO - Records found within the date range. Running reconciliation...
+2025-05-19 18:44:18,565 - INFO - Entering Reconciliation for Recharge Service
+2025-05-19 18:44:18,566 - ERROR - Error in main(): name 'reult' is not defined
+2025-05-19 18:48:06,348 - INFO - Entered Main Function...
+2025-05-19 18:48:06,710 - INFO - Records found within the date range. Running reconciliation...
+2025-05-19 18:48:06,710 - INFO - Entering Reconciliation for Recharge Service
+2025-05-19 18:48:06,710 - INFO - Reconciliation Ends
+2025-05-19 18:52:30,367 - INFO - Entered Main Function...
+2025-05-19 18:52:30,705 - INFO - Records found within the date range. Running reconciliation...
+2025-05-19 18:52:30,706 - INFO - Reconciliation Ends
+2025-05-19 18:53:06,102 - INFO - Entered Main Function...
+2025-05-19 18:53:06,437 - INFO - Records found within the date range. Running reconciliation...
+2025-05-19 18:53:06,438 - INFO - Reconciliation Ends
+2025-05-19 18:53:36,044 - INFO - Entered Main Function...
+2025-05-19 18:53:36,158 - INFO - Records found within the date range. Running reconciliation...
+2025-05-19 18:53:36,159 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-19 18:53:36,160 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-19 18:53:36,161 - INFO - Fetching data from HUB for RECHARGE
+2025-05-19 18:53:39,630 - INFO - Filteration Starts for  service RECHARGE
+2025-05-19 18:53:39,748 - INFO - Filteration Ends
+2025-05-19 18:53:39,786 - INFO - Reconciliation Ends
+2025-05-19 18:55:32,959 - INFO - Entered Main Function...
+2025-05-19 18:55:33,608 - INFO - Records found within the date range. Running reconciliation...
+2025-05-19 18:55:33,608 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-19 18:55:33,609 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-19 18:55:33,609 - INFO - Fetching data from HUB for RECHARGE
+2025-05-19 18:55:37,285 - INFO - Filteration Starts for  service RECHARGE
+2025-05-19 18:55:37,369 - INFO - Filteration Ends
+2025-05-19 18:55:37,393 - INFO - Reconciliation Ends
+2025-05-19 19:05:58,809 - INFO - Entered Main Function...
+2025-05-19 19:05:59,187 - INFO - Records found within the date range. Running reconciliation...
+2025-05-19 19:05:59,187 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-19 19:05:59,188 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-19 19:05:59,188 - INFO - Fetching data from HUB for RECHARGE
+2025-05-19 19:06:02,543 - INFO - Filteration Starts for  service RECHARGE
+2025-05-19 19:06:02,588 - ERROR - Error in main(): Can only use .str accessor with string values!
+2025-05-19 19:08:26,131 - INFO - Entered Main Function...
+2025-05-19 19:08:26,205 - INFO - Records found within the date range. Running reconciliation...
+2025-05-19 19:08:26,205 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-19 19:08:26,206 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-19 19:08:26,206 - INFO - Fetching data from HUB for RECHARGE
+2025-05-19 19:08:26,207 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-19 19:08:26,207 - ERROR - Error in main(): cannot access local variable 'result' where it is not associated with a value
+2025-05-19 19:09:19,269 - INFO - Entered Main Function...
+2025-05-19 19:09:19,321 - INFO - Records found within the date range. Running reconciliation...
+2025-05-19 19:09:19,322 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-19 19:09:19,322 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-19 19:09:19,323 - INFO - Fetching data from HUB for RECHARGE
+2025-05-19 19:09:22,867 - INFO - Filteration Starts for  service RECHARGE
+2025-05-19 19:09:22,898 - ERROR - Error in main(): Can only use .str accessor with string values!
+2025-05-19 19:10:46,611 - INFO - Entered Main Function...
+2025-05-19 19:10:46,946 - INFO - Records found within the date range. Running reconciliation...
+2025-05-19 19:10:46,947 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-19 19:10:46,947 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-19 19:10:46,947 - INFO - Fetching data from HUB for RECHARGE
+2025-05-19 19:10:50,404 - INFO - Filteration Starts for RECHARGE service
+2025-05-19 19:10:50,436 - ERROR - Error in main(): Can only use .str accessor with string values!
+2025-05-19 19:12:14,652 - INFO - Entered Main Function...
+2025-05-19 19:12:15,376 - INFO - Records found within the date range. Running reconciliation...
+2025-05-19 19:12:15,376 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-19 19:12:15,380 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-19 19:12:15,380 - INFO - Fetching data from HUB for RECHARGE
+2025-05-19 19:12:18,657 - INFO - Filteration Starts for RECHARGE service
+2025-05-19 19:12:18,694 - ERROR - Error in main(): Can only use .str accessor with string values!
+2025-05-19 19:13:20,196 - INFO - Entered Main Function...
+2025-05-19 19:13:20,649 - INFO - Records found within the date range. Running reconciliation...
+2025-05-19 19:13:20,649 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-19 19:13:20,651 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-19 19:13:20,651 - INFO - Fetching data from HUB for RECHARGE
+2025-05-19 19:13:23,887 - INFO - Filteration Starts for RECHARGE service
+2025-05-19 19:13:24,058 - INFO - Filteration Ends
+2025-05-19 19:13:24,086 - INFO - Reconciliation Ends
+2025-05-19 19:14:44,074 - INFO - Entered Main Function...
+2025-05-19 19:14:45,070 - INFO - Records found within the date range. Running reconciliation...
+2025-05-19 19:14:45,070 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-19 19:14:45,071 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-19 19:14:45,071 - INFO - Fetching data from HUB for RECHARGE
+2025-05-19 19:14:48,369 - INFO - Filteration Starts for RECHARGE service
+2025-05-19 19:14:48,456 - INFO - Filteration Ends
+2025-05-19 19:14:48,456 - INFO - Reconciliation Ends
+2025-05-19 19:17:16,196 - INFO - Entered Main Function...
+2025-05-19 19:17:16,606 - INFO - Records found within the date range. Running reconciliation...
+2025-05-19 19:17:16,607 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-19 19:17:16,608 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-19 19:17:16,608 - INFO - Fetching data from HUB for RECHARGE
+2025-05-19 19:17:20,025 - INFO - Filteration Starts for RECHARGE service
+2025-05-19 19:17:20,117 - INFO - Filteration Ends
+2025-05-19 19:17:20,118 - INFO - Reconciliation Ends
+2025-05-19 19:30:38,313 - INFO - Entered Main Function...
+2025-05-19 19:30:39,059 - INFO - Records found within the date range. Running reconciliation...
+2025-05-19 19:30:39,059 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-19 19:30:39,060 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-19 19:30:39,061 - INFO - Fetching data from HUB for RECHARGE
+2025-05-19 19:30:42,472 - INFO - Filteration Starts for RECHARGE service
+2025-05-19 19:30:42,553 - INFO - Filteration Ends
+2025-05-19 19:30:42,553 - INFO - Reconciliation Ends
+2025-05-19 19:30:47,261 - INFO - Entered Main Function...
+2025-05-19 19:30:47,418 - INFO - Records found within the date range. Running reconciliation...
+2025-05-19 19:30:47,419 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-19 19:30:47,420 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-19 19:30:47,421 - INFO - Fetching data from HUB for RECHARGE
+2025-05-19 19:30:51,030 - INFO - Filteration Starts for RECHARGE service
+2025-05-19 19:30:51,125 - INFO - Filteration Ends
+2025-05-19 19:30:51,126 - INFO - Reconciliation Ends
+2025-05-19 19:30:53,658 - INFO - Entered Main Function...
+2025-05-19 19:30:53,733 - INFO - Records found within the date range. Running reconciliation...
+2025-05-19 19:30:53,734 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-19 19:30:53,735 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-19 19:30:53,736 - INFO - Fetching data from HUB for RECHARGE
+2025-05-19 19:30:56,868 - INFO - Filteration Starts for RECHARGE service
+2025-05-19 19:30:56,979 - INFO - Filteration Ends
+2025-05-19 19:30:56,979 - INFO - Reconciliation Ends

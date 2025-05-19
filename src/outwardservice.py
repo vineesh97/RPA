@@ -14,9 +14,10 @@ def outward_service_selection(
     logger.info(f"Entering Reconciliation for {service_name} Service")
     start_date = start_date
     end_date = end_date
+    result = None
 
-    if service_name == "Recharge":
-        df_excel = df_excel.rename(columns={"REFID": "REFID", "DATE": "VEND_DATE"})
+    if service_name == "RECHARGE":
+        df_excel = df_excel.rename(columns={"REFID": "REFID", "DATE": "VENDOR_DATE"})
         logger.info("Recharge service: Column 'REFID' renamed to 'REFID'")
         tenant_service_id = 160
         Hub_service_id = 7378
@@ -26,8 +27,8 @@ def outward_service_selection(
         )
         result = filtering_Data(hub_data, df_excel, service_name, tenant_data)
 
-    if service_name == "IMT":
-        df_excel = df_excel.rename(columns={"REFID": "REFID", "DATE": "VEND_DATE"})
+    elif service_name == "IMT":
+        df_excel = df_excel.rename(columns={"REFID": "REFID", "DATE": "VENDOR_DATE"})
         tenant_service_id = 158
         Hub_service_id = 158
         hub_data = IMT_Service(start_date, end_date, service_name)
@@ -35,7 +36,7 @@ def outward_service_selection(
             start_date, end_date, tenant_service_id, Hub_service_id
         )
         result = filtering_Data(hub_data, df_excel, service_name, tenant_data)
-    if service_name == "Pan_UTI":
+    elif service_name == "Pan_UTI":
         df_excel = df_excel.rename()
         tenant_service_id = 4
         Hub_service_id = 4
@@ -44,7 +45,7 @@ def outward_service_selection(
             start_date, end_date, tenant_service_id, Hub_service_id
         )
         result = filtering_Data(hub_data, df_excel, service_name, tenant_data)
-    if service_name == "BBPS":
+    elif service_name == "BBPS":
         # df_excel = df_excel.rename()
         tenant_service_id = (
             10,
@@ -79,7 +80,7 @@ def outward_service_selection(
         )
         result = filtering_Data(hub_data, df_excel, service_name, tenant_data)
 
-    if service_name == "Pan_NSDL":
+    elif service_name == "Pan_NSDL":
         tenant_service_id = 201
         Hub_service_id = 218
         hub_data = Pannsdl_service(start_date, end_date, service_name)
@@ -88,7 +89,7 @@ def outward_service_selection(
         )
         result = filtering_Data(hub_data, df_excel, service_name, tenant_data)
 
-    if service_name == "Passport":
+    elif service_name == "PASSPORT":
         Hub_service_id = (
             183,
             184,
@@ -120,6 +121,9 @@ def outward_service_selection(
             start_date, end_date, tenant_service_id, Hub_service_id
         )
         result = filtering_Data(hub_data, df_excel, service_name, tenant_data)
+    else:
+        message = "Error in selecting outward service function.Kindly check your service value..!"
+        return message
     return result
 
 
@@ -129,7 +133,7 @@ def outward_service_selection(
 # ---------------------------------------------------------------------------------
 # Filtering Function
 def filtering_Data(df_db, df_excel, service_name, tenant_data):
-    logger.info(f"Filteration Starts for  service {service_name}")
+    logger.info(f"Filteration Starts for {service_name} service")
     status_mapping = {
         0: "initiated",
         1: "success",
@@ -137,14 +141,15 @@ def filtering_Data(df_db, df_excel, service_name, tenant_data):
         3: "inprogress",
         4: "partial success",
     }
-    columns_to_update = ["IHUB_Master_status", "MasterSubTrans_status"]
+    columns_to_update = ["IHUB_MASTER_STATUS"]
     df_db[columns_to_update] = df_db[columns_to_update].apply(
         lambda x: x.map(status_mapping).fillna(x)
     )
 
-    tenant_data["Tenant_status"] = tenant_data["Tenant_status"].apply(
+    tenant_data["TENANT_STATUS"] = tenant_data["TENANT_STATUS"].apply(
         lambda x: status_mapping.get(x, x)
     )
+    df_excel = df_excel.rename(columns={"STATUS": "VENDOR_STATUS"})
 
     def safe_column_select(df, columns):
         existing_cols = [col for col in columns if col in df.columns]
@@ -153,33 +158,33 @@ def filtering_Data(df_db, df_excel, service_name, tenant_data):
     required_columns = [
         "CATEGORY",
         "REFID",
-        "VEND_DATE",
+        "VENDOR_DATE",
         "IHUB_REFERENCE",
-        "vendor_reference",
-        "UserName",
+        "VENDOR_REFERENCE",
+        "USERNAME",
         "AMOUNT",
-        "STATUS",
-        "IHUB_Master_status",
-        f"{service_name}_status",
-        "service_date",
-        "Ihub_Ledger_status",
-        "Tenant_Ledger_status",
+        "VENDOR_STATUS",
+        "IHUB_MASTER_STATUS",
+        f"{service_name}_STATUS",
+        "SERVICE_DATE",
+        "IHUB_LEDGER_STATUS",
+        "TENANT_LEDGER_STATUS",
     ]
     # 1
-    not_in_vendor = df_db[~df_db["vendor_reference"].isin(df_excel["REFID"])].copy()
+    not_in_vendor = df_db[~df_db["VENDOR_REFERENCE"].isin(df_excel["REFID"])].copy()
     not_in_vendor["CATEGORY"] = "NOT_IN_VENDOR"
     not_in_vendor = safe_column_select(not_in_vendor, required_columns)
 
     # 2. Not in Portal
-    not_in_portal = df_excel[~df_excel["REFID"].isin(df_db["vendor_reference"])].copy()
+    not_in_portal = df_excel[~df_excel["REFID"].isin(df_db["VENDOR_REFERENCE"])].copy()
     not_in_portal["CATEGORY"] = "NOT_IN_PORTAL"
     not_in_portal = safe_column_select(not_in_portal, required_columns)
 
     # 3. Vendor success but not in Portal
     not_in_portal_vendor_success = df_excel[
-        (~df_excel["REFID"].isin(df_db["vendor_reference"]))
-        & (df_excel["STATUS"].str.lower() == "success")
-        & (df_db["Ihub_Ledger_status"].str.lower() == "no")
+        (~df_excel["REFID"].isin(df_db["VENDOR_REFERENCE"]))
+        & (df_excel["VENDOR_STATUS"].str.lower() == "success")
+        & (df_db["IHUB_LEDGER_STATUS"].str.lower() == "no")
     ]
 
     not_in_portal_vendor_success["CATEGORY"] = "NOT_IN_PORTAL_VENDOR_SUCCESS"
@@ -189,22 +194,24 @@ def filtering_Data(df_db, df_excel, service_name, tenant_data):
 
     # 4. Matched
     matched = df_db.merge(
-        df_excel, left_on="vendor_reference", right_on="REFID", how="inner"
+        df_excel, left_on="VENDOR_REFERENCE", right_on="REFID", how="inner"
     ).copy()
     matched["CATEGORY"] = "MATCHED"
 
     # 5. Mismatched
     mismatched = matched[
-        matched[f"{service_name}_status"].str.lower() != matched["STATUS"].str.lower()
+        matched[f"{service_name}_STATUS"].str.lower()
+        != matched["VENDOR_STATUS"].str.lower()
     ].copy()
     mismatched["CATEGORY"] = "MISMATCHED"
     mismatched = safe_column_select(mismatched, required_columns)
 
     # 6. VENDOR_SUCCESS_IHUB_INITIATED
     vendor_success_ihub_initiated = mismatched[
-        (mismatched["STATUS"].str.lower() == "success")
-        & (mismatched["IHUB_Master_status"].str.lower() == "initiated")
+        (mismatched["VENDOR_STATUS"].str.lower() == "success")
+        & (mismatched["IHUB_MASTER_STATUS"].str.lower() == "initiated")
     ].copy()
+
     vendor_success_ihub_initiated["CATEGORY"] = "VENDOR_SUCCESS_IHUB_INITIATED"
     vendor_success_ihub_initiated = safe_column_select(
         vendor_success_ihub_initiated, required_columns
@@ -212,9 +219,10 @@ def filtering_Data(df_db, df_excel, service_name, tenant_data):
 
     # 7. VENDOR_SUCCESS_IHUB_FAILED
     vendor_success_ihub_failed = mismatched[
-        (mismatched["STATUS"].str.lower() == "success")
-        & (mismatched["IHUB_Master_status"].str.lower() == "failed")
+        (mismatched["VENDOR_STATUS"].str.lower() == "success")
+        & (mismatched["IHUB_MASTER_STATUS"].str.lower() == "failed")
     ].copy()
+
     vendor_success_ihub_failed["CATEGORY"] = "VENDOR_SUCCESS_IHUB_FAILED"
     vendor_success_ihub_failed = safe_column_select(
         vendor_success_ihub_failed, required_columns
@@ -222,19 +230,21 @@ def filtering_Data(df_db, df_excel, service_name, tenant_data):
 
     # 8. VENDOR_FAILED_IHUB_INITIATED
     vendor_failed_ihub_initiated = mismatched[
-        (mismatched["STATUS"].str.lower() == "failed")
-        & (mismatched["IHUB_Master_status"].str.lower() == "initiated")
+        (mismatched["VENDOR_STATUS"].str.lower() == "failed")
+        & (mismatched["IHUB_MASTER_STATUS"].str.lower() == "initiated")
     ].copy()
+
     vendor_failed_ihub_initiated["CATEGORY"] = "VENDOR_FAILED_IHUB_INITIATED"
     vendor_failed_ihub_initiated = safe_column_select(
         vendor_failed_ihub_initiated, required_columns
     )
     # 9.
     vend_ihub_succes_not_in_ledger = matched[
-        (matched["STATUS"].str.lower() == "success")
-        & (matched["IHUB_Master_status"].str.lower() == "success")
-        & (matched["Ihub_Ledger_status"].str.lower() == "no")
+        (matched["VENDOR_STATUS"].str.lower() == "success")
+        & (matched["IHUB_MASTER_STATUS"].str.lower() == "success")
+        & (matched["IHUB_LEDGER_STATUS"].str.lower() == "no")
     ].copy()
+
     vend_ihub_succes_not_in_ledger["CATEGORY"] = "VENDOR & IHUB SUCCESS_NOTIN_LEDGER"
     vend_ihub_succes_not_in_ledger = safe_column_select(
         vend_ihub_succes_not_in_ledger, required_columns
@@ -244,7 +254,6 @@ def filtering_Data(df_db, df_excel, service_name, tenant_data):
         not_in_vendor,
         not_in_portal,
         not_in_portal_vendor_success,
-        mismatched,
         vendor_success_ihub_initiated,
         vendor_success_ihub_failed,
         vendor_failed_ihub_initiated,
@@ -260,33 +269,17 @@ def filtering_Data(df_db, df_excel, service_name, tenant_data):
             df_copy[col] = None
         df_copy = df_copy[list(all_columns)]  # Reorder columns
         aligned_dfs.append(df_copy)
-    combined = pd.concat(aligned_dfs, ignore_index=True)
-    # combined = pd.concat(
-    #     [
-    #         not_in_vendor,
-    #         not_in_portal,
-    #         not_in_portal_vendor_success,
-    #         mismatched,
-    #         vendor_success_ihub_initiated,
-    #         vendor_success_ihub_failed,
-    #         vendor_failed_ihub_initiated,
-    #         vend_ihub_succes_not_in_ledger,
-    #         tenant_data,
-    #     ],
-    #     ignore_index=True,
-    # )
-    # columns_to_convert = ["Id", "AMOUNT", "VendorSubServiceMappingId"]
-    # combined[columns_to_convert] = combined[columns_to_convert].astype(str)
-
-    # Export to Excel
-    # combined.to_excel(output_file, index=False)
+    # Filter out DataFrames that are completely empty or contain only NA values
+    non_empty_dfs = [
+        df for df in aligned_dfs if not df.empty and not df.isna().all().all()
+    ]
+    combined = pd.concat(non_empty_dfs, ignore_index=True)
     logger.info("Filteration Ends")
-    print(mismatched.head(10))
     return {
         "combined": combined,
         "not_in_Portal": not_in_portal,
         "not_in_vendor": not_in_vendor,
-        "mismatched": mismatched,
+        # "mismatched": mismatched,
         "VENDOR_SUCCESS_IHUB_INPROGRESS": vendor_success_ihub_initiated,
         "VENDOR_SUCCESS_IHUB_FAILED": vendor_success_ihub_failed,
         "not_in_Portal_vendor_success": not_in_portal_vendor_success,
@@ -307,8 +300,8 @@ def tenant_filtering(
     # To find transaction that is initiated by EBO present in tenant data base But do not hit in hub database
     query = f"""
          WITH cte AS (
-         SELECT src.Id, src.UserName , src.TranAmountTotal as AMOUNT,src.TransactionStatus as Tenant_status,
-         src.CreationTs, src.VendorSubServiceMappingId,hub.Id AS hub_id
+         SELECT src.Id as TENANT_DB_Id, src.UserName as USERNAME, src.TranAmountTotal as AMOUNT,src.TransactionStatus as TENANT_STATUS,
+         src.CreationTs as SERVICE_DATE, src.VendorSubServiceMappingId,hub.Id AS hub_id
          FROM (
          SELECT mt.*,u.UserName  FROM tenantinetcsc.MasterTransaction mt left join tenantinetcsc.EboDetail ed on ed.id = mt.EboDetailId
          left join tenantinetcsc.`User` u  on u.Id = ed.UserId
@@ -348,18 +341,19 @@ def tenant_filtering(
 # Recharge service function
 def recharge_Service(start_date, end_date, service_name):
     logger.info(f"Fetching data from HUB for {service_name}")
+    result = None
     query = f"""
-            SELECT mt2.TransactionRefNum AS Ihub_reference, sn.requestID AS vendor_reference,
-            u.UserName, mt2.TransactionStatus AS IHUB_Master_status, mst.TransactionStatus AS MasterSubTrans_status,
-            sn.CreationTs AS service_date, sn.rechargeStatus AS {service_name}_status,
+            SELECT mt2.TransactionRefNum AS Ihub_reference, sn.requestID AS VENDOR_REFERENCE,
+            u.UserName as USERNAME, mt2.TransactionStatus AS IHUB_MASTER_STATUS,
+            sn.CreationTs AS SERVICE_DATE, sn.rechargeStatus AS {service_name}_STATUS,
             CASE
                 WHEN iwt.IHubReferenceId IS NOT NULL THEN 'Yes'
                 ELSE 'No'
-            END AS Ihub_Ledger_status,
+            END AS IHUB_LEDGER_STATUS,
             CASE
                 WHEN twt.IHubReferenceId IS NOT NULL THEN 'Yes'
                 ELSE 'No'
-            END AS Tenant_Ledger_status
+            END AS TENANT_LEDGER_STATUS
             FROM
             ihubcore.MasterTransaction mt2
         LEFT JOIN ihubcore.MasterSubTransaction mst
@@ -384,7 +378,7 @@ def recharge_Service(start_date, end_date, service_name):
             DATE(sn.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
         """
     try:
-        with engine.begin() as connection:
+        with engine.connect() as connection:
             # Reading data from Server
             df_db = pd.read_sql(query, con=connection)
             # replacing the enums to its corresponding status values
@@ -395,7 +389,7 @@ def recharge_Service(start_date, end_date, service_name):
                 3: "failed",
                 4: "instant failed",
             }
-            df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(
+            df_db[f"{service_name}_STATUS"] = df_db[f"{service_name}_STATUS"].apply(
                 lambda x: status_mapping.get(x, x)
             )
             result = df_db
@@ -410,15 +404,14 @@ def IMT_Service(start_date, end_date, df_excel, service_name):
     logger.info(f"Fetching data from HUB for {service_name}")
     query = f"""
             SELECT mt2.TransactionRefNum AS Ihub_reference,
-            pst.VendorReferenceId as vendor_reference,
-            u.UserName,
-            mt2.TransactionStatus AS IHUB_Master_status,
-            mst.TransactionStatus AS MasterSubTrans_status,
-            pst.PaySprintTransStatus as {service_name}_status,
+            pst.VendorReferenceId as VENDOR_REFERENCE,
+            u.UserName as USERNAME,
+            mt2.TransactionStatus AS IHUB_MASTER_STATUS,
+            pst.PaySprintTransStatus as {service_name}_STATUS,
             CASE
             WHEN a.IHubReferenceId  IS NOT NULL THEN 'Yes'
             ELSE 'No'
-            END AS Ihub_Ledger_status
+            END AS IHUB_LEDGER_STATUS
             FROM
             ihubcore.MasterTransaction mt2
             LEFT JOIN
@@ -439,7 +432,7 @@ def IMT_Service(start_date, end_date, df_excel, service_name):
             """
     # Reading data from Server
     df_db = pd.read_sql(query, con=engine)
-    df_db["vendor_reference"] = df_db["vendor_reference"].astype(str)
+    df_db["VENDOR_REFERENCE"] = df_db["VENDOR_REFERENCE"].astype(str)
     df_excel["REFID"] = df_excel["REFID"].astype(str)
     refunded_trans_ids = df_excel[df_excel["STATUS"].isin(["Refunded", "Failed"])]
     # print(refunded_trans_ids)
@@ -455,7 +448,7 @@ def IMT_Service(start_date, end_date, df_excel, service_name):
         SELECT pst.VendorReferenceId,
         CASE WHEN mr.MasterSubTransactionId IS NOT NULL THEN 'refunded'
         ELSE 'not_refunded'
-        END AS Ihub_refund_status
+        END AS IHUB_REFUND_STATUS
         FROM ihubcore.PaySprint_Transaction pst
         LEFT JOIN ihubcore.MasterRefund mr
         ON mr.MasterSubTransactionId = pst.MasterSubTransactionId
@@ -469,12 +462,12 @@ def IMT_Service(start_date, end_date, df_excel, service_name):
     merged_df = df_db.merge(
         refunded_db,
         how="left",
-        left_on="vendor_reference",
+        left_on="VENDOR_REFERENCE",
         right_on="VendorReferenceId",
     )
     merged_df.drop(columns=["VendorReferenceId"], inplace=True)
     df_db = merged_df
-    df_db["Ihub_refund_status"] = df_db["Ihub_refund_status"].fillna("not_applicable")
+    df_db["IHUB_REFUND_STATUS"] = df_db["IHUB_REFUND_STATUS"].fillna("not_applicable")
     # print(df_db)
     # df_db.to_excel("C:\\Users\\Sathyaswaruban\\Documents\\IMT.xlsx", index=False)
     # df_excel['STATUS'] = df_excel['STATUS'].replace('Refunded', 'failed')
@@ -489,7 +482,7 @@ def IMT_Service(start_date, end_date, df_excel, service_name):
         3: "inprogress",
         4: "partialsuccuess",
     }
-    df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(
+    df_db[f"{service_name}_STATUS"] = df_db[f"{service_name}_STATUS"].apply(
         lambda x: status_mapping.get(x, x)
     )
     # calling filtering function
@@ -504,17 +497,16 @@ def Bbps_service(start_date, end_date, df_excel, service_name):
     query = f"""
         SELECT
         mt2.TransactionRefNum as Ihub_reference,
-        u.Username,
-        bbp.TxnRefId  as vendor_reference,
-        mt2.TransactionStatus AS HUB_Master_status,
-        mst.TransactionStatus AS MasterSubTrans_status,
-        bbp.TransactionStatusType ,u.UserName,bbp.HeadReferenceId ,
+        u.Username as USERNAME,
+        bbp.TxnRefId  as VENDOR_REFERENCE,
+        mt2.TransactionStatus AS IHUB_MASTER_STATUS,
+        bbp.TransactionStatusType,bbp.HeadReferenceId ,
         CASE when iw.IHubReferenceId IS NOT NULL THEN 'Yes'
         ELSE 'NO'
-        END AS IhubLedger_status,
+        END AS IHUB_LEDGER_STATUS,
         CASE when bf.HeadReferenceId IS NOT NULL THEN 'Yes'
         ELSE 'NO'
-        END AS Billfetch_status
+        END AS BILL_FETCH_STATUS
         FROM  ihubcore.MasterTransaction mt2
         LEFT JOIN 
         ihubcore.MasterSubTransaction mst ON mst.MasterTransactionId = mt2.Id
@@ -540,7 +532,7 @@ def Bbps_service(start_date, end_date, df_excel, service_name):
         3: "inprogress",
         4: "partialsuccuess",
     }
-    df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(
+    df_db[f"{service_name}_STATUS"] = df_db[f"{service_name}_STATUS"].apply(
         lambda x: status_mapping.get(x, x)
     )
     # calling filtering function
@@ -553,16 +545,15 @@ def Bbps_service(start_date, end_date, df_excel, service_name):
 def Panuti_service(start_date, end_date, df_excel, service_name):
     logger.info(f"Fetching data from HUB for {service_name}")
     query = f"""
-        select u.ApplicationNumber as vendor_reference,
+        select u.ApplicationNumber as VENDOR_REFERENCE,
         u.UTITSLTransID_Gateway as UTITSLTrans_id,
-        mt.TransactionRefNum AS Ihub_reference,
-        mt.TransactionStatus AS IHUB_Master_status,
-        mst.TransactionStatus AS MasterSubTrans_status,
-        u.TransactionStatusType as {service_name}_status,
+        mt.TransactionRefNum AS IHUB_REFERENCE,
+        mt.TransactionStatus AS IHUB_MASTER_STATUS,
+        u.TransactionStatusType as {service_name}_STATUS,
         CASE When 
         a.IHubReferenceId IS NOT NULL THEN 'Yes'
         ELSE 'NO'
-        END AS 'Ihub_Ledger_status'
+        END AS 'IHUB_LEDGER_STATUS'
         from ihubcore.UTIITSLTTransaction u 
         left join ihubcore.MasterSubTransaction mst on mst.Id  = u.MasterSubTransactionId
         left join ihubcore.MasterTransaction mt on mt.Id  = mst.MasterTransactionId
@@ -583,7 +574,7 @@ def Panuti_service(start_date, end_date, df_excel, service_name):
         3: "inprogress",
         4: "partial success",
     }
-    df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(
+    df_db[f"{service_name}_STATUS"] = df_db[f"{service_name}_STATUS"].apply(
         lambda x: status_mapping.get(x, x)
     )
     # calling filtering function
@@ -596,15 +587,14 @@ def Panuti_service(start_date, end_date, df_excel, service_name):
 def Pannsdl_service(start_date, end_date, df_excel, service_name):
     logger.info(f"Fetching data from HUB for {service_name}")
     query = f"""
-        select pit.AcknowledgeNo as vendor_reference,mt.TransactionRefNum AS Ihub_reference,
-        mt.TransactionStatus AS IHUB_Master_status,
-        mst.TransactionStatus AS MasterSubTrans_status,
-        u.Username,
-        pit.applicationstatus as {service_name}_status,
+        select pit.AcknowledgeNo as VENDOR_REFERENCE,mt.TransactionRefNum AS IHUB_REFERENCE,
+        mt.TransactionStatus AS IHUB_MASTER_STATUS,
+        u.Username as USERNAME,
+        pit.applicationstatus as {service_name}_STATUS,
         CASE When 
         a.IHubReferenceId IS NOT NULL THEN 'Yes'
         ELSE 'NO'
-        END AS 'Ihub_Ledger_status'
+        END AS 'IHUB_LEDGER_STATUS'
         from ihubcore.PanInTransaction pit
         left join ihubcore.MasterSubTransaction mst on mst.id= pit.MasterSubTransactionId
         left join ihubcore.MasterTransaction mt on mt.id = mst.MasterTransactionId
@@ -630,7 +620,7 @@ def Pannsdl_service(start_date, end_date, df_excel, service_name):
         8: "Objection",
         9: "MoveToNew",
     }
-    df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(
+    df_db[f"{service_name}_STATUS"] = df_db[f"{service_name}_STATUS"].apply(
         lambda x: status_mapping.get(x, x)
     )
     # calling filtering function
