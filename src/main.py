@@ -7,6 +7,7 @@ from handler import handler
 
 def main(from_date, to_date, service_name, file, transaction_type):
     try:
+        logger.info("--------------------------------------------")
         logger.info("Entered Main Function...")
 
         df_excel = pd.read_excel(file, dtype=str)
@@ -20,8 +21,8 @@ def main(from_date, to_date, service_name, file, transaction_type):
         ]
 
         if Date_check.empty:
-            logger.warning("No records found within the given date range!")
-            message = "No records found within the given date range!"
+            logger.warning("No records found within the given date range..!")
+            message = "No records found within the given date range..!"
             return message
 
         logger.info("Records found within the date range. Running reconciliation...")

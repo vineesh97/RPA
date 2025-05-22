@@ -141,6 +141,7 @@ def filtering_Data(df_db, df_excel, service_name, tenant_data):
         3: "inprogress",
         4: "partial success",
     }
+
     columns_to_update = ["IHUB_MASTER_STATUS"]
     df_db[columns_to_update] = df_db[columns_to_update].apply(
         lambda x: x.map(status_mapping).fillna(x)
@@ -205,6 +206,18 @@ def filtering_Data(df_db, df_excel, service_name, tenant_data):
     ].copy()
     mismatched["CATEGORY"] = "MISMATCHED"
     mismatched = safe_column_select(mismatched, required_columns)
+
+    matched_success_status = matched[
+        (matched[f"{service_name}_STATUS"].str.lower() == "success")
+        & (matched["VENDOR_STATUS"].str.lower() == "success")
+    ]
+
+    success_count = matched_success_status.shape[0]
+    matched_failed_status = matched[
+        (matched[f"{service_name}_STATUS"].str.lower() == "failed")
+        & (matched["VENDOR_STATUS"].str.lower() == "failed")
+    ]
+    failed_count = matched_failed_status.shape[0]
 
     # 6. VENDOR_SUCCESS_IHUB_INITIATED
     vendor_success_ihub_initiated = mismatched[
@@ -286,6 +299,8 @@ def filtering_Data(df_db, df_excel, service_name, tenant_data):
         "Vendor_failed_ihub_initiated": vendor_failed_ihub_initiated,
         "vend_ihub_succes_not_in_ledger": vend_ihub_succes_not_in_ledger,
         "Tenant_db_ini_not_in_hubdb": tenant_data,
+        "Total_Success_count": success_count,
+        "Total_Failed_count": failed_count,
     }
 
 

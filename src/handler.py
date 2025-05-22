@@ -11,4 +11,4 @@ def handler(result, message):
             isinstance(value, list) and len(value) > 0 for value in result.values()
         )
 
-        return jsonify({"isSuccess": has_data, "data": result, "message": " "})
+        return jsonify({"isSuccess": has_data, "data": result, "message": ""})

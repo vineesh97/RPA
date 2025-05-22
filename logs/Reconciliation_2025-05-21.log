@@ -1,0 +1,166 @@
+2025-05-21 15:45:54,649 - INFO - --------------------------------------------
+2025-05-21 15:45:54,650 - INFO - Entered Main Function...
+2025-05-21 15:45:55,679 - INFO - Records found within the date range. Running reconciliation...
+2025-05-21 15:45:55,679 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-21 15:45:55,681 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-21 15:45:55,682 - INFO - Fetching data from HUB for RECHARGE
+2025-05-21 15:46:48,209 - INFO - --------------------------------------------
+2025-05-21 15:46:48,210 - INFO - Entered Main Function...
+2025-05-21 15:46:48,793 - INFO - Records found within the date range. Running reconciliation...
+2025-05-21 15:46:48,795 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-21 15:46:48,797 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-21 15:46:48,797 - INFO - Fetching data from HUB for RECHARGE
+2025-05-21 15:46:52,831 - INFO - Filteration Starts for RECHARGE service
+2025-05-21 15:46:52,944 - INFO - Filteration Ends
+2025-05-21 15:46:52,944 - INFO - Reconciliation Ends
+2025-05-21 15:53:40,584 - INFO - --------------------------------------------
+2025-05-21 15:53:40,585 - INFO - Entered Main Function...
+2025-05-21 15:53:40,666 - INFO - Records found within the date range. Running reconciliation...
+2025-05-21 15:53:40,666 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-21 15:53:40,667 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-21 15:53:40,667 - INFO - Fetching data from HUB for RECHARGE
+2025-05-21 15:53:40,668 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-21 15:53:41,256 - INFO - Filteration Starts for RECHARGE service
+2025-05-21 15:53:41,257 - ERROR - Error in main(): 'NoneType' object is not subscriptable
+2025-05-21 15:54:06,976 - INFO - --------------------------------------------
+2025-05-21 15:54:06,976 - INFO - Entered Main Function...
+2025-05-21 15:54:07,042 - INFO - Records found within the date range. Running reconciliation...
+2025-05-21 15:54:07,042 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-21 15:54:07,044 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-21 15:54:07,044 - INFO - Fetching data from HUB for RECHARGE
+2025-05-21 15:54:10,281 - INFO - Filteration Starts for RECHARGE service
+2025-05-21 15:54:10,347 - INFO - Filteration Ends
+2025-05-21 15:54:10,348 - INFO - Reconciliation Ends
+2025-05-21 15:54:14,719 - INFO - --------------------------------------------
+2025-05-21 15:54:14,720 - INFO - Entered Main Function...
+2025-05-21 15:54:14,808 - INFO - Records found within the date range. Running reconciliation...
+2025-05-21 15:54:14,809 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-21 15:54:14,811 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-21 15:54:14,811 - INFO - Fetching data from HUB for RECHARGE
+2025-05-21 15:54:18,166 - INFO - Filteration Starts for RECHARGE service
+2025-05-21 15:54:18,260 - INFO - Filteration Ends
+2025-05-21 15:54:18,260 - INFO - Reconciliation Ends
+2025-05-21 16:44:12,359 - INFO - --------------------------------------------
+2025-05-21 16:44:12,360 - INFO - Entered Main Function...
+2025-05-21 16:44:12,850 - ERROR - Error in main(): 'DATE'
+2025-05-21 16:44:18,127 - INFO - --------------------------------------------
+2025-05-21 16:44:18,128 - INFO - Entered Main Function...
+2025-05-21 16:44:18,141 - ERROR - Error in main(): 'DATE'
+2025-05-21 16:44:39,450 - INFO - --------------------------------------------
+2025-05-21 16:44:39,450 - INFO - Entered Main Function...
+2025-05-21 16:44:39,456 - ERROR - Error in main(): 'DATE'
+2025-05-21 16:45:03,508 - INFO - --------------------------------------------
+2025-05-21 16:45:03,508 - INFO - Entered Main Function...
+2025-05-21 16:45:03,523 - ERROR - Error in main(): 'DATE'
+2025-05-21 16:46:39,192 - INFO - --------------------------------------------
+2025-05-21 16:46:39,194 - INFO - Entered Main Function...
+2025-05-21 16:46:39,216 - ERROR - Error in main(): 'DATE'
+2025-05-21 16:47:12,159 - INFO - --------------------------------------------
+2025-05-21 16:47:12,159 - INFO - Entered Main Function...
+2025-05-21 16:47:12,320 - INFO - Records found within the date range. Running reconciliation...
+2025-05-21 16:47:12,320 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-21 16:47:12,322 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-21 16:47:12,322 - INFO - Fetching data from HUB for RECHARGE
+2025-05-21 16:47:16,621 - INFO - Filteration Starts for RECHARGE service
+2025-05-21 16:47:16,708 - INFO - Filteration Ends
+2025-05-21 16:47:16,708 - INFO - Reconciliation Ends
+2025-05-21 16:47:26,868 - INFO - --------------------------------------------
+2025-05-21 16:47:26,868 - INFO - Entered Main Function...
+2025-05-21 16:47:26,910 - INFO - Records found within the date range. Running reconciliation...
+2025-05-21 16:47:26,910 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-21 16:47:26,911 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-21 16:47:26,911 - INFO - Fetching data from HUB for RECHARGE
+2025-05-21 16:47:30,878 - INFO - Filteration Starts for RECHARGE service
+2025-05-21 16:47:30,972 - INFO - Filteration Ends
+2025-05-21 16:47:30,972 - INFO - Reconciliation Ends
+2025-05-21 16:49:15,515 - INFO - --------------------------------------------
+2025-05-21 16:49:15,516 - INFO - Entered Main Function...
+2025-05-21 16:49:15,573 - INFO - Records found within the date range. Running reconciliation...
+2025-05-21 16:49:15,573 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-21 16:49:15,574 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-21 16:49:15,574 - INFO - Fetching data from HUB for RECHARGE
+2025-05-21 16:49:15,575 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-21 16:49:16,199 - INFO - Filteration Starts for RECHARGE service
+2025-05-21 16:49:16,199 - ERROR - Error in main(): 'NoneType' object is not subscriptable
+2025-05-21 16:49:17,884 - INFO - --------------------------------------------
+2025-05-21 16:49:17,885 - INFO - Entered Main Function...
+2025-05-21 16:49:17,940 - INFO - Records found within the date range. Running reconciliation...
+2025-05-21 16:49:17,941 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-21 16:49:17,941 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-21 16:49:17,941 - INFO - Fetching data from HUB for RECHARGE
+2025-05-21 16:49:21,780 - INFO - Filteration Starts for RECHARGE service
+2025-05-21 16:49:21,861 - INFO - Filteration Ends
+2025-05-21 16:49:21,862 - INFO - Reconciliation Ends
+2025-05-21 16:50:09,353 - INFO - --------------------------------------------
+2025-05-21 16:50:09,353 - INFO - Entered Main Function...
+2025-05-21 16:50:09,431 - INFO - Records found within the date range. Running reconciliation...
+2025-05-21 16:50:09,431 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-21 16:50:09,432 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-21 16:50:09,432 - INFO - Fetching data from HUB for RECHARGE
+2025-05-21 16:50:09,433 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-21 16:50:10,008 - INFO - Filteration Starts for RECHARGE service
+2025-05-21 16:50:10,008 - ERROR - Error in main(): 'NoneType' object is not subscriptable
+2025-05-21 16:50:49,984 - INFO - --------------------------------------------
+2025-05-21 16:50:49,984 - INFO - Entered Main Function...
+2025-05-21 16:50:50,041 - INFO - Records found within the date range. Running reconciliation...
+2025-05-21 16:50:50,041 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-21 16:50:50,042 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-21 16:50:50,042 - INFO - Fetching data from HUB for RECHARGE
+2025-05-21 16:50:50,043 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-21 16:50:50,600 - INFO - Filteration Starts for RECHARGE service
+2025-05-21 16:50:50,601 - ERROR - Error in main(): 'NoneType' object is not subscriptable
+2025-05-21 16:50:57,801 - INFO - --------------------------------------------
+2025-05-21 16:50:57,801 - INFO - Entered Main Function...
+2025-05-21 16:50:57,875 - INFO - Records found within the date range. Running reconciliation...
+2025-05-21 16:50:57,875 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-21 16:50:57,876 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-21 16:50:57,876 - INFO - Fetching data from HUB for RECHARGE
+2025-05-21 16:51:01,863 - INFO - Filteration Starts for RECHARGE service
+2025-05-21 16:51:01,912 - INFO - Filteration Ends
+2025-05-21 16:51:01,912 - INFO - Reconciliation Ends
+2025-05-21 16:51:08,902 - INFO - --------------------------------------------
+2025-05-21 16:51:08,903 - INFO - Entered Main Function...
+2025-05-21 16:51:08,972 - INFO - Records found within the date range. Running reconciliation...
+2025-05-21 16:51:08,972 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-21 16:51:08,973 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-21 16:51:08,973 - INFO - Fetching data from HUB for RECHARGE
+2025-05-21 16:51:12,932 - INFO - Filteration Starts for RECHARGE service
+2025-05-21 16:51:13,013 - INFO - Filteration Ends
+2025-05-21 16:51:13,013 - INFO - Reconciliation Ends
+2025-05-21 16:51:17,449 - INFO - --------------------------------------------
+2025-05-21 16:51:17,449 - INFO - Entered Main Function...
+2025-05-21 16:51:17,517 - WARNING - No records found within the given date range!
+2025-05-21 16:51:20,557 - INFO - --------------------------------------------
+2025-05-21 16:51:20,557 - INFO - Entered Main Function...
+2025-05-21 16:51:20,609 - WARNING - No records found within the given date range!
+2025-05-21 16:52:23,998 - INFO - --------------------------------------------
+2025-05-21 16:52:23,998 - INFO - Entered Main Function...
+2025-05-21 16:52:24,070 - WARNING - No records found within the given date range!
+2025-05-21 16:56:46,061 - INFO - --------------------------------------------
+2025-05-21 16:56:46,061 - INFO - Entered Main Function...
+2025-05-21 16:56:46,120 - WARNING - No records found within the given date range!
+2025-05-21 16:56:54,566 - INFO - --------------------------------------------
+2025-05-21 16:56:54,567 - INFO - Entered Main Function...
+2025-05-21 16:56:54,581 - ERROR - Error in main(): 'DATE'
+2025-05-21 16:57:48,028 - INFO - --------------------------------------------
+2025-05-21 16:57:48,028 - INFO - Entered Main Function...
+2025-05-21 16:57:48,154 - ERROR - Error in main(): 'DATE'
+2025-05-21 16:58:21,626 - INFO - --------------------------------------------
+2025-05-21 16:58:21,627 - INFO - Entered Main Function...
+2025-05-21 16:58:22,038 - ERROR - Error in main(): 'DATE'
+2025-05-21 16:58:32,630 - INFO - --------------------------------------------
+2025-05-21 16:58:32,630 - INFO - Entered Main Function...
+2025-05-21 16:58:32,687 - WARNING - No records found within the given date range!
+2025-05-21 17:01:23,300 - INFO - --------------------------------------------
+2025-05-21 17:01:23,300 - INFO - Entered Main Function...
+2025-05-21 17:01:23,351 - INFO - Records found within the date range. Running reconciliation...
+2025-05-21 17:01:23,352 - INFO - Entering Reconciliation for AEPS Service
+2025-05-21 17:01:23,352 - ERROR - Error in main(): cannot access local variable 'result' where it is not associated with a value
+2025-05-21 17:10:53,926 - INFO - --------------------------------------------
+2025-05-21 17:10:53,927 - INFO - Entered Main Function...
+2025-05-21 17:10:54,001 - INFO - Records found within the date range. Running reconciliation...
+2025-05-21 17:10:54,002 - INFO - Entering Reconciliation for AEPS Service
+2025-05-21 17:10:54,002 - ERROR - Error in main(): cannot access local variable 'result' where it is not associated with a value
+2025-05-21 17:11:25,024 - INFO - --------------------------------------------
+2025-05-21 17:11:25,024 - INFO - Entered Main Function...
+2025-05-21 17:11:25,091 - WARNING - No records found within the given date range!
