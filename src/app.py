@@ -128,8 +128,8 @@ def home():
     return response
 
 
-@app.route("/api/dummydata", methods=["POST"])
-def dummydata():
+@app.route("/api/reconciliation", methods=["POST"])
+def reconciliation():
     try:
         # # Validate session
         # if "username" not in session:
@@ -186,7 +186,7 @@ def dummydata():
             # print(type(result))
             return handler(result, "")
     except Exception as e:
-        logger.error(f"Dummydata error: {str(e)}\n{traceback.format_exc()}")
+        logger.error(f"Reconciliation error: {str(e)}\n{traceback.format_exc()}")
         return jsonify({"error": "Failed to process data"}), 500
 
 
