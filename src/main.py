@@ -40,7 +40,7 @@ def main(from_date, to_date, service_name, file, transaction_type):
             "PASSPORT",
         ]:
             result = outward_service_selection(
-                from_date, to_date, service_name, transaction_type, df_excel
+                from_date, to_date, service_name, df_excel
             )
         else:
             result = (
