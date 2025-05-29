@@ -1,0 +1,312 @@
+2025-05-29 10:24:37,825 - INFO - --------------------------------------------
+2025-05-29 10:24:37,825 - INFO - Entered Main Function...
+2025-05-29 10:24:38,463 - INFO - Records found within the date range. Running reconciliation...
+2025-05-29 10:24:38,464 - INFO - Entering Reconciliation for AEPS Service
+2025-05-29 10:24:38,468 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-29 10:24:38,468 - INFO - Fetching data from HUB for AEPS
+2025-05-29 10:24:38,515 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:24:40,746 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-29 10:24:40,747 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:24:41,558 - INFO - Entered Tenant filtering function
+2025-05-29 10:24:41,559 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:24:41,883 - INFO - Filteration Starts for AEPS service
+2025-05-29 10:24:42,071 - INFO - Filteration Ends
+2025-05-29 10:24:42,071 - INFO - Reconciliation Ends
+2025-05-29 10:24:42,146 - INFO - Result sent as API
+2025-05-29 10:24:42,146 - INFO - ----------------------------------
+2025-05-29 10:26:48,527 - INFO - --------------------------------------------
+2025-05-29 10:26:48,527 - INFO - Entered Main Function...
+2025-05-29 10:26:48,952 - INFO - Records found within the date range. Running reconciliation...
+2025-05-29 10:26:48,953 - INFO - Entering Reconciliation for AEPS Service
+2025-05-29 10:26:48,953 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-29 10:26:48,953 - INFO - Fetching data from HUB for AEPS
+2025-05-29 10:26:49,001 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:26:51,201 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-29 10:26:51,202 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:26:51,877 - INFO - Entered Tenant filtering function
+2025-05-29 10:26:51,878 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:26:52,900 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:26:54,906 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:26:54,923 - ERROR - Database error in Tenant DB Filtering: (pymysql.err.OperationalError) (1054, "Unknown column 'hub_id' in 'where clause'")
+[SQL: 
+         WITH cte AS (
+         SELECT src.Id as TENANT_ID, src.UserName as USERNAME, src.TranAmountTotal as AMOUNT,src.TransactionStatus as TENANT_STATUS,
+         src.CreationTs as SERVICE_DATE
+         FROM (
+         SELECT mt.*,u.UserName  FROM tenantinetcsc.MasterTransaction mt left join tenantinetcsc.EboDetail ed on ed.id = mt.EboDetailId
+         left join tenantinetcsc.`User` u  on u.Id = ed.UserId
+         WHERE DATE(mt.CreationTs) BETWEEN '2025-05-27' AND '2025-05-27'
+         AND mt.VendorSubServiceMappingId in (159)
+         UNION ALL
+         SELECT umt.*,u.UserName FROM tenantupcb.MasterTransaction umt left join tenantupcb.EboDetail ed on ed.id = umt.EboDetailId
+         left join tenantupcb.`User` u  on u.Id = ed.UserId
+         WHERE DATE(umt.CreationTs) BETWEEN '2025-05-27' AND '2025-05-27'
+         AND umt.VendorSubServiceMappingId in  (159)
+         UNION ALL
+         SELECT imt.*,u.UserName FROM tenantiticsc.MasterTransaction imt  left join tenantiticsc.EboDetail ed on ed.id = imt.EboDetailId
+         left join tenantiticsc.`User` u  on u.Id = ed.UserId
+         WHERE DATE(imt.CreationTs) BETWEEN '2025-05-27' AND '2025-05-27'
+         AND imt.VendorSubServiceMappingId in  (159)
+         ) AS src
+         LEFT JOIN ihubcore.MasterTransaction AS hub
+         ON hub.TenantMasterTransactionId = src.Id
+         AND DATE(hub.CreationTs) BETWEEN '2025-05-27' AND '2025-05-27'
+         AND hub.VendorSubServiceMappingId in (7374)
+         )
+         SELECT *
+         FROM cte
+         WHERE hub_id IS NULL]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-05-29 10:26:54,924 - INFO - Filteration Starts for AEPS service
+2025-05-29 10:26:54,945 - ERROR - Error in main(): 'NoneType' object is not subscriptable
+2025-05-29 10:26:54,946 - INFO - Result sent as API
+2025-05-29 10:26:54,946 - INFO - ----------------------------------
+2025-05-29 10:27:49,985 - INFO - --------------------------------------------
+2025-05-29 10:27:49,985 - INFO - Entered Main Function...
+2025-05-29 10:27:50,072 - INFO - Records found within the date range. Running reconciliation...
+2025-05-29 10:27:50,073 - INFO - Entering Reconciliation for AEPS Service
+2025-05-29 10:27:50,076 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-29 10:27:50,077 - INFO - Fetching data from HUB for AEPS
+2025-05-29 10:27:50,078 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:27:50,081 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-29 10:27:50,082 - INFO - Entered Tenant filtering function
+2025-05-29 10:27:50,107 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:27:51,117 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:27:53,128 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:27:53,178 - ERROR - Database error in Tenant DB Filtering: (pymysql.err.OperationalError) (1054, "Unknown column 'hub_id' in 'where clause'")
+[SQL: 
+         WITH cte AS (
+         SELECT src.Id as TENANT_ID, src.UserName as USERNAME, src.TranAmountTotal as AMOUNT,src.TransactionStatus as TENANT_STATUS,
+         src.CreationTs as SERVICE_DATE
+         FROM (
+         SELECT mt.*,u.UserName  FROM tenantinetcsc.MasterTransaction mt left join tenantinetcsc.EboDetail ed on ed.id = mt.EboDetailId
+         left join tenantinetcsc.`User` u  on u.Id = ed.UserId
+         WHERE DATE(mt.CreationTs) BETWEEN '2025-05-27' AND '2025-05-27'
+         AND mt.VendorSubServiceMappingId in (159)
+         UNION ALL
+         SELECT umt.*,u.UserName FROM tenantupcb.MasterTransaction umt left join tenantupcb.EboDetail ed on ed.id = umt.EboDetailId
+         left join tenantupcb.`User` u  on u.Id = ed.UserId
+         WHERE DATE(umt.CreationTs) BETWEEN '2025-05-27' AND '2025-05-27'
+         AND umt.VendorSubServiceMappingId in  (159)
+         UNION ALL
+         SELECT imt.*,u.UserName FROM tenantiticsc.MasterTransaction imt  left join tenantiticsc.EboDetail ed on ed.id = imt.EboDetailId
+         left join tenantiticsc.`User` u  on u.Id = ed.UserId
+         WHERE DATE(imt.CreationTs) BETWEEN '2025-05-27' AND '2025-05-27'
+         AND imt.VendorSubServiceMappingId in  (159)
+         ) AS src
+         LEFT JOIN ihubcore.MasterTransaction AS hub
+         ON hub.TenantMasterTransactionId = src.Id
+         AND DATE(hub.CreationTs) BETWEEN '2025-05-27' AND '2025-05-27'
+         AND hub.VendorSubServiceMappingId in (7374)
+         )
+         SELECT *
+         FROM cte
+         WHERE hub_id IS NULL]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-05-29 10:27:53,179 - INFO - Filteration Starts for AEPS service
+2025-05-29 10:27:53,179 - ERROR - Error in main(): 'SERVICE_DATE'
+2025-05-29 10:27:53,179 - INFO - Result sent as API
+2025-05-29 10:27:53,179 - INFO - ----------------------------------
+2025-05-29 10:34:33,445 - INFO - --------------------------------------------
+2025-05-29 10:34:33,445 - INFO - Entered Main Function...
+2025-05-29 10:34:34,307 - INFO - Records found within the date range. Running reconciliation...
+2025-05-29 10:34:34,308 - INFO - Entering Reconciliation for AEPS Service
+2025-05-29 10:34:34,312 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-29 10:34:34,312 - INFO - Fetching data from HUB for AEPS
+2025-05-29 10:34:34,384 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:34:36,476 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-29 10:34:36,477 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:34:37,097 - INFO - Entered Tenant filtering function
+2025-05-29 10:34:37,098 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:34:37,487 - INFO - Filteration Starts for AEPS service
+2025-05-29 10:34:37,660 - INFO - Filteration Ends
+2025-05-29 10:34:37,660 - INFO - Reconciliation Ends
+2025-05-29 10:34:37,713 - INFO - Result sent as API
+2025-05-29 10:34:37,713 - INFO - ----------------------------------
+2025-05-29 10:36:39,922 - INFO - --------------------------------------------
+2025-05-29 10:36:39,922 - INFO - Entered Main Function...
+2025-05-29 10:36:40,655 - INFO - Records found within the date range. Running reconciliation...
+2025-05-29 10:36:40,655 - INFO - Entering Reconciliation for AEPS Service
+2025-05-29 10:36:40,656 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-29 10:36:40,656 - INFO - Fetching data from HUB for AEPS
+2025-05-29 10:36:40,728 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:36:42,746 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-29 10:36:42,747 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:36:43,355 - INFO - Entered Tenant filtering function
+2025-05-29 10:36:43,355 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:36:43,750 - INFO - Filteration Starts for AEPS service
+2025-05-29 10:36:43,903 - INFO - Filteration Ends
+2025-05-29 10:36:43,903 - INFO - Reconciliation Ends
+2025-05-29 10:36:43,953 - INFO - Result sent as API
+2025-05-29 10:36:43,953 - INFO - ----------------------------------
+2025-05-29 10:37:24,076 - INFO - --------------------------------------------
+2025-05-29 10:37:24,077 - INFO - Entered Main Function...
+2025-05-29 10:37:24,391 - INFO - Records found within the date range. Running reconciliation...
+2025-05-29 10:37:24,391 - INFO - Entering Reconciliation for AEPS Service
+2025-05-29 10:37:24,392 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-29 10:37:24,392 - INFO - Fetching data from HUB for AEPS
+2025-05-29 10:37:24,437 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:37:26,452 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-29 10:37:26,453 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:37:26,992 - INFO - Entered Tenant filtering function
+2025-05-29 10:37:26,993 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:37:27,369 - INFO - Filteration Starts for AEPS service
+2025-05-29 10:37:27,509 - INFO - Filteration Ends
+2025-05-29 10:37:27,509 - INFO - Reconciliation Ends
+2025-05-29 10:37:27,542 - INFO - Result sent as API
+2025-05-29 10:37:27,542 - INFO - ----------------------------------
+2025-05-29 10:38:56,977 - INFO - --------------------------------------------
+2025-05-29 10:38:56,977 - INFO - Entered Main Function...
+2025-05-29 10:38:57,542 - INFO - Records found within the date range. Running reconciliation...
+2025-05-29 10:38:57,542 - INFO - Entering Reconciliation for AEPS Service
+2025-05-29 10:38:57,543 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-29 10:38:57,543 - INFO - Fetching data from HUB for AEPS
+2025-05-29 10:38:57,586 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:38:59,534 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-29 10:38:59,535 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:39:00,091 - INFO - Entered Tenant filtering function
+2025-05-29 10:39:00,092 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:39:00,450 - INFO - Filteration Starts for AEPS service
+2025-05-29 10:39:00,600 - INFO - Filteration Ends
+2025-05-29 10:39:00,601 - INFO - Reconciliation Ends
+2025-05-29 10:39:00,654 - INFO - Result sent as API
+2025-05-29 10:39:00,655 - INFO - ----------------------------------
+2025-05-29 10:41:43,338 - INFO - --------------------------------------------
+2025-05-29 10:41:43,339 - INFO - Entered Main Function...
+2025-05-29 10:41:43,451 - INFO - Records found within the date range. Running reconciliation...
+2025-05-29 10:41:43,451 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-29 10:41:43,452 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-29 10:41:43,452 - INFO - Fetching data from HUB for RECHARGE
+2025-05-29 10:41:43,497 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:41:56,073 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-29 10:41:56,098 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:41:57,078 - INFO - Entered Tenant filtering function
+2025-05-29 10:41:57,078 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:41:57,821 - INFO - Filteration Starts for RECHARGE service
+2025-05-29 10:41:57,917 - INFO - Filteration Ends
+2025-05-29 10:41:57,917 - INFO - Reconciliation Ends
+2025-05-29 10:41:57,935 - INFO - Result sent as API
+2025-05-29 10:41:57,935 - INFO - ----------------------------------
+2025-05-29 10:45:11,575 - INFO - --------------------------------------------
+2025-05-29 10:45:11,576 - INFO - Entered Main Function...
+2025-05-29 10:45:11,598 - INFO - Records found within the date range. Running reconciliation...
+2025-05-29 10:45:11,599 - INFO - Entering Reconciliation for AEPS Service
+2025-05-29 10:45:11,599 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-29 10:45:11,600 - INFO - Fetching data from HUB for AEPS
+2025-05-29 10:45:11,600 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:45:11,601 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-29 10:45:11,601 - INFO - Entered Tenant filtering function
+2025-05-29 10:45:11,628 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 10:45:11,965 - INFO - Filteration Starts for AEPS service
+2025-05-29 10:45:11,966 - ERROR - Error in main(): 'SERVICE_DATE'
+2025-05-29 10:45:11,967 - INFO - Result sent as API
+2025-05-29 10:45:11,967 - INFO - ----------------------------------
+2025-05-29 11:08:50,281 - INFO - --------------------------------------------
+2025-05-29 11:08:50,281 - INFO - Entered Main Function...
+2025-05-29 11:08:50,736 - INFO - Records found within the date range. Running reconciliation...
+2025-05-29 11:08:50,736 - INFO - Entering Reconciliation for AEPS Service
+2025-05-29 11:08:50,737 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-29 11:08:50,737 - INFO - Fetching data from HUB for AEPS
+2025-05-29 11:08:50,738 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 11:08:51,772 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-29 11:08:51,772 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 11:08:52,384 - INFO - Entered Tenant filtering function
+2025-05-29 11:08:52,384 - ERROR - Error in main(): 'int' object is not iterable
+2025-05-29 11:08:52,385 - INFO - Result sent as API
+2025-05-29 11:08:52,385 - INFO - ----------------------------------
+2025-05-29 11:14:10,954 - INFO - --------------------------------------------
+2025-05-29 11:14:10,954 - INFO - Entered Main Function...
+2025-05-29 11:14:11,398 - INFO - Records found within the date range. Running reconciliation...
+2025-05-29 11:14:11,398 - INFO - Entering Reconciliation for AEPS Service
+2025-05-29 11:14:11,399 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-29 11:14:11,400 - INFO - Fetching data from HUB for AEPS
+2025-05-29 11:14:11,400 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 11:14:12,438 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-29 11:14:12,438 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 11:14:13,007 - INFO - Entered Tenant filtering function
+2025-05-29 11:14:13,008 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 11:14:13,290 - INFO - Filteration Starts for AEPS service
+2025-05-29 11:14:13,443 - INFO - Filteration Ends
+2025-05-29 11:14:13,443 - INFO - Reconciliation Ends
+2025-05-29 11:14:13,485 - INFO - Result sent as API
+2025-05-29 11:14:13,485 - INFO - ----------------------------------
+2025-05-29 11:14:19,614 - INFO - --------------------------------------------
+2025-05-29 11:14:19,615 - INFO - Entered Main Function...
+2025-05-29 11:14:19,647 - INFO - Records found within the date range. Running reconciliation...
+2025-05-29 11:14:19,649 - INFO - Entering Reconciliation for AEPS Service
+2025-05-29 11:14:19,653 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-29 11:14:19,653 - INFO - Fetching data from HUB for AEPS
+2025-05-29 11:14:19,655 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 11:14:20,619 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-29 11:14:20,620 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 11:14:21,194 - INFO - Entered Tenant filtering function
+2025-05-29 11:14:21,195 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 11:14:21,464 - INFO - Filteration Starts for AEPS service
+2025-05-29 11:14:21,565 - INFO - Filteration Ends
+2025-05-29 11:14:21,566 - INFO - Reconciliation Ends
+2025-05-29 11:14:21,607 - INFO - Result sent as API
+2025-05-29 11:14:21,607 - INFO - ----------------------------------
+2025-05-29 11:14:23,580 - INFO - --------------------------------------------
+2025-05-29 11:14:23,580 - INFO - Entered Main Function...
+2025-05-29 11:14:23,611 - INFO - Records found within the date range. Running reconciliation...
+2025-05-29 11:14:23,612 - INFO - Entering Reconciliation for AEPS Service
+2025-05-29 11:14:23,613 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-29 11:14:23,613 - INFO - Fetching data from HUB for AEPS
+2025-05-29 11:14:23,613 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 11:14:24,595 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-29 11:14:24,596 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 11:14:25,150 - INFO - Entered Tenant filtering function
+2025-05-29 11:14:25,151 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 11:14:25,430 - INFO - Filteration Starts for AEPS service
+2025-05-29 11:14:25,575 - INFO - Filteration Ends
+2025-05-29 11:14:25,576 - INFO - Reconciliation Ends
+2025-05-29 11:14:25,622 - INFO - Result sent as API
+2025-05-29 11:14:25,622 - INFO - ----------------------------------
+2025-05-29 11:14:43,598 - INFO - --------------------------------------------
+2025-05-29 11:14:43,599 - INFO - Entered Main Function...
+2025-05-29 11:14:43,738 - INFO - Records found within the date range. Running reconciliation...
+2025-05-29 11:14:43,738 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-29 11:14:43,739 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-29 11:14:43,740 - INFO - Fetching data from HUB for RECHARGE
+2025-05-29 11:14:43,795 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 11:14:47,133 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-29 11:14:47,179 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 11:14:47,821 - INFO - Entered Tenant filtering function
+2025-05-29 11:14:47,821 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 11:14:48,214 - INFO - Filteration Starts for RECHARGE service
+2025-05-29 11:14:48,337 - INFO - Filteration Ends
+2025-05-29 11:14:48,338 - INFO - Reconciliation Ends
+2025-05-29 11:14:48,369 - INFO - Result sent as API
+2025-05-29 11:14:48,369 - INFO - ----------------------------------
+2025-05-29 11:14:50,885 - INFO - --------------------------------------------
+2025-05-29 11:14:50,885 - INFO - Entered Main Function...
+2025-05-29 11:14:51,023 - INFO - Records found within the date range. Running reconciliation...
+2025-05-29 11:14:51,024 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-29 11:14:51,025 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-29 11:14:51,025 - INFO - Fetching data from HUB for RECHARGE
+2025-05-29 11:14:51,026 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 11:14:53,900 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-29 11:14:53,901 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 11:14:54,527 - INFO - Entered Tenant filtering function
+2025-05-29 11:14:54,527 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 11:14:55,010 - INFO - Filteration Starts for RECHARGE service
+2025-05-29 11:14:55,147 - INFO - Filteration Ends
+2025-05-29 11:14:55,147 - INFO - Reconciliation Ends
+2025-05-29 11:14:55,180 - INFO - Result sent as API
+2025-05-29 11:14:55,180 - INFO - ----------------------------------
+2025-05-29 11:19:34,623 - INFO - --------------------------------------------
+2025-05-29 11:19:34,623 - INFO - Entered Main Function...
+2025-05-29 11:19:35,073 - INFO - Records found within the date range. Running reconciliation...
+2025-05-29 11:19:35,074 - INFO - Entering Reconciliation for AEPS Service
+2025-05-29 11:19:35,075 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-29 11:19:35,076 - INFO - Fetching data from HUB for AEPS
+2025-05-29 11:19:35,077 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 11:19:36,092 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-29 11:19:36,093 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 11:19:36,647 - INFO - Entered Tenant filtering function
+2025-05-29 11:19:36,648 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-29 11:19:36,923 - INFO - Filteration Starts for AEPS service
+2025-05-29 11:19:37,093 - INFO - Filteration Ends
+2025-05-29 11:19:37,093 - INFO - Reconciliation Ends
+2025-05-29 11:19:37,135 - INFO - Result sent as API
+2025-05-29 11:19:37,136 - INFO - ----------------------------------

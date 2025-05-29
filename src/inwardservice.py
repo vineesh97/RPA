@@ -23,9 +23,15 @@ DB_RETRY_CONFIG = {
 
 
 @retry(**DB_RETRY_CONFIG)
-def execute_sql_with_retry(connection, query, params=None):
+def execute_sql_with_retry(query, params=None):
     logger.info("Entered helper function to execute SQL with retry logic")
-    return pd.read_sql(query, con=connection, params=params)
+    with engine.connect().execution_options(stream_results=True) as connection:
+        try:
+            df = pd.read_sql(query, con=connection, params=params)
+            return df
+        except Exception as e:
+            logger.error(f"Error during SQL execution: {e}")
+            raise  # This will trigger retry if it's an OperationalError or DatabaseError
 
 
 def inward_service_selection(
@@ -55,6 +61,7 @@ def filtering_Data(df_db, df_excel, service_name, tenant_data):
     mapping = None
     # converting the date of both db and excel to string
     df_db["SERVICE_DATE"] = df_db["SERVICE_DATE"].dt.strftime("%Y-%m-%d")
+    tenant_data["SERVICE_DATE"] = tenant_data["SERVICE_DATE"].dt.strftime("%Y-%m-%d")
 
     df_excel["VENDOR_DATE"] = pd.to_datetime(
         df_excel["VENDOR_DATE"], errors="coerce"
@@ -317,41 +324,39 @@ def get_ebo_wallet_data(start_date, end_date):
     logger.info("Fetching Data from EBO Wallet Transaction")
     ebo_df = None
     query = text(
-        f"""
-    SELECT  
-        mt2.TransactionRefNum,
-        ewt.MasterTransactionsId,
-        MAX(CASE WHEN ewt.Description = 'Transaction - Credit' THEN 'Yes' ELSE 'No' END) AS TRANSACTION_CREDIT,
-        MAX(CASE WHEN ewt.Description = 'Transaction - Debit' THEN 'Yes' ELSE 'No' END) AS TRANSACTION_DEBIT,
-        MAX(CASE WHEN ewt.Description = 'Commission Added' THEN 'Yes' ELSE 'No' END) AS COMMISSION_CREDIT,
-        MAX(CASE WHEN ewt.Description = 'Commission - Reversal' THEN 'Yes' ELSE 'No' END) AS COMMISSION_REVERSAL
-    FROM
-        ihubcore.MasterTransaction mt2
-    JOIN  
-        tenantinetcsc.EboWalletTransaction ewt
-        ON mt2.TenantMasterTransactionId = ewt.MasterTransactionsId
-    WHERE
-        DATE(mt2.CreationTs) BETWEEN :start_date AND :end_date
-    GROUP BY
-        mt2.TransactionRefNum,
-        ewt.MasterTransactionsId
+        """
+        SELECT  
+            mt2.TransactionRefNum,
+            ewt.MasterTransactionsId,
+            MAX(CASE WHEN ewt.Description = 'Transaction - Credit' THEN 'Yes' ELSE 'No' END) AS TRANSACTION_CREDIT,
+            MAX(CASE WHEN ewt.Description = 'Transaction - Debit' THEN 'Yes' ELSE 'No' END) AS TRANSACTION_DEBIT,
+            MAX(CASE WHEN ewt.Description = 'Commission Added' THEN 'Yes' ELSE 'No' END) AS COMMISSION_CREDIT,
+            MAX(CASE WHEN ewt.Description = 'Commission - Reversal' THEN 'Yes' ELSE 'No' END) AS COMMISSION_REVERSAL
+        FROM
+            ihubcore.MasterTransaction mt2
+        JOIN  
+            tenantinetcsc.EboWalletTransaction ewt
+            ON mt2.TenantMasterTransactionId = ewt.MasterTransactionsId
+        WHERE
+            DATE(mt2.CreationTs) BETWEEN :start_date AND :end_date
+        GROUP BY
+            mt2.TransactionRefNum,
+            ewt.MasterTransactionsId
     """
     )
-    try:
-        with engine.connect().execution_options(command_timeout=60) as connection:
-            # Execute with retry logic
-            ebo_df = execute_sql_with_retry(
-                connection,
-                query,
-                params={"start_date": start_date, "end_date": end_date},
-            )
-            if ebo_df.empty:
-                logger.warning(f"No data returned from Ebo Wallet table")
 
+    try:
+        # Call the retry-enabled query executor
+        ebo_df = execute_sql_with_retry(
+            query, params={"start_date": start_date, "end_date": end_date}
+        )
+        if ebo_df.empty:
+            logger.warning("No data returned from EBO Wallet table.")
     except SQLAlchemyError as e:
-        logger.error(f"Database error in recharge_Service(): {e}")
+        logger.error(f"Database error in EBO Wallet Query: {e}")
     except Exception as e:
-        logger.error(f"Unexpected error in Ebo Wallet Query Execution: {e}")
+        logger.error(f"Unexpected error in EBO Wallet Query Execution: {e}")
+
     return ebo_df
 
 
@@ -359,105 +364,137 @@ def get_ebo_wallet_data(start_date, end_date):
 
 
 # tenant database filtering function------------------------------------------------
-def tenant_filtering(
-    start_date,
-    end_date,
-    tenant_service_id,
-    Hub_service_id,
-):
+def tenant_filtering(start_date, end_date, tenant_service_id, hub_service_id):
     logger.info("Entered Tenant filtering function")
     result = None
-    # To find transaction that is initiated by EBO present in tenant data base But do not hit in hub database
-    query = f"""
-         WITH cte AS (
-         SELECT src.Id as TENANT_DB_Id, src.UserName as IHUB_USERNAME, src.TranAmountTotal as AMOUNT,src.TransactionStatus as TENANT_STATUS,
-         src.CreationTs as SERVICE_DATE, src.VendorSubServiceMappingId,hub.Id AS hub_id
-         FROM (
-         SELECT mt.*,u.UserName  FROM tenantinetcsc.MasterTransaction mt left join tenantinetcsc.EboDetail ed on ed.id = mt.EboDetailId
-         left join tenantinetcsc.`User` u  on u.Id = ed.UserId
-         WHERE DATE(mt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
-         AND mt.VendorSubServiceMappingId in ({tenant_service_id})
-         UNION ALL
-         SELECT umt.*,u.UserName FROM tenantupcb.MasterTransaction umt left join tenantupcb.EboDetail ed on ed.id = umt.EboDetailId
-         left join tenantupcb.`User` u  on u.Id = ed.UserId
-         WHERE DATE(umt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
-         AND umt.VendorSubServiceMappingId in  ({tenant_service_id})
-         UNION ALL
-         SELECT imt.*,u.UserName FROM tenantiticsc.MasterTransaction imt  left join tenantiticsc.EboDetail ed on ed.id = imt.EboDetailId
-         left join tenantiticsc.`User` u  on u.Id = ed.UserId
-         WHERE DATE(imt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
-         AND imt.VendorSubServiceMappingId in  ({tenant_service_id})
-         ) AS src
-         LEFT JOIN ihubcore.MasterTransaction AS hub
-         ON hub.TenantMasterTransactionId = src.Id
-         AND DATE(hub.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
-         AND hub.VendorSubServiceMappingId in ({Hub_service_id})
-         )
-         SELECT *
-         FROM cte
-         WHERE hub_id IS NULL"""
-    try:
-        with engine.connect().execution_options(command_timeout=60) as connection:
-            # result has the record for data that trigerred in tenant but not hit hub
-            result = execute_sql_with_retry(
-                connection,
-                query,
-            )
 
+    # Prepare a safe, parameterized query
+    query = text(
+        """
+        WITH cte AS (
+            SELECT src.Id as TENANT_ID,
+                   src.UserName as IHUB_USERNAME,
+                   src.TranAmountTotal as AMOUNT,
+                   src.TransactionStatus as TENANT_STATUS,
+                   src.CreationTs as SERVICE_DATE,
+                   src.VendorSubServiceMappingId,
+                   hub.Id AS hub_id
+            FROM (
+                SELECT mt.*, u.UserName
+                FROM tenantinetcsc.MasterTransaction mt
+                LEFT JOIN tenantinetcsc.EboDetail ed ON ed.id = mt.EboDetailId
+                LEFT JOIN tenantinetcsc.`User` u ON u.Id = ed.UserId
+                WHERE DATE(mt.CreationTs) BETWEEN :start_date AND :end_date
+                AND mt.VendorSubServiceMappingId IN :tenant_service_id
+
+                UNION ALL
+
+                SELECT umt.*, u.UserName
+                FROM tenantupcb.MasterTransaction umt
+                LEFT JOIN tenantupcb.EboDetail ed ON ed.id = umt.EboDetailId
+                LEFT JOIN tenantupcb.`User` u ON u.Id = ed.UserId
+                WHERE DATE(umt.CreationTs) BETWEEN :start_date AND :end_date
+                AND umt.VendorSubServiceMappingId IN :tenant_service_id
+
+                UNION ALL
+
+                SELECT imt.*, u.UserName
+                FROM tenantiticsc.MasterTransaction imt
+                LEFT JOIN tenantiticsc.EboDetail ed ON ed.id = imt.EboDetailId
+                LEFT JOIN tenantiticsc.`User` u ON u.Id = ed.UserId
+                WHERE DATE(imt.CreationTs) BETWEEN :start_date AND :end_date
+                AND imt.VendorSubServiceMappingId IN :tenant_service_id
+            ) AS src
+            LEFT JOIN ihubcore.MasterTransaction AS hub
+            ON hub.TenantMasterTransactionId = src.Id
+            AND DATE(hub.CreationTs) BETWEEN :start_date AND :end_date
+            AND hub.VendorSubServiceMappingId IN :hub_service_id
+        )
+        SELECT *
+        FROM cte
+        WHERE hub_id IS NULL
+    """
+    )
+    tenant_service_id = (
+        [tenant_service_id] if isinstance(tenant_service_id, int) else tenant_service_id
+    )
+    hub_service_id = (
+        [hub_service_id] if isinstance(hub_service_id, int) else hub_service_id
+    )
+
+    # Convert lists to tuples for SQLAlchemy to treat them correctly in IN clauses
+    params = {
+        "start_date": start_date,
+        "end_date": end_date,
+        "tenant_service_id": tuple(tenant_service_id),
+        "hub_service_id": tuple(hub_service_id),
+    }
+
+    try:
+        result = execute_sql_with_retry(query, params=params)
     except SQLAlchemyError as e:
         logger.error(f"Database error in Tenant DB Filtering: {e}")
     except Exception as e:
         logger.error(f"Unexpected error in Tenant DB Filtering: {e}")
+
     return result
 
 
+# ----------------------------------------------------------------------------------
 # Aeps function
 def aeps_Service(start_date, end_date, service_name, transaction_type, df_excel):
     logger.info(f"Fetching data from HUB for {service_name}")
     result = pd.DataFrame()
-    query = f"""
+
+    query = text(
+        """
         SELECT 
-        mt2.TransactionRefNum AS IHUB_REFERENCE,
-        pat.BankRrn AS VENDOR_REFERENCE,
-        mt2.TenantDetailId as TENANT_ID,
-        u.UserName as USERNAME,
-        mt2.TransactionStatus AS IHUB_MASTER_STATUS,
-        pat.CreationTs AS SERVICE_DATE,
-        pat.TransStatus AS {service_name}_STATUS,
-        CASE 
-        WHEN a.IHubReferenceId IS NOT NULL THEN 'Yes'
-        ELSE 'No'
-        END AS IHUB_LEDGER_STATUS
+            mt2.TransactionRefNum AS IHUB_REFERENCE,
+            pat.BankRrn AS VENDOR_REFERENCE,
+            mt2.TenantDetailId as TENANT_ID,
+            u.UserName as IHUB_USERNAME,
+            mt2.TransactionStatus AS IHUB_MASTER_STATUS,
+            pat.CreationTs AS SERVICE_DATE,
+            pat.TransStatus AS service_status,
+            CASE 
+                WHEN a.IHubReferenceId IS NOT NULL THEN 'Yes'
+                ELSE 'No'
+            END AS IHUB_LEDGER_STATUS
         FROM ihubcore.MasterTransaction mt2 
         LEFT JOIN ihubcore.MasterSubTransaction mst
-        ON mst.MasterTransactionId = mt2.Id
+            ON mst.MasterTransactionId = mt2.Id
         LEFT JOIN ihubcore.PsAepsTransaction pat 
-        ON pat.MasterSubTransactionId = mst.Id
+            ON pat.MasterSubTransactionId = mst.Id
         LEFT JOIN tenantinetcsc.EboDetail ed
-        ON mt2.EboDetailId = ed.Id
+            ON mt2.EboDetailId = ed.Id
         LEFT JOIN tenantinetcsc.`User` u
-        ON u.id = ed.UserId
+            ON u.id = ed.UserId
         LEFT JOIN (
-        SELECT DISTINCT iwt.IHubReferenceId AS IHubReferenceId
-        FROM ihubcore.IHubWalletTransaction iwt
-        WHERE DATE(iwt.CreationTs) BETWEEN '{start_date}' AND CURRENT_DATE()
+            SELECT DISTINCT iwt.IHubReferenceId AS IHubReferenceId
+            FROM ihubcore.IHubWalletTransaction iwt
+            WHERE DATE(iwt.CreationTs) BETWEEN :start_date AND CURRENT_DATE()
         ) a 
-        ON a.IHubReferenceId = mt2.TransactionRefNum
-        WHERE pat.TransMode={transaction_type}
-        AND DATE(pat.CreationTs) BETWEEN '{start_date}' AND '{end_date}';
+            ON a.IHubReferenceId = mt2.TransactionRefNum
+        WHERE pat.TransMode = :transaction_type
+        AND DATE(pat.CreationTs) BETWEEN :start_date AND :end_date
     """
+    )
+
+    params = {
+        "start_date": start_date,
+        "end_date": end_date,
+        "transaction_type": transaction_type,
+    }
+
     try:
-        with engine.connect().execution_options(command_timeout=60) as connection:
-            # result has the record for data that trigerred in tenant but not hit hub
-            result = execute_sql_with_retry(
-                connection,
-                query,
-            )
-        df_db = pd.read_sql(query, con=engine)
+        # Safe query execution with retry
+        df_db = execute_sql_with_retry(query, params=params)
+
         if df_db.empty:
             logger.warning(f"No data returned for service: {service_name}")
             return pd.DataFrame()
-        # mapping status name with enum
+
+        # Map status codes to human-readable strings
         status_mapping = {
             3: "inprocess",
             2: "timeout",
@@ -466,18 +503,24 @@ def aeps_Service(start_date, end_date, service_name, transaction_type, df_excel)
             254: "failed",
             0: "failed",
         }
-        df_db[f"{service_name}_STATUS"] = df_db[f"{service_name}_STATUS"].apply(
+
+        df_db[f"{service_name}_STATUS"] = df_db["service_status"].apply(
             lambda x: status_mapping.get(x, x)
         )
+        df_db.drop(columns=["service_status"], inplace=True)
+
+        # Tenant ID mapping
         tenant_Id_mapping = {
             1: "INET-CSC",
             2: "ITI-ESEVA",
             3: "UPCB",
         }
+
         df_db["TENANT_ID"] = (
             df_db["TENANT_ID"].map(tenant_Id_mapping).fillna(df_db["TENANT_ID"])
         )
-        # calling filtering function
+
+        # Merge with EBO Wallet data
         ebo_result = get_ebo_wallet_data(start_date, end_date)
 
         if ebo_result is not None and not ebo_result.empty:
@@ -487,15 +530,15 @@ def aeps_Service(start_date, end_date, service_name, transaction_type, df_excel)
                 how="left",
                 left_on="IHUB_REFERENCE",
                 right_on="TransactionRefNum",
-                validate="one_to_one",  # Add validation
+                validate="one_to_one",
             )
         else:
-            logger.warning("No ebo wallet data returned")
+            logger.warning("No EBO Wallet data returned")
             result = df_db
 
     except SQLAlchemyError as e:
-        logger.error(f"Database error in recharge_Service(): {e}")
+        logger.error(f"Database error in aeps_Service(): {e}")
     except Exception as e:
-        logger.error(f"Unexpected error in recharge_Service(): {e}")
+        logger.error(f"Unexpected error in aeps_Service(): {e}")
 
     return result
