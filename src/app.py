@@ -184,7 +184,7 @@ def reconciliation():
                     ("dict loop")
                     result[key] = value.__dict__
             # print(type(result))
-            return handler(result, "")
+            return handler(result, "",service_name)
     except Exception as e:
         logger.error(f"Reconciliation error: {str(e)}\n{traceback.format_exc()}")
         return jsonify({"error": "Failed to process data"}), 500

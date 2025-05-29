@@ -1,8 +1,31 @@
 import pandas as pd
 from db_connector import get_db_connection
 from logger_config import logger
+from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import text
+from tenacity import (
+    retry,
+    stop_after_attempt,
+    wait_exponential,
+    retry_if_exception_type,
+)
+from sqlalchemy.exc import OperationalError, DatabaseError
 
 engine = get_db_connection()
+
+# Configure retry logic for database operations
+DB_RETRY_CONFIG = {
+    "stop": stop_after_attempt(3),
+    "wait": wait_exponential(multiplier=1, min=1, max=10),
+    "retry": retry_if_exception_type((OperationalError, DatabaseError)),
+    "reraise": True,
+}
+
+
+@retry(**DB_RETRY_CONFIG)
+def execute_sql_with_retry(connection, query, params=None):
+    logger.info("Entered helper function to execute SQL with retry logic")
+    return pd.read_sql(query, con=connection, params=params)
 
 
 def inward_service_selection(
@@ -10,17 +33,34 @@ def inward_service_selection(
 ):
     logger.info(f"Entering Reconciliation for {service_name} Service")
 
-    if service_name == "Aeps":
-        df_excel = df_excel.rename(columns={"UTR": "REFID", "DATE": "VEND_DATE"})
-        logger.info("Aeps service: Column 'UTR' renamed to 'REFID'")
-        result = aeps_Service(
+    if service_name == "AEPS":
+        df_excel = df_excel.rename(columns={"UTR": "REFID", "DATE": "VENDOR_DATE"})
+        logger.info("AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'")
+        tenant_service_id = 159
+        Hub_service_id = 7374
+        # Hub_service_id = ",".join(str(x) for x in Hub_service_id)
+        hub_data = aeps_Service(
             start_date, end_date, service_name, transaction_type, df_excel
         )
+        tenant_data = tenant_filtering(
+            start_date, end_date, tenant_service_id, Hub_service_id
+        )
+        result = filtering_Data(hub_data, df_excel, service_name, tenant_data)
     return result
 
 
-def filtering_Data(df_db, df_excel, service_name):
-    logger.info(f"Filteration Starts for Inward service {service_name}")
+def filtering_Data(df_db, df_excel, service_name, tenant_data):
+    logger.info(f"Filteration Starts for {service_name} service")
+
+    mapping = None
+    # converting the date of both db and excel to string
+    df_db["SERVICE_DATE"] = df_db["SERVICE_DATE"].dt.strftime("%Y-%m-%d")
+
+    df_excel["VENDOR_DATE"] = pd.to_datetime(
+        df_excel["VENDOR_DATE"], errors="coerce"
+    ).dt.strftime("%Y-%m-%d")
+
+    # Mapping names with corresponding values
     status_mapping = {
         0: "initiated",
         1: "success",
@@ -28,151 +68,366 @@ def filtering_Data(df_db, df_excel, service_name):
         3: "inprogress",
         4: "partial success",
     }
-    columns_to_update = ["IHUB_Master_status", "MasterSubTrans_status"]
+
+    columns_to_update = ["IHUB_MASTER_STATUS"]
     df_db[columns_to_update] = df_db[columns_to_update].apply(
         lambda x: x.map(status_mapping).fillna(x)
     )
 
+    tenant_data["TENANT_STATUS"] = tenant_data["TENANT_STATUS"].apply(
+        lambda x: status_mapping.get(x, x)
+    )
+
+    # Renaming Col in Excel
+    df_excel = df_excel.rename(columns={"STATUS": "VENDOR_STATUS"})
+
+    # function to select only required cols and make it as df
     def safe_column_select(df, columns):
         existing_cols = [col for col in columns if col in df.columns]
         return df[existing_cols].copy()
 
+    # Required columns that to be sent as result to UI
     required_columns = [
         "CATEGORY",
-        "REFID",
-        "VEND_DATE",
+        "VENDOR_DATE",
+        "TENANT_ID",
         "IHUB_REFERENCE",
-        "vendor_reference",
-        "UserName",
+        "REFID",
+        "IHUB_USERNAME",
         "AMOUNT",
-        "STATUS",
-        "IHUB_Master_status",
-        f"{service_name}_status",
-        "service_date",
-        "Ihub_Ledger_status",
+        "VENDOR_STATUS",
+        "IHUB_MASTER_STATUS",
+        f"{service_name}_STATUS",
+        "SERVICE_DATE",
+        "IHUB_LEDGER_STATUS",
+        # "TENANT_LEDGER_STATUS",
+        "TRANSACTION_CREDIT",
+        "TRANSACTION_DEBIT",
+        "COMMISSION_CREDIT",
+        "COMMISSION_REVERSAL",
     ]
 
-    not_in_vendor = df_db[~df_db["vendor_reference"].isin(df_excel["REFID"])].copy()
+    # 1 Filtering Data initiated in IHUB portal and not in Vendor Xl
+    not_in_vendor = df_db[~df_db["VENDOR_REFERENCE"].isin(df_excel["REFID"])].copy()
     not_in_vendor["CATEGORY"] = "NOT_IN_VENDOR"
     not_in_vendor = safe_column_select(not_in_vendor, required_columns)
 
-    # 2. Not in Portal
-    not_in_portal = df_excel[~df_excel["REFID"].isin(df_db["vendor_reference"])].copy()
+    # 2. Filtering Data Present in Vendor XL but Not in Ihub Portal
+    not_in_portal = df_excel[~df_excel["REFID"].isin(df_db["VENDOR_REFERENCE"])].copy()
     not_in_portal["CATEGORY"] = "NOT_IN_PORTAL"
     not_in_portal = safe_column_select(not_in_portal, required_columns)
 
-    # 3. Vendor success but not in Portal
-    not_in_portal_vendor_success = df_excel[
-        (~df_excel["REFID"].isin(df_db["vendor_reference"]))
-        & (df_excel["STATUS"].str.lower() == "success")
-        & (df_db["Ihub_Ledger_status"].str.lower() == "no")
-    ].copy()
-
-    not_in_portal_vendor_success["CATEGORY"] = "NOT_IN_PORTAL_VENDOR_SUCCESS"
-    not_in_portal_vendor_success = safe_column_select(
-        not_in_portal_vendor_success, required_columns
-    )
-
-    # 4. Matched
+    # 4. Filtering Data that matches in both Ihub Portal and Vendor Xl as : Matched
     matched = df_db.merge(
-        df_excel, left_on="vendor_reference", right_on="REFID", how="inner"
+        df_excel, left_on="VENDOR_REFERENCE", right_on="REFID", how="inner"
     ).copy()
     matched["CATEGORY"] = "MATCHED"
-
-    # 5. Mismatched
+    matched = safe_column_select(matched, required_columns)
+    # print(matched.columns)
+    # 5. Filtering Data that Mismatched in both Ihub Portal and Vendor Xl as : Mismatched
+    matched[f"{service_name}_STATUS"] = matched[f"{service_name}_STATUS"].astype(str)
+    print(matched[f"{service_name}_STATUS"])
     mismatched = matched[
-        matched[f"{service_name}_status"].str.lower() != matched["STATUS"].str.lower()
+        matched[f"{service_name}_STATUS"].str.lower()
+        != matched["VENDOR_STATUS"].str.lower()
     ].copy()
     mismatched["CATEGORY"] = "MISMATCHED"
     mismatched = safe_column_select(mismatched, required_columns)
+    print(1)
 
-    # 6. VENDOR_SUCCESS_IHUB_INITIATED
-    vendor_success_ihub_initiated = mismatched[
-        (mismatched["STATUS"].str.lower() == "success")
-        & (mismatched["IHUB_Master_status"].str.lower() == "initiated")
+    # 6. Getting total count of success and failure data
+    matched_success_status = matched[
+        (matched[f"{service_name}_STATUS"].str.lower() == "success")
+        & (matched["VENDOR_STATUS"].str.lower() == "success")
+    ]
+
+    success_count = matched_success_status.shape[0]
+    matched_failed_status = matched[
+        (matched[f"{service_name}_STATUS"].str.lower() == "failed")
+        & (matched["VENDOR_STATUS"].str.lower() == "failed")
+    ]
+    failed_count = matched_failed_status.shape[0]
+
+    # Scearios Blocks Based on Not In Ledger (NIL) and In Ledger ```````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
+    # SCENARIO 1 VEND_IHUB_SUC-NIL
+    vend_ihub_succ_not_in_ledger = matched[
+        (matched["VENDOR_STATUS"].str.lower() == "success")
+        & (matched["IHUB_MASTER_STATUS"].str.lower() == "success")
+        & (matched["IHUB_LEDGER_STATUS"].str.lower() == "no")
     ].copy()
-    vendor_success_ihub_initiated["CATEGORY"] = "VENDOR_SUCCESS_IHUB_INITIATED"
-    vendor_success_ihub_initiated = safe_column_select(
-        vendor_success_ihub_initiated, required_columns
+    vend_ihub_succ_not_in_ledger["CATEGORY"] = "VEND_IHUB_SUC-NIL"
+    vend_ihub_succ_not_in_ledger = safe_column_select(
+        vend_ihub_succ_not_in_ledger, required_columns
     )
-
-    # 7. VENDOR_SUCCESS_IHUB_FAILED
-    vendor_success_ihub_failed = mismatched[
-        (mismatched["STATUS"].str.lower() == "success")
-        & (mismatched["IHUB_Master_status"].str.lower() == "failed")
+    # SCENARIO 2 VEND_FAIL_IHUB_SUC-NIL
+    vend_fail_ihub_succ_not_in_ledger = matched[
+        (matched["VENDOR_STATUS"].str.lower() == "failed")
+        & (matched["IHUB_MASTER_STATUS"].str.lower() == "success")
+        & (matched["IHUB_LEDGER_STATUS"].str.lower() == "no")
     ].copy()
-    vendor_success_ihub_failed["CATEGORY"] = "VENDOR_SUCCESS_IHUB_FAILED"
-    vendor_success_ihub_failed = safe_column_select(
-        vendor_success_ihub_failed, required_columns
+    vend_fail_ihub_succ_not_in_ledger["CATEGORY"] = "VEND_FAIL_IHUB_SUC-NIL"
+    vend_fail_ihub_succ_not_in_ledger = safe_column_select(
+        vend_fail_ihub_succ_not_in_ledger, required_columns
     )
-
-    # 8. VENDOR_FAILED_IHUB_INITIATED
-    vendor_failed_ihub_initiated = mismatched[
-        (mismatched["STATUS"].str.lower() == "failed")
-        & (mismatched["IHUB_Master_status"].str.lower() == "initiated")
+    # SCENARIO 3 VEND_SUC_IHUB_FAIL-NIL
+    vend_succ_ihub_fail_not_in_ledger = matched[
+        (matched["VENDOR_STATUS"].str.lower() == "success")
+        & (matched["IHUB_MASTER_STATUS"].str.lower() == "failed")
+        & (matched["IHUB_LEDGER_STATUS"].str.lower() == "no")
     ].copy()
-    vendor_failed_ihub_initiated["CATEGORY"] = "VENDOR_FAILED_IHUB_INITIATED"
-    vendor_failed_ihub_initiated = safe_column_select(
-        vendor_failed_ihub_initiated, required_columns
+    vend_succ_ihub_fail_not_in_ledger["CATEGORY"] = "VEND_SUC_IHUB_FAIL-NIL"
+    vend_succ_ihub_fail_not_in_ledger = safe_column_select(
+        vend_succ_ihub_fail_not_in_ledger, required_columns
     )
-
-    vend_ihub_succes_not_in_ledger = matched[
-        (matched["STATUS"].str.lower() == "success")
-        & (matched["IHUB_Master_status"].str.lower() == "success")
-        & (matched["Ihub_Ledger_status"].str.lower() == "no")
+    # SCENARIO 5 IHUB_INT_VEND_SUC-NIL
+    ihub_initiate_vend_succes_not_in_ledger = matched[
+        (matched["VENDOR_STATUS"].str.lower() == "success")
+        & (matched["IHUB_MASTER_STATUS"].str.lower() == "initiated")
+        & (matched["IHUB_LEDGER_STATUS"].str.lower() == "no")
     ].copy()
-    vend_ihub_succes_not_in_ledger["CATEGORY"] = "VENDOR & IHUB SUCCESS_NOTIN_LEDGER"
-    vend_ihub_succes_not_in_ledger = safe_column_select(
-        vend_ihub_succes_not_in_ledger, required_columns
+    ihub_initiate_vend_succes_not_in_ledger["CATEGORY"] = "IHUB_INT_VEND_SUC-NIL"
+    ihub_initiate_vend_succes_not_in_ledger = safe_column_select(
+        ihub_initiate_vend_succes_not_in_ledger, required_columns
+    )
+    # SCENARIO 6 VEND_FAIL_IHUB_INT-NIL
+    ihub_initiate_vend_fail_not_in_ledger = matched[
+        (matched["VENDOR_STATUS"].str.lower() == "failed")
+        & (matched["IHUB_MASTER_STATUS"].str.lower() == "initiated")
+        & (matched["IHUB_LEDGER_STATUS"].str.lower() == "no")
+    ].copy()
+    ihub_initiate_vend_fail_not_in_ledger["CATEGORY"] = " VEND_FAIL_IHUB_INT-NIL"
+    ihub_initiate_vend_fail_not_in_ledger = safe_column_select(
+        ihub_initiate_vend_fail_not_in_ledger, required_columns
     )
 
-    combined = pd.concat(
-        [
-            not_in_vendor,
-            not_in_portal,
-            not_in_portal_vendor_success,
-            mismatched,
-            vendor_success_ihub_initiated,
-            vendor_success_ihub_failed,
-            vendor_failed_ihub_initiated,
-            vend_ihub_succes_not_in_ledger,
-        ],
-        ignore_index=True,
+    # SCENARIO 2 VEND_FAIL_IHUB_SUC IL
+    vend_fail_ihub_succ = matched[
+        (matched["VENDOR_STATUS"].str.lower() == "failed")
+        & (matched["IHUB_MASTER_STATUS"].str.lower() == "success")
+        & (matched["IHUB_LEDGER_STATUS"].str.lower() == "yes")
+    ].copy()
+    vend_fail_ihub_succ["CATEGORY"] = "VEND_FAIL_IHUB_SUC"
+    vend_fail_ihub_succ = safe_column_select(vend_fail_ihub_succ, required_columns)
+    # SCENARIO 3 VEND_SUC_IHUB_FAIL
+    vend_succ_ihub_fail = matched[
+        (matched["VENDOR_STATUS"].str.lower() == "success")
+        & (matched["IHUB_MASTER_STATUS"].str.lower() == "failed")
+        & (matched["IHUB_LEDGER_STATUS"].str.lower() == "yes")
+    ].copy()
+    vend_succ_ihub_fail["CATEGORY"] = "VEND_SUC_IHUB_FAIL"
+    vend_succ_ihub_fail = safe_column_select(vend_succ_ihub_fail, required_columns)
+    # SCENARIO 4 IHUB_VEND_FAIL IL
+    ihub_vend_fail = matched[
+        (matched["VENDOR_STATUS"].str.lower() == "failed")
+        & (matched["IHUB_MASTER_STATUS"].str.lower() == "failed")
+        & (matched["IHUB_LEDGER_STATUS"].str.lower() == "yes")
+    ].copy()
+    ihub_vend_fail["CATEGORY"] = "IHUB_VEND_FAIL"
+    ihub_vend_fail = safe_column_select(ihub_vend_fail, required_columns)
+    # SCENARIO 5 IHUB_INT_VEND_SUC IL
+    ihub_initiate_vend_succes = matched[
+        (matched["VENDOR_STATUS"].str.lower() == "success")
+        & (matched["IHUB_MASTER_STATUS"].str.lower() == "initiated")
+        & (matched["IHUB_LEDGER_STATUS"].str.lower() == "yes")
+    ].copy()
+    ihub_initiate_vend_succes["CATEGORY"] = "IHUB_INT_VEND_SUC"
+    ihub_initiate_vend_succes = safe_column_select(
+        ihub_initiate_vend_succes, required_columns
     )
 
-    # Export to Excel
-    # combined.to_excel(output_file, index=False)
+    # SCENARIO 6 VEND_FAIL_IHUB_INT IL
+    ihub_initiate_vend_fail = matched[
+        (matched["VENDOR_STATUS"].str.lower() == "failed")
+        & (matched["IHUB_MASTER_STATUS"].str.lower() == "initiated")
+        & (matched["IHUB_LEDGER_STATUS"].str.lower() == "yes")
+    ].copy()
+    ihub_initiate_vend_fail["CATEGORY"] = "VEND_FAIL_IHUB_INT"
+    ihub_initiate_vend_fail = safe_column_select(
+        ihub_initiate_vend_fail, required_columns
+    )
+    # Scenario Block ends-----------------------------------------------------------------------------------
+
+    tenant_data["CATEGORY"] = "TENANT_DB_INTI - NOT_IN_IHUB"
+
+    # Combining all Scenarios
+    combined = [
+        not_in_vendor,
+        not_in_portal,
+        # not_in_portal_vendor_success,
+        # mismatched,
+        tenant_data,
+        vend_ihub_succ_not_in_ledger,
+        vend_fail_ihub_succ_not_in_ledger,
+        vend_succ_ihub_fail_not_in_ledger,
+        # ihub_vend_fail_not_in_ledger,
+        ihub_initiate_vend_succes_not_in_ledger,
+        ihub_initiate_vend_fail_not_in_ledger,
+        # vend_ihub_succ,
+        vend_fail_ihub_succ,
+        vend_succ_ihub_fail,
+        # ihub_vend_fail,
+        ihub_initiate_vend_succes,
+        ihub_initiate_vend_fail,
+    ]
+    all_columns = set().union(*[df.columns for df in combined])
+    aligned_dfs = []
+    for df in combined:
+        # create missing columns with None
+        df_copy = df.copy()  # 🛡️ Make a copy so original is not modified
+        for col in all_columns - set(df_copy.columns):
+            df_copy[col] = None
+        df_copy = df_copy[list(all_columns)]  # Reorder columns
+        aligned_dfs.append(df_copy)
+    # Filter out DataFrames that are completely empty or contain only NA values
+    non_empty_dfs = [
+        df for df in aligned_dfs if not df.empty and not df.isna().all().all()
+    ]
+    combined = pd.concat(non_empty_dfs, ignore_index=True)
     logger.info("Filteration Ends")
-    return {
-        "status": "200",
+
+    # Mapping all Scenarios with keys as Dictionary to retrun as result
+    mapping = {
         "not_in_vendor": not_in_vendor,
         "combined": combined,
-        "not_in_Portal": not_in_portal.head(100),
-        "mismatched": mismatched,
-        "VENDOR_SUCCESS_IHUB_INPROGRESS": vendor_success_ihub_initiated,
-        "VENDOR_SUCCESS_IHUB_FAILED": vendor_success_ihub_failed,
-        "not_in_Portal_vendor_success": not_in_portal_vendor_success,
-        "Vendor_failed_ihub_initiated": vendor_failed_ihub_initiated,
-        "vend_ihub_succes_not_in_ledger": vend_ihub_succes_not_in_ledger,
+        "not_in_Portal": not_in_portal,
+        # "mismatched": mismatched,
+        # "NOT_IN_PORTAL_VENDOR_SUCC": not_in_portal_vendor_success,
+        "Tenant_db_ini_not_in_hubdb": tenant_data,
+        "VEND_IHUB_SUC-NIL": vend_ihub_succ_not_in_ledger,
+        "VEND_FAIL_IHUB_SUC-NIL": vend_fail_ihub_succ_not_in_ledger,
+        "VEND_SUC_IHUB_FAIL-NIL": vend_succ_ihub_fail_not_in_ledger,
+        # "IHUB_VEND_FAIL-NIL": ihub_vend_fail_not_in_ledger,
+        "IHUB_INT_VEND_SUC-NIL": ihub_initiate_vend_succes_not_in_ledger,
+        "VEND_FAIL_IHUB_INT-NIL": ihub_initiate_vend_fail_not_in_ledger,
+        # "VEND_IHUB_SUC": vend_ihub_succ,
+        "VEND_FAIL_IHUB_SUC": vend_fail_ihub_succ,
+        "VEND_SUC_IHUB_FAIL": vend_succ_ihub_fail,
+        # "IHUB_VEND_FAIL": ihub_vend_fail,
+        "IHUB_INT_VEND_SUC": ihub_initiate_vend_succes,
+        "VEND_FAIL_IHUB_INT": ihub_initiate_vend_fail,
+        "Total_Success_count": success_count,
+        "Total_Failed_count": failed_count,
     }
+
+    return mapping
+
+
+# Ebo Wallet Amount and commission  Debit credit check function  -------------------------------------------
+def get_ebo_wallet_data(start_date, end_date):
+    logger.info("Fetching Data from EBO Wallet Transaction")
+    ebo_df = None
+    query = text(
+        f"""
+    SELECT  
+        mt2.TransactionRefNum,
+        ewt.MasterTransactionsId,
+        MAX(CASE WHEN ewt.Description = 'Transaction - Credit' THEN 'Yes' ELSE 'No' END) AS TRANSACTION_CREDIT,
+        MAX(CASE WHEN ewt.Description = 'Transaction - Debit' THEN 'Yes' ELSE 'No' END) AS TRANSACTION_DEBIT,
+        MAX(CASE WHEN ewt.Description = 'Commission Added' THEN 'Yes' ELSE 'No' END) AS COMMISSION_CREDIT,
+        MAX(CASE WHEN ewt.Description = 'Commission - Reversal' THEN 'Yes' ELSE 'No' END) AS COMMISSION_REVERSAL
+    FROM
+        ihubcore.MasterTransaction mt2
+    JOIN  
+        tenantinetcsc.EboWalletTransaction ewt
+        ON mt2.TenantMasterTransactionId = ewt.MasterTransactionsId
+    WHERE
+        DATE(mt2.CreationTs) BETWEEN :start_date AND :end_date
+    GROUP BY
+        mt2.TransactionRefNum,
+        ewt.MasterTransactionsId
+    """
+    )
+    try:
+        with engine.connect().execution_options(command_timeout=60) as connection:
+            # Execute with retry logic
+            ebo_df = execute_sql_with_retry(
+                connection,
+                query,
+                params={"start_date": start_date, "end_date": end_date},
+            )
+            if ebo_df.empty:
+                logger.warning(f"No data returned from Ebo Wallet table")
+
+    except SQLAlchemyError as e:
+        logger.error(f"Database error in recharge_Service(): {e}")
+    except Exception as e:
+        logger.error(f"Unexpected error in Ebo Wallet Query Execution: {e}")
+    return ebo_df
+
+
+# ----------------------------------------------------------------------------------
+
+
+# tenant database filtering function------------------------------------------------
+def tenant_filtering(
+    start_date,
+    end_date,
+    tenant_service_id,
+    Hub_service_id,
+):
+    logger.info("Entered Tenant filtering function")
+    result = None
+    # To find transaction that is initiated by EBO present in tenant data base But do not hit in hub database
+    query = f"""
+         WITH cte AS (
+         SELECT src.Id as TENANT_DB_Id, src.UserName as IHUB_USERNAME, src.TranAmountTotal as AMOUNT,src.TransactionStatus as TENANT_STATUS,
+         src.CreationTs as SERVICE_DATE, src.VendorSubServiceMappingId,hub.Id AS hub_id
+         FROM (
+         SELECT mt.*,u.UserName  FROM tenantinetcsc.MasterTransaction mt left join tenantinetcsc.EboDetail ed on ed.id = mt.EboDetailId
+         left join tenantinetcsc.`User` u  on u.Id = ed.UserId
+         WHERE DATE(mt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
+         AND mt.VendorSubServiceMappingId in ({tenant_service_id})
+         UNION ALL
+         SELECT umt.*,u.UserName FROM tenantupcb.MasterTransaction umt left join tenantupcb.EboDetail ed on ed.id = umt.EboDetailId
+         left join tenantupcb.`User` u  on u.Id = ed.UserId
+         WHERE DATE(umt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
+         AND umt.VendorSubServiceMappingId in  ({tenant_service_id})
+         UNION ALL
+         SELECT imt.*,u.UserName FROM tenantiticsc.MasterTransaction imt  left join tenantiticsc.EboDetail ed on ed.id = imt.EboDetailId
+         left join tenantiticsc.`User` u  on u.Id = ed.UserId
+         WHERE DATE(imt.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
+         AND imt.VendorSubServiceMappingId in  ({tenant_service_id})
+         ) AS src
+         LEFT JOIN ihubcore.MasterTransaction AS hub
+         ON hub.TenantMasterTransactionId = src.Id
+         AND DATE(hub.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
+         AND hub.VendorSubServiceMappingId in ({Hub_service_id})
+         )
+         SELECT *
+         FROM cte
+         WHERE hub_id IS NULL"""
+    try:
+        with engine.connect().execution_options(command_timeout=60) as connection:
+            # result has the record for data that trigerred in tenant but not hit hub
+            result = execute_sql_with_retry(
+                connection,
+                query,
+            )
+
+    except SQLAlchemyError as e:
+        logger.error(f"Database error in Tenant DB Filtering: {e}")
+    except Exception as e:
+        logger.error(f"Unexpected error in Tenant DB Filtering: {e}")
+    return result
 
 
 # Aeps function
 def aeps_Service(start_date, end_date, service_name, transaction_type, df_excel):
     logger.info(f"Fetching data from HUB for {service_name}")
+    result = pd.DataFrame()
     query = f"""
         SELECT 
-        mt2.TransactionRefNum AS Ihub_reference,
-        pat.BankRrn AS vendor_reference,
-        u.UserName,
-        mt2.TransactionStatus AS IHUB_Master_status,
-        mst.TransactionStatus AS MasterSubTrans_status,
-        pat.CreationTs AS service_date,
-        pat.TransStatus AS {service_name}_status,
+        mt2.TransactionRefNum AS IHUB_REFERENCE,
+        pat.BankRrn AS VENDOR_REFERENCE,
+        mt2.TenantDetailId as TENANT_ID,
+        u.UserName as USERNAME,
+        mt2.TransactionStatus AS IHUB_MASTER_STATUS,
+        pat.CreationTs AS SERVICE_DATE,
+        pat.TransStatus AS {service_name}_STATUS,
         CASE 
         WHEN a.IHubReferenceId IS NOT NULL THEN 'Yes'
         ELSE 'No'
-        END AS Ihub_Ledger_status
+        END AS IHUB_LEDGER_STATUS
         FROM ihubcore.MasterTransaction mt2 
         LEFT JOIN ihubcore.MasterSubTransaction mst
         ON mst.MasterTransactionId = mt2.Id
@@ -188,22 +443,59 @@ def aeps_Service(start_date, end_date, service_name, transaction_type, df_excel)
         WHERE DATE(iwt.CreationTs) BETWEEN '{start_date}' AND CURRENT_DATE()
         ) a 
         ON a.IHubReferenceId = mt2.TransactionRefNum
-        WHERE mt2.TenantDetailId = 1 and pat.TransMode={transaction_type}
+        WHERE pat.TransMode={transaction_type}
         AND DATE(pat.CreationTs) BETWEEN '{start_date}' AND '{end_date}';
     """
-    df_db = pd.read_sql(query, con=engine)
-    # mapping status name with enum
-    status_mapping = {
-        3: "inprocess",
-        2: "timeout",
-        1: "success",
-        255: "initiated",
-        254: "failed",
-        0: "failed",
-    }
-    df_db[f"{service_name}_status"] = df_db[f"{service_name}_status"].apply(
-        lambda x: status_mapping.get(x, x)
-    )
-    # calling filtering function
-    result = filtering_Data(df_db, df_excel, service_name)
+    try:
+        with engine.connect().execution_options(command_timeout=60) as connection:
+            # result has the record for data that trigerred in tenant but not hit hub
+            result = execute_sql_with_retry(
+                connection,
+                query,
+            )
+        df_db = pd.read_sql(query, con=engine)
+        if df_db.empty:
+            logger.warning(f"No data returned for service: {service_name}")
+            return pd.DataFrame()
+        # mapping status name with enum
+        status_mapping = {
+            3: "inprocess",
+            2: "timeout",
+            1: "success",
+            255: "initiated",
+            254: "failed",
+            0: "failed",
+        }
+        df_db[f"{service_name}_STATUS"] = df_db[f"{service_name}_STATUS"].apply(
+            lambda x: status_mapping.get(x, x)
+        )
+        tenant_Id_mapping = {
+            1: "INET-CSC",
+            2: "ITI-ESEVA",
+            3: "UPCB",
+        }
+        df_db["TENANT_ID"] = (
+            df_db["TENANT_ID"].map(tenant_Id_mapping).fillna(df_db["TENANT_ID"])
+        )
+        # calling filtering function
+        ebo_result = get_ebo_wallet_data(start_date, end_date)
+
+        if ebo_result is not None and not ebo_result.empty:
+            result = pd.merge(
+                df_db,
+                ebo_result,
+                how="left",
+                left_on="IHUB_REFERENCE",
+                right_on="TransactionRefNum",
+                validate="one_to_one",  # Add validation
+            )
+        else:
+            logger.warning("No ebo wallet data returned")
+            result = df_db
+
+    except SQLAlchemyError as e:
+        logger.error(f"Database error in recharge_Service(): {e}")
+    except Exception as e:
+        logger.error(f"Unexpected error in recharge_Service(): {e}")
+
     return result

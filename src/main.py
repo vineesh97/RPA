@@ -43,9 +43,11 @@ def main(from_date, to_date, service_name, file, transaction_type):
                 from_date, to_date, service_name, df_excel
             )
         else:
-            result = (
-                "Error in selecting outward or inwardward service function in Main.py"
+            logger.warning(
+                "Error in selecting outward or inwardward service function in Main.py!"
             )
+            message = "Error processing file..!"
+            return message
 
         logger.info("Reconciliation Ends")
         return result

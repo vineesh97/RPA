@@ -582,7 +582,6 @@ def tenant_filtering(
          ) AS src
          LEFT JOIN ihubcore.MasterTransaction AS hub
          ON hub.TenantMasterTransactionId = src.Id
-         AND hub.TenantDetailId = 1
          AND DATE(hub.CreationTs) BETWEEN '{start_date}' AND '{end_date}'
          AND hub.VendorSubServiceMappingId in ({Hub_service_id})
          )

@@ -1,0 +1,558 @@
+2025-05-28 15:42:16,801 - INFO - --------------------------------------------
+2025-05-28 15:42:16,802 - INFO - Entered Main Function...
+2025-05-28 15:42:17,441 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 15:42:17,442 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-28 15:42:17,443 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-28 15:42:17,443 - INFO - Fetching data from HUB for RECHARGE
+2025-05-28 15:42:17,479 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 15:42:32,528 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-28 15:42:32,545 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 15:42:33,275 - INFO - Entered Tenant filtering function
+2025-05-28 15:42:33,275 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 15:42:34,759 - INFO - Filteration Starts for RECHARGE service
+2025-05-28 15:42:34,842 - INFO - Filteration Ends
+2025-05-28 15:42:34,842 - INFO - Reconciliation Ends
+2025-05-28 15:42:34,863 - INFO - Result sent as API
+2025-05-28 15:42:34,863 - INFO - ----------------------------------
+2025-05-28 17:07:01,908 - INFO - --------------------------------------------
+2025-05-28 17:07:01,912 - INFO - Entered Main Function...
+2025-05-28 17:07:02,127 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 17:07:02,129 - INFO - Entering Reconciliation for AEPS Service
+2025-05-28 17:07:02,131 - ERROR - Error in main(): cannot access local variable 'result' where it is not associated with a value
+2025-05-28 17:07:02,132 - INFO - Result sent as API
+2025-05-28 17:07:02,132 - INFO - ----------------------------------
+2025-05-28 17:31:56,291 - INFO - --------------------------------------------
+2025-05-28 17:31:56,292 - INFO - Entered Main Function...
+2025-05-28 17:31:57,251 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 17:31:57,252 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-28 17:31:57,256 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-28 17:31:57,256 - INFO - Fetching data from HUB for RECHARGE
+2025-05-28 17:31:57,297 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:32:00,522 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-28 17:32:00,540 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:32:01,231 - INFO - Entered Tenant filtering function
+2025-05-28 17:32:01,231 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:32:01,716 - INFO - Filteration Starts for RECHARGE service
+2025-05-28 17:32:01,750 - ERROR - Error in main(): 'REFID'
+2025-05-28 17:32:01,753 - INFO - Result sent as API
+2025-05-28 17:32:01,753 - INFO - ----------------------------------
+2025-05-28 17:32:16,708 - INFO - --------------------------------------------
+2025-05-28 17:32:16,708 - INFO - Entered Main Function...
+2025-05-28 17:32:17,032 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 17:32:17,080 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-28 17:32:17,100 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-28 17:32:17,100 - INFO - Fetching data from HUB for RECHARGE
+2025-05-28 17:32:17,102 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:32:19,853 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-28 17:32:19,854 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:32:20,397 - INFO - Entered Tenant filtering function
+2025-05-28 17:32:20,398 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:32:20,783 - INFO - Filteration Starts for RECHARGE service
+2025-05-28 17:32:20,887 - INFO - Filteration Ends
+2025-05-28 17:32:20,888 - INFO - Reconciliation Ends
+2025-05-28 17:32:20,925 - INFO - Result sent as API
+2025-05-28 17:32:20,925 - INFO - ----------------------------------
+2025-05-28 17:39:16,174 - INFO - --------------------------------------------
+2025-05-28 17:39:16,175 - INFO - Entered Main Function...
+2025-05-28 17:39:16,762 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 17:39:16,762 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-28 17:39:16,763 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-28 17:39:16,763 - INFO - Fetching data from HUB for RECHARGE
+2025-05-28 17:39:16,807 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:39:18,992 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-28 17:39:19,025 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:39:19,603 - INFO - Entered Tenant filtering function
+2025-05-28 17:39:19,603 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:39:20,001 - INFO - Filteration Starts for RECHARGE service
+2025-05-28 17:39:20,104 - INFO - Filteration Ends
+2025-05-28 17:39:20,105 - INFO - Reconciliation Ends
+2025-05-28 17:39:20,138 - INFO - Result sent as API
+2025-05-28 17:39:20,138 - INFO - ----------------------------------
+2025-05-28 17:39:20,253 - ERROR - Reconciliation error: Object of type set is not JSON serializable
+Traceback (most recent call last):
+  File "d:\GitHub\RPA\src\app.py", line 187, in reconciliation
+    return handler(result, "",service_name)
+  File "d:\GitHub\RPA\src\handler.py", line 19, in handler
+    return jsonify({"isSuccess": has_data, "data": result, "message":"","sevice_name":{service_name}})
+  File "D:\GitHub\RPA\.venv\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\GitHub\RPA\.venv\Lib\site-packages\flask\json\provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+       ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\GitHub\RPA\.venv\Lib\site-packages\flask\json\provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Sathyaswaruban\AppData\Local\Programs\Python\Python313\Lib\json\__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ~~~~~~^^^^^
+  File "C:\Users\Sathyaswaruban\AppData\Local\Programs\Python\Python313\Lib\json\encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Users\Sathyaswaruban\AppData\Local\Programs\Python\Python313\Lib\json\encoder.py", line 261, in iterencode
+    return _iterencode(o, 0)
+  File "D:\GitHub\RPA\.venv\Lib\site-packages\flask\json\provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type set is not JSON serializable
+
+2025-05-28 17:39:34,368 - INFO - --------------------------------------------
+2025-05-28 17:39:34,368 - INFO - Entered Main Function...
+2025-05-28 17:39:34,471 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 17:39:34,471 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-28 17:39:34,473 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-28 17:39:34,473 - INFO - Fetching data from HUB for RECHARGE
+2025-05-28 17:39:34,473 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:39:36,499 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-28 17:39:36,500 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:39:37,062 - INFO - Entered Tenant filtering function
+2025-05-28 17:39:37,063 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:39:37,511 - INFO - Filteration Starts for RECHARGE service
+2025-05-28 17:39:37,600 - INFO - Filteration Ends
+2025-05-28 17:39:37,601 - INFO - Reconciliation Ends
+2025-05-28 17:39:37,631 - INFO - Result sent as API
+2025-05-28 17:39:37,631 - INFO - ----------------------------------
+2025-05-28 17:39:37,636 - ERROR - Reconciliation error: Object of type set is not JSON serializable
+Traceback (most recent call last):
+  File "d:\GitHub\RPA\src\app.py", line 187, in reconciliation
+    return handler(result, "",service_name)
+  File "d:\GitHub\RPA\src\handler.py", line 19, in handler
+    return jsonify({"isSuccess": has_data, "data": result, "message":"","sevice_name":{service_name}})
+  File "D:\GitHub\RPA\.venv\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\GitHub\RPA\.venv\Lib\site-packages\flask\json\provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+       ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\GitHub\RPA\.venv\Lib\site-packages\flask\json\provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Sathyaswaruban\AppData\Local\Programs\Python\Python313\Lib\json\__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ~~~~~~^^^^^
+  File "C:\Users\Sathyaswaruban\AppData\Local\Programs\Python\Python313\Lib\json\encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Users\Sathyaswaruban\AppData\Local\Programs\Python\Python313\Lib\json\encoder.py", line 261, in iterencode
+    return _iterencode(o, 0)
+  File "D:\GitHub\RPA\.venv\Lib\site-packages\flask\json\provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type set is not JSON serializable
+
+2025-05-28 17:40:22,760 - INFO - --------------------------------------------
+2025-05-28 17:40:22,760 - INFO - Entered Main Function...
+2025-05-28 17:40:23,230 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 17:40:23,230 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-28 17:40:23,232 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-28 17:40:23,232 - INFO - Fetching data from HUB for RECHARGE
+2025-05-28 17:40:23,267 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:40:25,344 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-28 17:40:25,361 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:40:25,972 - INFO - Entered Tenant filtering function
+2025-05-28 17:40:25,973 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:40:26,358 - INFO - Filteration Starts for RECHARGE service
+2025-05-28 17:40:26,456 - INFO - Filteration Ends
+2025-05-28 17:40:26,457 - INFO - Reconciliation Ends
+2025-05-28 17:40:26,497 - INFO - Result sent as API
+2025-05-28 17:40:26,497 - INFO - ----------------------------------
+2025-05-28 17:40:26,504 - ERROR - Reconciliation error: Object of type set is not JSON serializable
+Traceback (most recent call last):
+  File "d:\GitHub\RPA\src\app.py", line 187, in reconciliation
+    return handler(result, "",service_name)
+  File "d:\GitHub\RPA\src\handler.py", line 19, in handler
+    return jsonify({"isSuccess": has_data, "data": result, "message":"","sevice_name":{service_name}})
+  File "D:\GitHub\RPA\.venv\Lib\site-packages\flask\json\__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\GitHub\RPA\.venv\Lib\site-packages\flask\json\provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+       ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\GitHub\RPA\.venv\Lib\site-packages\flask\json\provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Sathyaswaruban\AppData\Local\Programs\Python\Python313\Lib\json\__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ~~~~~~^^^^^
+  File "C:\Users\Sathyaswaruban\AppData\Local\Programs\Python\Python313\Lib\json\encoder.py", line 200, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "C:\Users\Sathyaswaruban\AppData\Local\Programs\Python\Python313\Lib\json\encoder.py", line 261, in iterencode
+    return _iterencode(o, 0)
+  File "D:\GitHub\RPA\.venv\Lib\site-packages\flask\json\provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type set is not JSON serializable
+
+2025-05-28 17:41:31,760 - INFO - --------------------------------------------
+2025-05-28 17:41:31,760 - INFO - Entered Main Function...
+2025-05-28 17:41:32,227 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 17:41:32,228 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-28 17:41:32,228 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-28 17:41:32,229 - INFO - Fetching data from HUB for RECHARGE
+2025-05-28 17:41:32,258 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:41:35,083 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-28 17:41:35,104 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:41:35,715 - INFO - Entered Tenant filtering function
+2025-05-28 17:41:35,715 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:41:36,085 - INFO - Filteration Starts for RECHARGE service
+2025-05-28 17:41:36,259 - INFO - Filteration Ends
+2025-05-28 17:41:36,260 - INFO - Reconciliation Ends
+2025-05-28 17:41:36,401 - INFO - Result sent as API
+2025-05-28 17:41:36,401 - INFO - ----------------------------------
+2025-05-28 17:45:14,712 - INFO - --------------------------------------------
+2025-05-28 17:45:14,712 - INFO - Entered Main Function...
+2025-05-28 17:45:14,868 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 17:45:14,869 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-28 17:45:14,871 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-28 17:45:14,871 - INFO - Fetching data from HUB for RECHARGE
+2025-05-28 17:45:14,872 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:45:15,875 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:45:15,877 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-28 17:45:15,878 - INFO - Entered Tenant filtering function
+2025-05-28 17:45:15,920 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:45:16,883 - INFO - Filteration Starts for RECHARGE service
+2025-05-28 17:45:16,884 - ERROR - Error in main(): 'SERVICE_DATE'
+2025-05-28 17:45:16,885 - INFO - Result sent as API
+2025-05-28 17:45:16,885 - INFO - ----------------------------------
+2025-05-28 17:46:09,052 - INFO - --------------------------------------------
+2025-05-28 17:46:09,052 - INFO - Entered Main Function...
+2025-05-28 17:46:09,113 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 17:46:09,113 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-28 17:46:09,114 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-28 17:46:09,114 - INFO - Fetching data from HUB for RECHARGE
+2025-05-28 17:46:09,129 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:46:40,208 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:46:40,210 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-28 17:46:40,210 - INFO - Entered Tenant filtering function
+2025-05-28 17:46:40,235 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:46:40,760 - INFO - Filteration Starts for RECHARGE service
+2025-05-28 17:46:40,761 - ERROR - Error in main(): 'SERVICE_DATE'
+2025-05-28 17:46:40,762 - INFO - Result sent as API
+2025-05-28 17:46:40,762 - INFO - ----------------------------------
+2025-05-28 17:48:33,309 - INFO - --------------------------------------------
+2025-05-28 17:48:33,310 - INFO - Entered Main Function...
+2025-05-28 17:48:33,908 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 17:48:33,909 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-28 17:48:33,910 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-28 17:48:33,910 - INFO - Fetching data from HUB for RECHARGE
+2025-05-28 17:48:33,950 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:48:58,357 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-28 17:48:58,375 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:48:59,160 - INFO - Entered Tenant filtering function
+2025-05-28 17:48:59,160 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:48:59,583 - INFO - Filteration Starts for RECHARGE service
+2025-05-28 17:48:59,684 - INFO - Filteration Ends
+2025-05-28 17:48:59,684 - INFO - Reconciliation Ends
+2025-05-28 17:48:59,707 - INFO - Result sent as API
+2025-05-28 17:48:59,707 - INFO - ----------------------------------
+2025-05-28 17:50:34,891 - INFO - --------------------------------------------
+2025-05-28 17:50:34,891 - INFO - Entered Main Function...
+2025-05-28 17:50:35,116 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 17:50:35,154 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-28 17:50:35,162 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-28 17:50:35,163 - INFO - Fetching data from HUB for RECHARGE
+2025-05-28 17:50:35,164 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:50:36,166 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:50:36,166 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-28 17:50:36,166 - INFO - Entered Tenant filtering function
+2025-05-28 17:50:36,185 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:50:36,698 - INFO - Filteration Starts for RECHARGE service
+2025-05-28 17:50:36,699 - ERROR - Error in main(): 'SERVICE_DATE'
+2025-05-28 17:50:36,700 - INFO - Result sent as API
+2025-05-28 17:50:36,700 - INFO - ----------------------------------
+2025-05-28 17:52:49,983 - INFO - --------------------------------------------
+2025-05-28 17:52:49,983 - INFO - Entered Main Function...
+2025-05-28 17:52:50,131 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 17:52:50,131 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-28 17:52:50,132 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-28 17:52:50,132 - INFO - Fetching data from HUB for RECHARGE
+2025-05-28 17:52:50,148 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:52:53,078 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-28 17:52:53,079 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:52:54,082 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:52:54,083 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-28 17:52:54,084 - WARNING - No ebo wallet data returned
+2025-05-28 17:52:54,089 - INFO - Entered Tenant filtering function
+2025-05-28 17:52:54,110 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:52:54,727 - INFO - Filteration Starts for RECHARGE service
+2025-05-28 17:52:54,855 - INFO - Filteration Ends
+2025-05-28 17:52:54,856 - INFO - Reconciliation Ends
+2025-05-28 17:52:54,893 - INFO - Result sent as API
+2025-05-28 17:52:54,894 - INFO - ----------------------------------
+2025-05-28 17:55:21,629 - INFO - --------------------------------------------
+2025-05-28 17:55:21,629 - INFO - Entered Main Function...
+2025-05-28 17:55:21,759 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 17:55:21,760 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-28 17:55:21,761 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-28 17:55:21,762 - INFO - Fetching data from HUB for RECHARGE
+2025-05-28 17:55:21,786 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:55:24,621 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-28 17:55:24,622 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:55:25,625 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:55:25,626 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-28 17:55:25,626 - WARNING - No ebo wallet data returned
+2025-05-28 17:55:25,630 - INFO - Entered Tenant filtering function
+2025-05-28 17:55:25,648 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:55:26,080 - INFO - Filteration Starts for RECHARGE service
+2025-05-28 17:55:26,200 - INFO - Filteration Ends
+2025-05-28 17:55:26,201 - INFO - Reconciliation Ends
+2025-05-28 17:55:26,236 - INFO - Result sent as API
+2025-05-28 17:55:26,237 - INFO - ----------------------------------
+2025-05-28 17:56:39,938 - INFO - --------------------------------------------
+2025-05-28 17:56:39,938 - INFO - Entered Main Function...
+2025-05-28 17:56:40,614 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 17:56:40,614 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-28 17:56:40,616 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-28 17:56:40,616 - INFO - Fetching data from HUB for RECHARGE
+2025-05-28 17:56:40,671 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:56:43,580 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-28 17:56:43,601 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:56:44,509 - INFO - Entered Tenant filtering function
+2025-05-28 17:56:44,510 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 17:56:45,044 - INFO - Filteration Starts for RECHARGE service
+2025-05-28 17:56:45,232 - INFO - Filteration Ends
+2025-05-28 17:56:45,233 - INFO - Reconciliation Ends
+2025-05-28 17:56:45,278 - INFO - Result sent as API
+2025-05-28 17:56:45,279 - INFO - ----------------------------------
+2025-05-28 18:08:15,027 - INFO - --------------------------------------------
+2025-05-28 18:08:15,029 - INFO - Entered Main Function...
+2025-05-28 18:08:15,611 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 18:08:15,611 - INFO - Entering Reconciliation for AEPS Service
+2025-05-28 18:08:15,613 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-28 18:08:15,613 - ERROR - Error in main(): aeps_Service() missing 2 required positional arguments: 'transaction_type' and 'df_excel'
+2025-05-28 18:08:15,613 - INFO - Result sent as API
+2025-05-28 18:08:15,613 - INFO - ----------------------------------
+2025-05-28 18:22:12,320 - INFO - --------------------------------------------
+2025-05-28 18:22:12,320 - INFO - Entered Main Function...
+2025-05-28 18:22:12,678 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 18:22:12,679 - INFO - Entering Reconciliation for AEPS Service
+2025-05-28 18:22:12,679 - INFO - AEPS service: Column 'REFID' renamed to 'REFID'
+2025-05-28 18:22:12,679 - INFO - Fetching data from HUB for AEPS
+2025-05-28 18:22:12,718 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 18:22:19,581 - ERROR - Unexpected error in recharge_Service(): 'AEPS_status'
+2025-05-28 18:22:19,581 - INFO - Entered Tenant filtering function
+2025-05-28 18:22:19,582 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 18:22:20,390 - INFO - Filteration Starts for AEPS service
+2025-05-28 18:22:20,415 - ERROR - Error in main(): 'REFID'
+2025-05-28 18:22:20,416 - INFO - Result sent as API
+2025-05-28 18:22:20,416 - INFO - ----------------------------------
+2025-05-28 18:36:58,992 - INFO - --------------------------------------------
+2025-05-28 18:36:58,992 - INFO - Entered Main Function...
+2025-05-28 18:36:59,491 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 18:36:59,491 - INFO - Entering Reconciliation for AEPS Service
+2025-05-28 18:36:59,493 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-28 18:36:59,493 - INFO - Fetching data from HUB for AEPS
+2025-05-28 18:36:59,537 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 18:37:01,576 - ERROR - Unexpected error in recharge_Service(): 'AEPS_status'
+2025-05-28 18:37:01,576 - INFO - Entered Tenant filtering function
+2025-05-28 18:37:01,577 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 18:37:01,974 - INFO - Filteration Starts for AEPS service
+2025-05-28 18:37:02,025 - ERROR - Error in main(): Can only use .str accessor with string values!
+2025-05-28 18:37:02,025 - INFO - Result sent as API
+2025-05-28 18:37:02,025 - INFO - ----------------------------------
+2025-05-28 18:41:35,912 - INFO - --------------------------------------------
+2025-05-28 18:41:35,913 - INFO - Entered Main Function...
+2025-05-28 18:41:36,448 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 18:41:36,449 - INFO - Entering Reconciliation for AEPS Service
+2025-05-28 18:41:36,449 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-28 18:41:36,450 - INFO - Fetching data from HUB for AEPS
+2025-05-28 18:41:36,485 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 18:41:39,586 - ERROR - Unexpected error in recharge_Service(): 'AEPS_status'
+2025-05-28 18:41:39,587 - INFO - Entered Tenant filtering function
+2025-05-28 18:41:39,587 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 18:41:41,329 - INFO - Filteration Starts for AEPS service
+2025-05-28 18:41:41,348 - ERROR - Error in main(): Can only use .str accessor with string values!
+2025-05-28 18:41:41,349 - INFO - Result sent as API
+2025-05-28 18:41:41,349 - INFO - ----------------------------------
+2025-05-28 18:44:18,883 - INFO - --------------------------------------------
+2025-05-28 18:44:18,883 - INFO - Entered Main Function...
+2025-05-28 18:44:19,541 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 18:44:19,542 - INFO - Entering Reconciliation for AEPS Service
+2025-05-28 18:44:19,543 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-28 18:44:19,543 - INFO - Fetching data from HUB for AEPS
+2025-05-28 18:44:19,592 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 18:44:21,501 - ERROR - Unexpected error in recharge_Service(): 'AEPS_status'
+2025-05-28 18:44:21,503 - INFO - Entered Tenant filtering function
+2025-05-28 18:44:21,505 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 18:44:21,912 - INFO - Filteration Starts for AEPS service
+2025-05-28 18:44:21,954 - ERROR - Error in main(): Can only use .str accessor with string values!
+2025-05-28 18:44:21,955 - INFO - Result sent as API
+2025-05-28 18:44:21,955 - INFO - ----------------------------------
+2025-05-28 18:45:50,911 - INFO - --------------------------------------------
+2025-05-28 18:45:50,911 - INFO - Entered Main Function...
+2025-05-28 18:45:51,610 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 18:45:51,610 - INFO - Entering Reconciliation for AEPS Service
+2025-05-28 18:45:51,611 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-28 18:45:51,611 - INFO - Fetching data from HUB for AEPS
+2025-05-28 18:45:51,672 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 18:45:53,860 - ERROR - Unexpected error in recharge_Service(): 'AEPS_status'
+2025-05-28 18:45:53,861 - INFO - Entered Tenant filtering function
+2025-05-28 18:45:53,861 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 18:45:54,194 - INFO - Filteration Starts for AEPS service
+2025-05-28 18:45:54,224 - ERROR - Error in main(): Can only use .str accessor with string values!
+2025-05-28 18:45:54,225 - INFO - Result sent as API
+2025-05-28 18:45:54,225 - INFO - ----------------------------------
+2025-05-28 18:47:28,698 - INFO - --------------------------------------------
+2025-05-28 18:47:28,699 - INFO - Entered Main Function...
+2025-05-28 18:47:29,056 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 18:47:29,056 - INFO - Entering Reconciliation for AEPS Service
+2025-05-28 18:47:29,057 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-28 18:47:29,057 - INFO - Fetching data from HUB for AEPS
+2025-05-28 18:47:29,119 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 18:47:31,027 - ERROR - Unexpected error in recharge_Service(): 'AEPS_status'
+2025-05-28 18:47:31,027 - INFO - Entered Tenant filtering function
+2025-05-28 18:47:31,027 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 18:47:31,440 - INFO - Filteration Starts for AEPS service
+2025-05-28 18:47:31,539 - INFO - Filteration Ends
+2025-05-28 18:47:31,539 - INFO - Reconciliation Ends
+2025-05-28 18:47:31,575 - INFO - Result sent as API
+2025-05-28 18:47:31,575 - INFO - ----------------------------------
+2025-05-28 18:57:54,321 - INFO - --------------------------------------------
+2025-05-28 18:57:54,321 - INFO - Entered Main Function...
+2025-05-28 18:57:54,931 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 18:57:54,931 - INFO - Entering Reconciliation for AEPS Service
+2025-05-28 18:57:54,933 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-28 18:57:54,933 - INFO - Fetching data from HUB for AEPS
+2025-05-28 18:57:54,975 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 18:57:57,770 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-28 18:57:57,772 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 18:57:58,619 - INFO - Entered Tenant filtering function
+2025-05-28 18:57:58,621 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 18:57:58,926 - INFO - Filteration Starts for AEPS service
+2025-05-28 18:57:59,119 - INFO - Filteration Ends
+2025-05-28 18:57:59,120 - INFO - Reconciliation Ends
+2025-05-28 18:57:59,176 - INFO - Result sent as API
+2025-05-28 18:57:59,177 - INFO - ----------------------------------
+2025-05-28 19:00:40,546 - INFO - --------------------------------------------
+2025-05-28 19:00:40,547 - INFO - Entered Main Function...
+2025-05-28 19:00:41,052 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 19:00:41,052 - INFO - Entering Reconciliation for AEPS Service
+2025-05-28 19:00:41,053 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-28 19:00:41,053 - INFO - Fetching data from HUB for AEPS
+2025-05-28 19:00:41,091 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:00:43,239 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-28 19:00:43,240 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:00:43,825 - INFO - Entered Tenant filtering function
+2025-05-28 19:00:43,825 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:00:44,121 - INFO - Filteration Starts for AEPS service
+2025-05-28 19:00:44,233 - INFO - Filteration Ends
+2025-05-28 19:00:44,233 - INFO - Reconciliation Ends
+2025-05-28 19:00:44,263 - INFO - Result sent as API
+2025-05-28 19:00:44,264 - INFO - ----------------------------------
+2025-05-28 19:07:43,909 - INFO - --------------------------------------------
+2025-05-28 19:07:43,910 - INFO - Entered Main Function...
+2025-05-28 19:07:44,061 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 19:07:44,062 - INFO - Entering Reconciliation for RECHARGE Service
+2025-05-28 19:07:44,064 - INFO - Recharge service: Column 'REFID' renamed to 'REFID'
+2025-05-28 19:07:44,064 - INFO - Fetching data from HUB for RECHARGE
+2025-05-28 19:07:44,120 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:07:47,300 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-28 19:07:47,347 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:07:47,926 - INFO - Entered Tenant filtering function
+2025-05-28 19:07:47,926 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:07:48,285 - INFO - Filteration Starts for RECHARGE service
+2025-05-28 19:07:48,449 - INFO - Filteration Ends
+2025-05-28 19:07:48,450 - INFO - Reconciliation Ends
+2025-05-28 19:07:48,518 - INFO - Result sent as API
+2025-05-28 19:07:48,519 - INFO - ----------------------------------
+2025-05-28 19:13:13,893 - INFO - --------------------------------------------
+2025-05-28 19:13:13,893 - INFO - Entered Main Function...
+2025-05-28 19:13:13,919 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 19:13:13,920 - INFO - Entering Reconciliation for AEPS Service
+2025-05-28 19:13:13,921 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-28 19:13:13,921 - INFO - Fetching data from HUB for AEPS
+2025-05-28 19:13:13,922 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:13:13,923 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-28 19:13:13,923 - INFO - Entered Tenant filtering function
+2025-05-28 19:13:13,944 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:13:14,363 - INFO - Filteration Starts for AEPS service
+2025-05-28 19:13:14,364 - ERROR - Error in main(): 'SERVICE_DATE'
+2025-05-28 19:13:14,365 - INFO - Result sent as API
+2025-05-28 19:13:14,365 - INFO - ----------------------------------
+2025-05-28 19:13:15,519 - INFO - --------------------------------------------
+2025-05-28 19:13:15,519 - INFO - Entered Main Function...
+2025-05-28 19:13:15,591 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 19:13:15,594 - INFO - Entering Reconciliation for AEPS Service
+2025-05-28 19:13:15,596 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-28 19:13:15,596 - INFO - Fetching data from HUB for AEPS
+2025-05-28 19:13:15,597 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:13:17,845 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-28 19:13:17,846 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:13:18,395 - INFO - Entered Tenant filtering function
+2025-05-28 19:13:18,396 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:13:18,767 - INFO - Filteration Starts for AEPS service
+2025-05-28 19:13:19,015 - INFO - Filteration Ends
+2025-05-28 19:13:19,015 - INFO - Reconciliation Ends
+2025-05-28 19:13:19,067 - INFO - Result sent as API
+2025-05-28 19:13:19,067 - INFO - ----------------------------------
+2025-05-28 19:19:08,335 - INFO - --------------------------------------------
+2025-05-28 19:19:08,335 - INFO - Entered Main Function...
+2025-05-28 19:19:08,819 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 19:19:08,819 - INFO - Entering Reconciliation for AEPS Service
+2025-05-28 19:19:08,822 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-28 19:19:08,823 - INFO - Fetching data from HUB for AEPS
+2025-05-28 19:19:08,875 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:19:10,845 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-28 19:19:10,846 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:19:11,468 - INFO - Entered Tenant filtering function
+2025-05-28 19:19:11,469 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:19:11,850 - INFO - Filteration Starts for AEPS service
+2025-05-28 19:19:12,022 - INFO - Filteration Ends
+2025-05-28 19:19:12,023 - INFO - Reconciliation Ends
+2025-05-28 19:19:12,076 - INFO - Result sent as API
+2025-05-28 19:19:12,077 - INFO - ----------------------------------
+2025-05-28 19:19:52,092 - INFO - --------------------------------------------
+2025-05-28 19:19:52,092 - INFO - Entered Main Function...
+2025-05-28 19:19:52,139 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 19:19:52,140 - INFO - Entering Reconciliation for AEPS Service
+2025-05-28 19:19:52,141 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-28 19:19:52,141 - INFO - Fetching data from HUB for AEPS
+2025-05-28 19:19:52,142 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:19:52,143 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-28 19:19:52,144 - INFO - Entered Tenant filtering function
+2025-05-28 19:19:52,163 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:19:52,504 - INFO - Filteration Starts for AEPS service
+2025-05-28 19:19:52,504 - ERROR - Error in main(): 'SERVICE_DATE'
+2025-05-28 19:19:52,505 - INFO - Result sent as API
+2025-05-28 19:19:52,505 - INFO - ----------------------------------
+2025-05-28 19:19:53,510 - INFO - --------------------------------------------
+2025-05-28 19:19:53,510 - INFO - Entered Main Function...
+2025-05-28 19:19:53,535 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 19:19:53,536 - INFO - Entering Reconciliation for AEPS Service
+2025-05-28 19:19:53,537 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-28 19:19:53,537 - INFO - Fetching data from HUB for AEPS
+2025-05-28 19:19:53,538 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:19:55,786 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-28 19:19:55,787 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:19:56,619 - INFO - Entered Tenant filtering function
+2025-05-28 19:19:56,619 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:19:56,904 - INFO - Filteration Starts for AEPS service
+2025-05-28 19:19:57,055 - INFO - Filteration Ends
+2025-05-28 19:19:57,055 - INFO - Reconciliation Ends
+2025-05-28 19:19:57,106 - INFO - Result sent as API
+2025-05-28 19:19:57,106 - INFO - ----------------------------------
+2025-05-28 19:20:49,231 - INFO - --------------------------------------------
+2025-05-28 19:20:49,231 - INFO - Entered Main Function...
+2025-05-28 19:20:49,276 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 19:20:49,277 - INFO - Entering Reconciliation for AEPS Service
+2025-05-28 19:20:49,278 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-28 19:20:49,278 - INFO - Fetching data from HUB for AEPS
+2025-05-28 19:20:49,279 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:20:49,280 - ERROR - Database error in recharge_Service(): Can't reconnect until invalid transaction is rolled back.  Please rollback() fully before proceeding (Background on this error at: https://sqlalche.me/e/20/8s2b)
+2025-05-28 19:20:49,280 - INFO - Entered Tenant filtering function
+2025-05-28 19:20:49,299 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:20:49,642 - INFO - Filteration Starts for AEPS service
+2025-05-28 19:20:49,642 - ERROR - Error in main(): 'SERVICE_DATE'
+2025-05-28 19:20:49,642 - INFO - Result sent as API
+2025-05-28 19:20:49,642 - INFO - ----------------------------------
+2025-05-28 19:20:50,625 - INFO - --------------------------------------------
+2025-05-28 19:20:50,625 - INFO - Entered Main Function...
+2025-05-28 19:20:50,679 - INFO - Records found within the date range. Running reconciliation...
+2025-05-28 19:20:50,680 - INFO - Entering Reconciliation for AEPS Service
+2025-05-28 19:20:50,682 - INFO - AEPS service: Column 'SERIALNUMBER' renamed to 'REFID'
+2025-05-28 19:20:50,682 - INFO - Fetching data from HUB for AEPS
+2025-05-28 19:20:50,683 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:20:52,825 - INFO - Fetching Data from EBO Wallet Transaction
+2025-05-28 19:20:52,826 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:20:53,449 - INFO - Entered Tenant filtering function
+2025-05-28 19:20:53,449 - INFO - Entered helper function to execute SQL with retry logic
+2025-05-28 19:20:53,744 - INFO - Filteration Starts for AEPS service
+2025-05-28 19:20:53,910 - INFO - Filteration Ends
+2025-05-28 19:20:53,910 - INFO - Reconciliation Ends
+2025-05-28 19:20:53,959 - INFO - Result sent as API
+2025-05-28 19:20:53,959 - INFO - ----------------------------------
